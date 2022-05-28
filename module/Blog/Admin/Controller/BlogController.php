@@ -49,9 +49,11 @@ class BlogController extends Controller
                 $filter->like('title', '标题');
             })
             ->hookSaving(function (Form $form) use (&$updatedCategoryIds) {
-                $blog = ModelUtil::get('blog', $form->itemId());
-                if (!empty($blog['categoryId'])) {
-                    $updatedCategoryIds[] = $blog['categoryId'];
+                if ($form->itemId()) {
+                    $blog = ModelUtil::get('blog', $form->itemId());
+                    if (!empty($blog['categoryId'])) {
+                        $updatedCategoryIds[] = $blog['categoryId'];
+                    }
                 }
                 return Response::generateSuccess();
             })
