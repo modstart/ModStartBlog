@@ -47,6 +47,7 @@ class BlogCommentController extends Controller
                     $itemOperate->prepend(TextAjaxRequest::danger('审核拒绝', action('\\' . __CLASS__ . '@verifyReject', ['_id' => $itemOperate->item()->id])));
                 }
             })
+            ->canBatchDelete(true)
             ->title('博客评论')->canAdd(false)->canEdit(false);
     }
 

@@ -47,6 +47,7 @@ class BlogMessageController extends Controller
                     $itemOperate->prepend(TextAjaxRequest::danger('审核拒绝', action('\\' . __CLASS__ . '@verifyReject', ['_id' => $itemOperate->item()->id])));
                 }
             })
+            ->canBatchDelete(true)
             ->title('博客留言')->canAdd(false)->canEdit(true);
     }
 
