@@ -1,8 +1,10 @@
 <header class="ub-header-b">
     <div class="ub-container">
         <div class="menu">
-            @if(\Module\Member\Auth\MemberUser::id())
-                <a href="{{modstart_web_url('member')}}"><i class="iconfont icon-user"></i> {{\Module\Member\Auth\MemberUser::get('username')}}</a>
+            @if(modstart_module_enabled('Member'))
+                @if(\Module\Member\Auth\MemberUser::id())
+                    <a href="{{modstart_web_url('member')}}"><i class="iconfont icon-user"></i> {{\Module\Member\Auth\MemberUser::get('username')}}</a>
+                @endif
             @endif
         </div>
         <div class="logo">
