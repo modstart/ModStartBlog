@@ -145,7 +145,7 @@
                             <div class="pb-blog-comment">
                                 <div class="tw-flex">
                                     <div class="tw-w-10">
-                                        <div class="ub-cover-1-1 tw-rounded-full" style="background-image:url({{\ModStart\Core\Assets\AssetsUtil::fixOrDefault($_memberUser?$_memberUser['avatar']:'','asset/image/avatar.png')}})"></div>
+                                        <div class="ub-cover-1-1 tw-rounded-full" style="background-image:url({{\ModStart\Core\Assets\AssetsUtil::fixOrDefault(!empty($_memberUser)?$_memberUser['avatar']:'','asset/image/avatar.png')}})"></div>
                                     </div>
                                     <div class="tw-flex-grow tw-leading-10 tw-ml-4 tw-text-lg">
                                         @if(!empty($_memberUser))
