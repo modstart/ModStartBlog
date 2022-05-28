@@ -5,7 +5,14 @@ namespace ModStart\Field;
 
 use ModStart\Core\Exception\BizException;
 
-
+/**
+ * Json键值字段
+ *
+ * {"键":"值",...}
+ *
+ * Class JsonKeyValue
+ * @package ModStart\Field
+ */
 class JsonKeyValue extends AbstractField
 {
     protected $width = 200;

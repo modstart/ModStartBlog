@@ -13,7 +13,9 @@ class LayoutPanel extends AbstractField
     private $layoutClosure = null;
     private $panelTitle;
 
-    
+    /**
+     * LayoutGrid constructor.
+     */
     public function __construct($title, $arguments = [])
     {
         parent::__construct(IdUtil::generate('LayoutPanel'));

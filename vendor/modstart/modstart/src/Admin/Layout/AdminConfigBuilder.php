@@ -15,12 +15,18 @@ use ModStart\Layout\Page;
 use ModStart\Repository\RepositoryUtil;
 use ModStart\Widget\Box;
 
-
+/**
+ * Class AdminConfigBuilder
+ * @package ModStart\Admin\Layout
+ *
+ * @mixin Page
+ * @mixin Form
+ */
 class AdminConfigBuilder implements Renderable
 {
-    
+    /** @var Page */
     private $page;
-    
+    /** @var Form */
     private $form;
     private $pagePrepend = [];
 
@@ -68,7 +74,11 @@ class AdminConfigBuilder implements Renderable
         return $this->page->render();
     }
 
-    
+    /**
+     * @param \stdClass|null|false $item null表示使用默认的modstart_config配置获取，false表示不使用任何内容初始化
+     * @param \Closure $callback = function (Form $form) { return Response::generateSuccess('ok'); }
+     * @return $this
+     */
     public function perform($item = null, $callback = null)
     {
         if (Request::isPost()) {
@@ -91,7 +101,7 @@ class AdminConfigBuilder implements Renderable
         if (null === $item) {
             $item = [];
             foreach ($this->form->fields() as $field) {
-                
+                /** @var $field AbstractField */
                 if ($field->isLayoutField()) {
                     continue;
                 }
@@ -100,7 +110,7 @@ class AdminConfigBuilder implements Renderable
         } else if (false === $item) {
             $item = [];
             foreach ($this->form->fields() as $field) {
-                
+                /** @var $field AbstractField */
                 if ($field->isLayoutField()) {
                     continue;
                 }

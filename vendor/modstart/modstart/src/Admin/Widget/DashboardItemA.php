@@ -66,7 +66,14 @@ class DashboardItemA extends AbstractWidget
         return $item;
     }
 
-    
+    /**
+     * @param $icon
+     * @param $title
+     * @param $link
+     * @param null $color
+     * @return DashboardItemA
+     * @since 1.5.0
+     */
     public static function makeIconTitleLink($icon, $title, $link, $color = null)
     {
         if (null === $color) {

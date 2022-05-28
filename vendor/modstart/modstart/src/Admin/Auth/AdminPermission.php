@@ -13,7 +13,9 @@ use ModStart\Core\Input\Response;
 
 class AdminPermission
 {
-    
+    /**
+     * @deprecated
+     */
     public static function demoPostCheck()
     {
         if (self::isDemo() && Request::isPost()) {
@@ -94,7 +96,8 @@ class AdminPermission
                 if (count(explode('^^', $prefix)) !== count(explode('^^', $k))) {
                     continue;
                 }
-                            } else {
+                // echo "$prefix -> $k\n";
+            } else {
                 if (1 != count($ks)) {
                     continue;
                 }
@@ -111,7 +114,8 @@ class AdminPermission
             }
             $tree[] = $item;
         }
-                return $tree;
+        // echo $prefix . ' -> ' . json_encode($tree) . "\n";
+        return $tree;
     }
 
     private static function sort()
@@ -208,13 +212,16 @@ class AdminPermission
     {
         $menu = AdminConfig::get('menu', []);
         $moduleMenu = AdminMenu::get();
-                $menuAll = array_merge($menu, $moduleMenu);
+        // print_r($moduleMenu);exit();
+        $menuAll = array_merge($menu, $moduleMenu);
         $menuCustom = modstart_config()->getArray('adminMenuCustom', []);
         $menuCustomFlat = self::flatMenuUrl($menuCustom);
         $menuAfterCustom = self::menuClean($menuAll, $menuCustomFlat);
         $menuAll = array_merge($menuCustom, $menuAfterCustom);
-                $menu = self::mergeMenu($menuAll, '', 1, $filter, $ruleMode);
-                return $menu;
+        // print_r($menuAll);exit();
+        $menu = self::mergeMenu($menuAll, '', 1, $filter, $ruleMode);
+        // print_r($menu);exit();
+        return $menu;
     }
 
     public static function menu($controllerMethod, $menu = null)
@@ -235,7 +242,8 @@ class AdminPermission
                 continue;
             }
             if (empty($v['children'])) {
-                                if ($controllerMethod === $v['url'] || $currentUrl === $v['url'] || ends_with($currentUrl, $v['url'])) {
+                // echo "$controllerMethod - $v[url] - $currentUrl\n";
+                if ($controllerMethod === $v['url'] || $currentUrl === $v['url'] || ends_with($currentUrl, $v['url'])) {
                     $v['_active'] = true;
                 }
                 if (self::permit($v['rule'])) {
@@ -270,11 +278,17 @@ class AdminPermission
             $adminRules = Session::get('_adminRules');
             $adminUser = Session::get('_adminUser');
         }
-        
+        /*
+        if ($adminUser && $adminUser['id'] == AdminPermission::founderId()) {
+            return true;
+        }
+        */
         if (!isset($adminRules[$rule])) {
             return false;
         }
-                        return $adminRules[$rule]['auth'] ? true : false;
+        // print_r($adminRules);exit();
+        // echo "$rule -> false\n";
+        return $adminRules[$rule]['auth'] ? true : false;
     }
 
     public static function rules($menu = null)

@@ -111,7 +111,8 @@ class FileUtil
         foreach ($paths as $file) {
             $checkFile = base_path($file . '/._write_check_');
             FileUtil::write($checkFile, 'ok');
-                        if (!file_exists($checkFile)) {
+            // echo "$checkFile\n";
+            if (!file_exists($checkFile)) {
                 return Response::generateError('目录' . $file . '测试写入失败，请检查权限');
             }
             @unlink($checkFile);
@@ -284,7 +285,17 @@ class FileUtil
         return join('/', $dirs);
     }
 
-    
+    /**
+     * 复制文件夹
+     * @param $src : 必须给出，不能为空
+     * @param $dst : 必须给出，不能为空
+     * @param $replaceExt : 如果文件存在需要添加的后缀名
+     * @param $callback : 复制回调
+     * @param $filter : 复制回调
+     *
+     *
+     * 注意：src 和 dst 如果是文件，需同时是文件，如果是目录，需同时是目录
+     */
     public static function copy($src, $dst, $replaceExt = null, $callback = null, $filter = null)
     {
         if (!file_exists($src)) {
@@ -301,7 +312,8 @@ class FileUtil
                 if (!file_exists($dir = dirname($dst))) {
                     @mkdir($dir, 0755, true);
                 }
-                                if ($callback) {
+                // echo "COPY: ${src} -> ${dst}\n";
+                if ($callback) {
                     call_user_func($callback, $src, $dst);
                 }
                 copy($src, $dst);
@@ -329,7 +341,8 @@ class FileUtil
                         if (null !== $replaceExt && file_exists($dst . $file)) {
                             @rename($dst . $file, $dst . $file . $replaceExt);
                         }
-                                                if ($callback) {
+                        // echo "COPY: ${src}${file} -> ${dst}${file}\n";
+                        if ($callback) {
                             call_user_func($callback, $src . $file, $dst . $file);
                         }
                         copy($src . $file, $dst . $file);
@@ -340,7 +353,14 @@ class FileUtil
         closedir($dir);
     }
 
-    
+    /**
+     * 删除文件夹
+     *
+     * @param $dir : string
+     * @pararm $removeSelf : bool
+     *
+     * @return null
+     */
     public static function rm($dir, $removeSelf = true)
     {
         if (is_dir($dir)) {
@@ -365,7 +385,10 @@ class FileUtil
         return true;
     }
 
-    
+    /**
+     * 删除使用 savePathToLocalTemp 或 generateLocalTempPath 产生的本地临时路径
+     * @param $path string
+     */
     public static function safeCleanLocalTemp($path)
     {
         if (empty($path)) {
@@ -407,14 +430,24 @@ class FileUtil
         return $path;
     }
 
-    
+    /**
+     * Safe get user generated file content
+     * @param $path
+     * @return false|string
+     * @throws BizException
+     */
     public static function safeGetContent($path, $permit = ['public/temp', 'public/data'])
     {
         $path = self::safePath($path, $permit);
         return file_get_contents($path);
     }
 
-    
+    /**
+     * 将远程文件保存为本地可用
+     * @param $path string 可以为 http://example.com/xxxxx.xxx /data/xxxxx.xxx
+     * @param string $ext
+     * @return string|null 返回本地临时路径或本地文件绝对路径，注意使用safeCleanLocalTemp来清理文件，如果是本地其他路径可能会误删
+     */
     public static function savePathToLocalTemp($path, $ext = '')
     {
         if (@file_exists($path)) {
@@ -449,7 +482,13 @@ class FileUtil
         return $tempPath;
     }
 
-    
+    /**
+     * 产生一个本地临时路径
+     *
+     * @param string $ext
+     * @return string
+     * @throws BizException
+     */
     public static function generateLocalTempPath($ext = 'tmp')
     {
         if (!file_exists(public_path('temp'))) {

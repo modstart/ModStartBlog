@@ -4,7 +4,24 @@
 namespace ModStart\Widget;
 
 
-
+/**
+ * Class Label
+ * @package ModStart\Widget
+ *
+ * @method static ButtonLink muted($text, $url, $disabled = false)
+ * @method static ButtonLink primary($text, $url, $disabled = false)
+ * @method static ButtonLink warning($text, $url, $disabled = false)
+ * @method static ButtonLink danger($text, $url, $disabled = false)
+ * @method static ButtonLink success($text, $url, $disabled = false)
+ *
+ * @method ButtonLink text($text)
+ * @method ButtonLink type($type)
+ * @method ButtonLink url($url)
+ * @method ButtonLink disabled($boolean)
+ * @method ButtonLink blank($boolean)
+ *
+ * @since 2.1.0
+ */
 class ButtonLink extends AbstractWidget
 {
     public static function getAssets()

@@ -27,7 +27,7 @@ class DatabaseMonitor
                 $sql = $query;
                 if (method_exists(\ModStart\ModStart::class, 'env')
                     && \ModStart\ModStart::env() == 'laravel9') {
-                    
+                    /** @var QueryExecuted $query */
                     $sql = $query->sql;
                     $bindings = $query->bindings;
                     $time = $query->time;
@@ -39,7 +39,8 @@ class DatabaseMonitor
                 }
                 $param = json_encode($bindings, JSON_UNESCAPED_UNICODE);
                 self::$queryCountPerRequestSqls[] = "$sql, $param";
-                                if ($time > 500) {
+                // Log::info("SQL $sql, " . json_encode($bindings));
+                if ($time > 500) {
                     Log::warning("LONG_SQL ${time}ms, $sql, $param");
                 }
             });

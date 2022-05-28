@@ -8,7 +8,9 @@ class EmptyItem extends \stdClass
 {
     private $attributes = [];
 
-    
+    /**
+     * EmptyItem constructor.
+     */
     public function __construct($initValue = [])
     {
         $this->attributes = array_merge($this->attributes, $initValue);

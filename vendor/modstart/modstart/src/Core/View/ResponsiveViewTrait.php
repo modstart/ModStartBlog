@@ -55,7 +55,14 @@ trait ResponsiveViewTrait
         return null;
     }
 
-    
+    /**
+     * @param $view
+     * @return array
+     * @throws BizException
+     *
+     * @example
+     * list($view, $viewFrame) = $this->viewPaths('member.index')
+     */
     protected function viewPaths($view)
     {
         static $templateName = null;
@@ -105,7 +112,8 @@ trait ResponsiveViewTrait
         if (empty($useFrameView)) {
             $useFrameView = $this->fetchViewPath($templateName, $templateRoot, $module, 'pc', 'frame');
         }
-                View::share('_viewFrame', $useFrameView);
+        // print_r([$view, $useView, $useFrameView]); exit();
+        View::share('_viewFrame', $useFrameView);
         BizException::throwsIfEmpty('View Not Exists : ' . $view, $useView);
         return [$useView, $useFrameView];
     }
@@ -119,7 +127,8 @@ trait ResponsiveViewTrait
     protected function view($view, $viewData = [])
     {
         list($view, $frameView) = $this->viewPaths($view);
-                return view($view, $viewData);
+        // return [$view, $frameView];
+        return view($view, $viewData);
     }
 
     protected function viewRender($view, $viewData = [])

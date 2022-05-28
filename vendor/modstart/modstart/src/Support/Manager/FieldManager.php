@@ -109,11 +109,17 @@ class FieldManager
         return false;
     }
 
-    
+    /**
+     * @param HasFields $context
+     * @param $fieldName
+     * @param $column
+     * @param $arguments
+     * @return AbstractField
+     */
     public static function make($context, $fieldName, $column, ...$arguments)
     {
         $className = static::findFieldClass($fieldName);
-        
+        /** @var AbstractField $element */
         $element = new $className($column, $arguments);
         $element->renderMode($context->fieldDefaultRenderMode());
         $element->context($context);
@@ -122,11 +128,11 @@ class FieldManager
 
     public static function call($context, $method, $arguments)
     {
-        
+        /** @var HasFields $context */
         if ($className = static::findFieldClass($method)) {
             static::$usedFields[$method] = true;
             $column = array_get($arguments, 0, '');
-            
+            /** @var AbstractField $element */
             $element = new $className($column, array_slice($arguments, 1));
             $element->renderMode($context->fieldDefaultRenderMode());
             $element->context($context);

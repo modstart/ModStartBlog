@@ -8,13 +8,19 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 
 
-
+/**
+ * @mixin Builder
+ */
 class ScopeFilter
 {
-    
+    /**
+     * @var Collection
+     */
     private $queries;
 
-    
+    /**
+     * GlobalFilterItem constructor.
+     */
     public function __construct()
     {
         $this->queries = new Collection();
@@ -27,7 +33,12 @@ class ScopeFilter
         });
     }
 
-    
+    /**
+     * @param string $method
+     * @param array $arguments
+     *
+     * @return $this
+     */
     public function __call($method, $arguments)
     {
         $this->queries->push([

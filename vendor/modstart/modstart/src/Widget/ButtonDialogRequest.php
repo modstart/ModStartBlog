@@ -4,7 +4,22 @@
 namespace ModStart\Widget;
 
 
-
+/**
+ * Class Label
+ * @package ModStart\Widget
+ *
+ * @method static string primary($text, $url, $disabled = false)
+ * @method static string muted($text, $url, $disabled = false)
+ * @method static string warning($text, $url, $disabled = false)
+ * @method static string danger($text, $url, $disabled = false)
+ * @method static string success($text, $url, $disabled = false)
+ *
+ * @method $this text($text)
+ * @method $this type($type)
+ * @method $this url($url)
+ * @method $this disabled($boolean)
+ * @method $this attr($attr)
+ */
 class ButtonDialogRequest extends AbstractWidget
 {
     public static function getAssets()
@@ -28,7 +43,10 @@ class ButtonDialogRequest extends AbstractWidget
         throw new \Exception('ButtonDialogRequest error ' . join(',', $methods) . ' ');
     }
 
-    
+    /**
+     * @param mixed ...$arguments
+     * @return ButtonDialogRequest
+     */
     public static function make(...$arguments)
     {
         $ins = new static();

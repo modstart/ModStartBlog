@@ -20,10 +20,14 @@ class Column implements Buildable
             $this->append($content);
         }
 
-        
+        /**
+         * if null, or $this->width is empty array, set as "md" => "12"
+         */
         if (is_null($width) || (is_array($width) && count($width) === 0)) {
             $this->width['md'] = 12;
-        } 
+        } /**
+         * $this->width is number(old version), set as "md" => $width
+         */
         elseif (is_numeric($width)) {
             $this->width['md'] = $width;
         } else {
@@ -31,7 +35,13 @@ class Column implements Buildable
         }
     }
 
-    
+    /**
+     * Append content to column.
+     *
+     * @param $content
+     *
+     * @return $this
+     */
     public function append($content)
     {
         $this->contents[] = $content;
@@ -39,7 +49,13 @@ class Column implements Buildable
         return $this;
     }
 
-    
+    /**
+     * Add a row for column.
+     *
+     * @param $content
+     *
+     * @return Column
+     */
     public function row($content)
     {
         if (!$content instanceof \Closure) {
@@ -61,7 +77,9 @@ class Column implements Buildable
         return $this->append($contents);
     }
 
-    
+    /**
+     * Build column html.
+     */
     public function build()
     {
         $this->startColumn();
@@ -77,7 +95,9 @@ class Column implements Buildable
         $this->endColumn();
     }
 
-    
+    /**
+     * Start column.
+     */
     protected function startColumn()
     {
         $className = collect($this->width)->map(function ($value, $key) {
@@ -87,7 +107,9 @@ class Column implements Buildable
         echo "<div class=\"{$className}\">";
     }
 
-    
+    /**
+     * End column.
+     */
     protected function endColumn()
     {
         echo '</div>';

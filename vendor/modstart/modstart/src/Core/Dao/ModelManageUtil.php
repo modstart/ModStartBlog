@@ -153,13 +153,22 @@ class ModelManageUtil
         }
     }
 
-    
+    /**
+     * @param $table
+     * @param \Closure $schemaCallback
+     * @param string $connection
+     * @since 1.7.0
+     */
     public static function migrate($table, \Closure $schemaCallback, $connection = 'mysql')
     {
         $schemaCallback($table, Schema::connection($connection));
     }
 
-    
+    /**
+     * @param $fieldType
+     * @return bool
+     * @since 1.7.0
+     */
     public static function ddlFieldTypeIsCorrect($fieldType)
     {
         if (preg_match('/^INT$/', $fieldType)) {
@@ -186,7 +195,13 @@ class ModelManageUtil
         return false;
     }
 
-    
+    /**
+     * @param $table
+     * @param $fieldName
+     * @param $fieldType
+     * @throws \Exception
+     * @since 1.7.0
+     */
     public static function ddlFieldAdd($table, $fieldName, $fieldType)
     {
         if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $table)) {
@@ -203,7 +218,14 @@ class ModelManageUtil
         self::statement($sql);
     }
 
-    
+    /**
+     * @param $table
+     * @param $fieldNameOld
+     * @param $fieldName
+     * @param $fieldType
+     * @throws \Exception
+     * @since 1.7.0
+     */
     public static function ddlFieldChange($table, $fieldNameOld, $fieldName, $fieldType)
     {
         if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $table)) {
@@ -223,7 +245,13 @@ class ModelManageUtil
         self::statement($sql);
     }
 
-    
+    /**
+     * @param $table
+     * @param $fieldName
+     * @param $fieldType
+     * @throws \Exception
+     * @since 1.7.0
+     */
     public static function ddlFieldModify($table, $fieldName, $fieldType)
     {
         if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $table)) {
@@ -240,7 +268,12 @@ class ModelManageUtil
         self::statement($sql);
     }
 
-    
+    /**
+     * @param $table
+     * @param $fieldName
+     * @throws \Exception
+     * @since 1.7.0
+     */
     public static function ddlFieldDrop($table, $fieldName)
     {
         if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $table)) {

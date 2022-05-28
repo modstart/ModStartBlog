@@ -80,7 +80,15 @@ class ImageUtil
         }
     }
 
-    
+    /**
+     * 为图片加水印
+     * @param $image
+     * @param $type
+     * @param $content
+     * @param array $option
+     * @return mixed|void
+     * @throws BizException
+     */
     public static function watermark($image, $type, $content, $option = [])
     {
         switch ($type) {

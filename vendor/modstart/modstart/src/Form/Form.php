@@ -35,7 +35,71 @@ use ModStart\Support\Manager\FieldManager;
 use stdClass;
 
 
-
+/**
+ * Class Form.
+ *
+ * 可用字段
+ *
+ * @method  Form|mixed mode($value = null)
+ * @method  Form|mixed title($value = null)
+ * @method  Form|mixed showSubmit($value = null)
+ * @method  Form|mixed showReset($value = null)
+ *
+ * 当前数据ID
+ * > add模式：为空
+ * > edit模式：当前编辑数据ID
+ * > delete模式：当前删除的数据ID集合
+ * @method  Form|array|integer|string itemId($value = null)
+ *
+ * 当前数据
+ * > add模式：为空
+ * > edit模式：当前编辑数据
+ * > delete模式：当前删除的数据集合
+ *
+ * @method  stdClass|Form|Model|Collection item($value = null)
+ *
+ * @method  Form|mixed engine($value = null)
+ *
+ * Hook 数据已提交
+ * $value = function (Form $form) { $form->item()->each(function ($item) { }); }
+ * @method  Form|mixed hookSubmitted($value = null)
+ *
+ * Hook 数据正在保存
+ * $value = function(Form $form){ return Response::generateError('error'); }
+ * @method  Form|mixed hookSaving($value = null)
+ *
+ * Hook 已保存
+ * $value = function (Form $form) { $form->item(); }
+ * @method  Form|mixed hookSaved($value = null)
+ *
+ * Hook 正在删除，会运行在事务中，如果返回标准错误，会阻止删除
+ * $value = function (Form $form) { $form->item()->each(function ($item) { }); }
+ * @method  Form|mixed hookDeleting($value = null)
+ *
+ * Hook 已删除
+ * $value = function (Form $form) { $form->item()->each(function ($item) { }); }
+ * @method  Form|mixed hookDeleted($value = null)
+ *
+ * Hook 数据已更改（增加、修改、删除、排序）
+ * $value = function (Form $form) { RepositoryUtil::makeItems($form->item())->map(function ($item) { });}
+ * @method  Form|mixed hookChanged($value = null)
+ *
+ * @method  Form|mixed dataSubmitted($value = null)
+ * @method  Form|mixed dataForming($value = null)
+ * @method  Form|mixed dataAdding($value = null)
+ * @method  Form|mixed dataEditing($value = null)
+ *
+ * @method  Form|mixed canAdd($value = null)
+ * @method  Form|mixed canEdit($value = null)
+ * @method  Form|mixed canDelete($value = null)
+ * @method  Form|mixed formClass($value = null)
+ * @method  Form|mixed treeMaxLevel($value = null)
+ * @method  Form|mixed treeRootPid($value = null)
+ * @method  Form|mixed formUrl($value = null)
+ * @method  Form|mixed ajax($value = null)
+ * @method  Form|mixed formAttr($value = null)
+ *
+ */
 class Form implements Renderable
 {
     use HasFields,
@@ -46,12 +110,18 @@ class Form implements Renderable
         HasScopeFilter,
         HasRepositoryFilter;
 
-    
+    /**
+     * @var string
+     */
     public $id;
-    
+    /**
+     * @var Repository
+     */
     private $repository;
 
-    
+    /**
+     * @var string
+     */
     private $view = 'modstart::core.form.index';
 
     protected $fluentAttributes = [
@@ -84,39 +154,79 @@ class Form implements Renderable
         'ajax',
         'formAttr',
     ];
-    
+    /**
+     * 运行引擎 @see FormEngine
+     * @var string
+     */
     private $engine = 'basic';
-    
+    /**
+     * 表单处理模式 @see FormMode
+     * @var string
+     */
     private $mode = 'form';
-    
+    /**
+     * 标题
+     * @var string
+     */
     private $title;
-    
+    /**
+     * 是否显示提交
+     * @var bool
+     */
     private $showSubmit = true;
-    
+    /**
+     * 是否显示重置
+     * @var bool
+     */
     private $showReset = true;
-    
+    /**
+     * 表单编辑、删除的记录ID
+     * @var integer|string|array|mixed
+     */
     private $itemId = null;
-    
+    /**
+     * @var Model|stdClass
+     */
     private $item;
-    
+    /**
+     * @var Closure
+     */
     private $hookSubmitted;
-    
+    /**
+     * @var Closure
+     */
     private $hookSaving;
-    
+    /**
+     * @var Closure
+     */
     private $hookSaved;
-    
+    /**
+     * @var Closure
+     */
     private $hookDeleting;
-    
+    /**
+     * @var Closure
+     */
     private $hookDeleted;
-    
+    /**
+     * @var Closure
+     */
     private $hookChanged;
-    
+    /**
+     * @var array
+     */
     private $dataSubmitted;
-    
+    /**
+     * @var array
+     */
     private $dataForming;
-    
+    /**
+     * @var array
+     */
     private $dataAdding;
-    
+    /**
+     * @var array
+     */
     private $dataEditing;
     private $canAdd = true;
     private $canEdit = true;
@@ -129,7 +239,10 @@ class Form implements Renderable
     private $ajax = true;
     private $formAttr = '';
 
-    
+    /**
+     * Form constructor.
+     * @param Model|\Illuminate\Database\Eloquent\Builder|Repository $model
+     */
     public function __construct($repository, \Closure $builder = null)
     {
         $this->id = IdUtil::generate('Grid');
@@ -174,7 +287,7 @@ class Form implements Renderable
     {
         $this->runBuilder();
         if ($this->engine == FormEngine::TREE) {
-            
+            /** @var Select $field */
             if ($this->treeMaxLevel > 1) {
                 $field = FieldManager::make($this, 'select', $this->repository->getTreePidColumn(), L('Parent'));
                 $field->optionRepositoryTreeItems($this->repository, $this->treeMaxLevel);
@@ -184,7 +297,7 @@ class Form implements Renderable
             }
             $this->prependField($field);
         } else if ($this->engine == FormEngine::TREE_MASS) {
-            
+            /** @var Display $field */
             $field = FieldManager::make($this, 'display', $this->repository->getTreePidColumn(), L('Parent'));
             $field->addable(true)->editable(true)->listable(false);
             $field->hookRendering(function (AbstractField $field, $item, $index) {
@@ -207,7 +320,9 @@ class Form implements Renderable
         }
     }
 
-    
+    /**
+     * @return Repository|null
+     */
     public function repository()
     {
         return $this->repository;
@@ -251,7 +366,11 @@ class Form implements Renderable
     }
 
 
-    
+    /**
+     * 忽略保留字段，如 `id` `created_at` `updated_at`
+     *
+     * @return void
+     */
     private function removeReservedFields()
     {
         $reservedColumns = [
@@ -297,7 +416,15 @@ class Form implements Renderable
         return $this->mode === FormMode::DELETE;
     }
 
-    
+    /**
+     * @param $callback Closure function(Form $form){ $data = $form->dataForming(); return Response::generateSuccess(); }
+     * @param array|null $data
+     * @return mixed
+     *
+     * @example
+     *
+     * @
+     */
     public function formRequest($callback, array $data = null)
     {
         $this->mode(FormMode::FORM);
@@ -343,7 +470,10 @@ class Form implements Renderable
         }
     }
 
-    
+    /**
+     * 增加记录
+     * @return $this
+     */
     public function add()
     {
         $this->mode(FormMode::ADD);
@@ -351,7 +481,11 @@ class Form implements Renderable
         return $this;
     }
 
-    
+    /**
+     * 增加记录提交
+     * @param array|null $data
+     * @return mixed
+     */
     public function addRequest(array $data = null)
     {
         if (!$this->canAdd) return Response::pagePermissionDenied();
@@ -375,7 +509,8 @@ class Form implements Renderable
                 }
                 $this->dataAdding[$field->column()] = $value;
             }
-                        $id = $this->repository->add($this);
+            // exit(print_r($this->dataAdding));
+            $id = $this->repository->add($this);
             if (!empty($this->dataSubmitted['_redirect'])) {
                 return Response::json(0, null, null, $this->dataSubmitted['_redirect']);
             }
@@ -387,7 +522,10 @@ class Form implements Renderable
         }
     }
 
-    
+    /**
+     * 编辑记录
+     * @return $this
+     */
     public function edit($id)
     {
         try {
@@ -403,7 +541,14 @@ class Form implements Renderable
         }
     }
 
-    
+    /**
+     * 编辑记录提交
+     *
+     * @param $id
+     * @return mixed
+     * @throws BizException
+     * @throws ResultException
+     */
     public function editRequest($id, array $data = null)
     {
         if (!$this->canEdit) return Response::pagePermissionDenied();
@@ -456,7 +601,13 @@ class Form implements Renderable
         }
     }
 
-    
+    /**
+     * 删除数据请求
+     * @param array $ids
+     * @return mixed
+     * @throws BizException
+     * @throws ResultException
+     */
     public function deleteRequest($ids)
     {
         if (!$this->canDelete) return Response::pagePermissionDenied();
@@ -497,7 +648,11 @@ class Form implements Renderable
         }
     }
 
-    
+    /**
+     * 渲染增加、编辑页面
+     * @return string
+     * @throws \Throwable
+     */
     public function render()
     {
         $data = [];
@@ -520,7 +675,15 @@ class Form implements Renderable
         return view($this->view, $data)->render();
     }
 
-    
+    /**
+     * Generate a Field object and add to form builder if Field exists.
+     *
+     * @param string $method
+     * @param array $arguments
+     *
+     * @return AbstractField|void|$this
+     * @throws \Exception
+     */
     public function __call($method, $arguments)
     {
         switch ($method) {

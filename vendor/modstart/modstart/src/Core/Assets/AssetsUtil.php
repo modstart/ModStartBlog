@@ -112,7 +112,13 @@ class AssetsUtil
         return rtrim($domainUrl, '/') . '/' . ltrim($path, '/');
     }
 
-    
+    /**
+     * @param $path
+     * @param $cdn
+     * @param bool $hash
+     * @return string|array
+     * @since 1.5.0
+     */
     public static function fixFullWithCdn($path, $cdn, $hash = true)
     {
         if (is_array($path)) {

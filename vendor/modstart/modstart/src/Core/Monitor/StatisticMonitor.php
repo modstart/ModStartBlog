@@ -37,12 +37,12 @@ class StatisticMonitor
             $eventName = 'Illuminate\\Foundation\\Http\\Events\\RequestHandled';
         }
         Event::listen($eventName, function ($eventOrRequest = null, $response = null) use ($eventName) {
-            
-            
+            /** @var Request $request */
+            /** @var Response $request */
             $request = $eventOrRequest;
             if ($eventName == 'kernel.handled') {
             } else {
-                
+                /** @var \Illuminate\Foundation\Http\Events\RequestHandled $eventOrRequest */
                 $request = $eventOrRequest->request;
                 $response = $eventOrRequest->response;
             }

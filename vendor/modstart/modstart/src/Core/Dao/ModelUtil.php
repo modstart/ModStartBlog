@@ -7,12 +7,36 @@ use Illuminate\Support\Facades\DB;
 use ModStart\Core\Input\InputPackage;
 use ModStart\Core\Util\PageHtmlUtil;
 
-
+/**
+ * Class ModelUtil
+ * @package ModStart\Core\Dao
+ * @Util 数据库
+ */
 class ModelUtil
 {
 
+//    private static $timestampEnable = true;
+//
+//    public static function enableTimestamp($enable)
+//    {
+//        self::$timestampEnable = $enable;
+//    }
 
-    
+    /**
+     * 构建模型
+     * @param $model string 数据表
+     * @return Model 数据库模型
+     * @example
+     * // 按条件查询
+     * ModelUtil::model('user')->where(['id'=>1])->get()->toArray();
+     * ModelUtil::model('user')->where('id','>',5)->get()->toArray();
+     * // LIKE
+     * ModelUtil::model('user')->where('username','like','%keywords%')->get()->toArray();
+     * // 原生SQL
+     * ModelUtil::model('user')->whereRaw(DB::raw('id > 0 OR id is null'))->get()->toArray();
+     *
+     * @Util
+     */
     public static function model($model)
     {
         $m = new DynamicModel();
@@ -21,7 +45,16 @@ class ModelUtil
     }
 
 
-    
+    /**
+     * 插入数据
+     * @param $model string 数据表
+     * @param $data array 数据数组
+     * @return array 插入的数据记录
+     * @example
+     * ModelUtil::insert('user',['username'=>'aaa','nickname'=>'bbb']);
+     *
+     * @Util
+     */
     public static function insert($model, $data)
     {
         $m = self::model($model);
@@ -32,7 +65,16 @@ class ModelUtil
         return $m->toArray();
     }
 
-    
+    /**
+     * 插入多条数据
+     * @param $model string 数据表
+     * @param $datas array 多条数据数组
+     * @param $updateTimestamp bool 是否更新时间戳，默认为true
+     * @example
+     * ModelUtil::insertAll('user',[ ['username'=>'aaa','nickname'=>'bbb'], ['username'=>'ccc','nickname'=>'ddd'] ]);
+     *
+     * @Util
+     */
     public static function insertAll($model, $datas, $updateTimestamp = true)
     {
         if ($updateTimestamp) {
@@ -48,7 +90,19 @@ class ModelUtil
         DB::table($model)->insert($datas);
     }
 
-    
+    /**
+     * 删除记录
+     * @param $model string 数据表
+     * @param $where array|int 条件数组或数据ID
+     * @return int 被删除的记录数量
+     * @example
+     * // 删除ID为1的用户
+     * ModelUtil::delete('user',1);
+     * // 删除用户名为aaa的用户
+     * ModelUtil::delete('user',['username'=>'aaa']);
+     *
+     * @Util
+     */
     public static function delete($model, $where)
     {
         if (is_string($where) || is_numeric($where)) {
@@ -57,13 +111,26 @@ class ModelUtil
         return self::model($model)->where($where)->delete();
     }
 
-    
+    /**
+     * 删除记录
+     * @param $model
+     * @param $field
+     * @param $operator
+     * @param $value
+     * @return int 被删除的记录数量
+     */
     public static function deleteOperator($model, $field, $operator, $value)
     {
         return self::model($model)->where($field, $operator, $value)->delete();
     }
 
-    
+    /**
+     * 删除记录
+     * @param $model
+     * @param $values
+     * @param string $field
+     * @return int 被删除的记录数量
+     */
     public static function deleteIn($model, $values, $field = 'id')
     {
         if (empty($values)) {
@@ -72,13 +139,29 @@ class ModelUtil
         return self::model($model)->whereIn($field, $values)->delete();
     }
 
-    
+    /**
+     * 更新表中全部数据，慎用
+     * @param $model
+     * @param $data
+     * @param string[] $where
+     */
     public static function updateAll($model, $data, $where = ['id', '>', '0'])
     {
         self::model($model)->where($where[0], $where[1], $where[2])->update($data);
     }
 
-    
+    /**
+     * 更新数据表
+     * @param $model string 数据库
+     * @param $where int|array 更新条件
+     * @param $data array 更新的数据数组
+     * @return int|null 返回更新的数量，如果是0或null表示没有更新数据
+     * @example
+     * ModelUtil::update('user',1,['password'=>'123456']);
+     * ModelUtil::update('user',['username'=>'xxx'],['password'=>'123456']);
+     *
+     * @Util
+     */
     public static function update($model, $where, $data)
     {
         if (empty($where) || empty($data)) {
@@ -106,7 +189,19 @@ class ModelUtil
         return $m->toArray();
     }
 
-    
+    /**
+     * 获取单条记录
+     * @param $model string 数据表
+     * @param $where int|array 条件
+     * @param  $fields array 数据表字段
+     * @param $order array 排序，如 ['id','asc']
+     * @return array|null 数据记录
+     * @example
+     * ModelUtil::get('user',1);
+     * ModelUtil::get('user',['username'=>'xxx']);
+     *
+     * @Util
+     */
     public static function get($model, $where, $fields = ['*'], $order = null)
     {
         if (is_string($where) || is_numeric($where)) {
@@ -291,13 +386,44 @@ class ModelUtil
         });
     }
 
-    
+    /**
+     *
+     * 关联表列出关联信息
+     *
+     * @param $model : 表名称
+     * @param $sourceField : 外键列名
+     * @param $sourceValue : 外键值
+     * @param array $filter : 关联过滤条件
+     * @param array $extraFields : 额外返回字段
+     * @param string $idField : 关系表ID列名
+     *
+     * @return array
+     */
     public static function relationList($model, $sourceField, $sourceValue, $filter = [], $extraFields = [], $idField = 'id')
     {
         return self::all($model, array_merge([$sourceField => $sourceValue], $filter), array_merge([$idField, $sourceField], $extraFields));
     }
 
-    
+    /**
+     *
+     * 关系表关联操作
+     *
+     * @param $model : 表名称
+     * @param $sourceField : 外键列名
+     * @param $sourceValue : 外键值
+     * @param $targetField : 关联列名
+     * @param $targetValues : 关联列值
+     * @param array $filter : 关联过滤条件
+     * @param string $idField : 关系表ID列名
+     *
+     * @example
+     *
+     * 表 user_article ( corpId, userId, articleId )
+     * relationAssign('user_article','userId',1,'articleId',[4,5,6],['corpId'=>5])
+     *
+     * 表 user_article ( userId, articleId )
+     * relationAssign('user_article','userId',1,'articleId',[4,5,6])
+     */
     public static function relationAssign($model, $sourceField, $sourceValue, $targetField, $targetValues, $filter = [], $idField = 'id')
     {
         if (empty($targetValues)) {
@@ -522,7 +648,12 @@ class ModelUtil
             $o = $o->whereRaw($option['whereRaw']);
         }
 
-        
+        /**
+         * $search = [];
+         * $search[] = ['field1'=>['equal'=>value],'field2'=>['equal'=>value]];
+         * $search[] = ['field1'=>['exp'=>'or', 'equal'=>value1, 'like'=>'value2'],'field2'=>['equal'=>value]];
+         * $search[] = ['__exp'=>'and|or','field1'=>[...],'field2'=>[...],];
+         */
         if (!empty($option['search']) && is_array($option['search'])) {
             foreach ($option['search'] as $searchItem) {
 
@@ -654,7 +785,9 @@ class ModelUtil
             }
         }
 
-        
+        /**
+         * $filter = []
+         */
         if (!empty($option['filter']) && is_array($option['filter'])) {
             $o = $o->where(function ($queryBase) use (&$option) {
                 foreach ($option['filter'] as $oneFilter) {
@@ -964,11 +1097,189 @@ class ModelUtil
         }
     }
 
+//    public static function replaceRelationId($model, $where, $idKey, $ids)
+//    {
+//        ModelHelper::delete($model, $where);
+//        $inserts = [];
+//        foreach ($ids as $id) {
+//            $inserts[] = array_merge($where, [$idKey => $id]);
+//        }
+//        ModelHelper::addAll($model, $inserts);
+//    }
+//
 
+//
+//    public static function generateHash($model, $field, $hashLength = 16)
+//    {
+//        if (self::isModel($model)) {
+//            do {
+//                $hash = strtolower(Str::random($hashLength));
+//            } while ($model::where([$field => $hash])->exists());
+//            return $hash;
+//        } else {
+//            do {
+//                $hash = strtolower(Str::random($hashLength));
+//                $m = new DynamicModel();
+//                $m->timestamps = self::$timestampEnable;
+//                $m->setTable($model);
+//            } while ($m->where([$field => $hash])->exists());
+//            return $hash;
+//        }
+//    }
+//
+//
+//
+//    public static function map($model, $valueField = 'title', $keyField = 'id', $where = [], $order = null)
+//    {
+//        $items = self::find($model, $where, $order);
+//        $map = [];
+//        foreach ($items as $item) {
+//            $map[$item[$keyField]] = $item[$valueField];
+//        }
+//        return $map;
+//    }
+//
+//    public static function first($model, $where = [], $order = null)
+//    {
+//        $record = null;
+//        if (self::isModel($model)) {
+//            if ($order) {
+//                $record = $model::where($where)->orderBy($order[0], $order[1])->first();
+//            } else {
+//                $record = $model::where($where)->first();
+//            }
+//        } else {
+//            $m = new DynamicModel();
+//            $m->timestamps = self::$timestampEnable;
+//            $m->setTable($model);
+//            if ($order) {
+//                $record = $m->where($where)->orderBy($order[0], $order[1])->first();
+//            } else {
+//                $record = $m->where($where)->first();
+//            }
+//        }
+//        if (empty($record)) {
+//            return null;
+//        }
+//        return $record->toArray();
+//    }
+//
 
+//
+//    public static function addAll($model, $datas)
+//    {
+//        foreach ($datas as $data) {
+//            ModelHelper::add($model, $data);
+//        }
+//    }
+//
+//    public static function update($model, $where, $data)
+//    {
+//        if (empty($data)) {
+//            return null;
+//        }
+//        if (self::isModel($model)) {
+//            $m = $model::where($where)->get();
+//        } else {
+//            $m = new DynamicModel();
+//            $m->timestamps = self::$timestampEnable;
+//            $m->setTable($model);
+//            $m = $m->where($where)->get();
+//        }
+//
+//        if (empty($m)) {
+//            return null;
+//        }
+//        foreach ($m as $_m) {
+//            foreach ($data as $k => $v) {
+//                $_m->$k = $v;
+//            }
+//            $_m->save();
+//        }
+//        return $m->toArray();
+//    }
+//
 
+//
+//    public static function updateOne($model, $where, $data)
+//    {
+//        if (empty($data)) {
+//            return null;
+//        }
+//        if (is_string($where) || is_numeric($where)) {
+//            $where = ['id' => $where];
+//        }
+//        if (self::isModel($model)) {
+//            $m = $model::where($where)->first();
+//        } else {
+//            $m = new DynamicModel();
+//            $m->timestamps = self::$timestampEnable;
+//            $m->setTable($model);
+//            $m = $m->where($where)->first();
+//        }
+//
+//        if (empty($m)) {
+//            return null;
+//        }
+//        foreach ($data as $k => $v) {
+//            $m->$k = $v;
+//        }
+//        $m->save();
+//        return $m->toArray();
+//    }
+//
+//    public static function addOrUpdateOne($model, $where, $data)
+//    {
+//        if (is_string($where) || is_numeric($where)) {
+//            $where = ['id' => $where];
+//        }
+//        if (self::isModel($model)) {
+//            $m = $model::where($where)->first();
+//        } else {
+//            $m = new DynamicModel();
+//            $m->timestamps = self::$timestampEnable;
+//            $m->setTable($model);
+//            $m = $m->where($where)->first();
+//        }
+//        if (empty($m)) {
+//
+//            // insert
+//            if (self::isModel($model)) {
+//                $m = new $model();
+//            } else {
+//                $m = new DynamicModel();
+//                $m->timestamps = self::$timestampEnable;
+//                $m->setTable($model);
+//            }
+//            foreach ($data as $k => $v) {
+//                $m->$k = $v;
+//            }
+//            $m->save();
+//            return $m->toArray();
+//
+//        } else {
+//
+//            // update
+//            foreach ($data as $k => $v) {
+//                if (array_key_exists($k, $where)) {
+//                    continue;
+//                }
+//                $m->$k = $v;
+//            }
+//            $m->save();
+//            return $m->toArray();
+//
+//        }
+//    }
+//
 
-    
+    /**
+     * 增加或减少数值，会考虑到NULL的情况
+     * @param $model string
+     * @param $where int|array
+     * @param $field string
+     * @param $value int 记录更新数量
+     */
     public static function increase($model, $where, $field, $value = 1)
     {
         return ModelUtil::update($model, $where, [
@@ -998,6 +1309,11 @@ class ModelUtil
         return self::model($model)->where($where)->max($field);
     }
 
+//    public static function truncate($model)
+//    {
+//        DB::table($model)->truncate();
+//    }
+//
 
     public static function traverse($model, $key, $default = null)
     {

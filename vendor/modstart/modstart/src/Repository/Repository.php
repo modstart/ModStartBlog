@@ -16,43 +16,69 @@ abstract class Repository implements RepositoryInterface, SortRepositoryInterfac
     use Macroable;
     use HasArguments;
 
-    
+    /**
+     * @var string
+     */
     protected $keyName = 'id';
 
-    
+    /**
+     * @var bool
+     */
     protected $isSoftDeletes = false;
 
-    
+    /**
+     * 获取主键名称.
+     *
+     * @return string
+     */
     public function getKeyName()
     {
         return $this->keyName ? $this->keyName : 'id';
     }
 
-    
+    /**
+     * 设置主键名称.
+     *
+     * @param string $keyName
+     */
     public function setKeyName($keyName)
     {
         $this->keyName = $keyName;
     }
 
-    
+    /**
+     * 获取创建时间字段.
+     *
+     * @return string
+     */
     public function getCreatedAtColumn()
     {
         return 'created_at';
     }
 
-    
+    /**
+     * 获取更新时间字段.
+     *
+     * @return string
+     */
     public function getUpdatedAtColumn()
     {
         return 'updated_at';
     }
 
-    
+    /**
+     * 是否使用软删除.
+     *
+     * @return bool
+     */
     public function isSoftDeletes()
     {
         return $this->isSoftDeletes;
     }
 
-    
+    /**
+     * @param bool $isSoftDeletes
+     */
     public function setIsSoftDeletes($isSoftDeletes)
     {
         $this->isSoftDeletes = $isSoftDeletes;
@@ -88,13 +114,21 @@ abstract class Repository implements RepositoryInterface, SortRepositoryInterfac
         throw new \RuntimeException('This repository does not support "delete" method');
     }
 
-    
+    /**
+     * list items for conditions
+     * @param Model $model
+     * @return Collection
+     */
     public function get(Model $model)
     {
         throw new \RuntimeException('This repository does not support "get" method');
     }
 
-    
+    /**
+     * get built model query for conditions
+     * @param Model $model
+     * @return QueryBuilder
+     */
     public function getQuery(Model $model)
     {
         throw new \RuntimeException('This repository dose not support "getQuery" method');
@@ -102,13 +136,19 @@ abstract class Repository implements RepositoryInterface, SortRepositoryInterfac
 
     private $sortColumn = 'sort';
 
-    
+    /**
+     * 获取排序字段
+     * @return string
+     */
     public function getSortColumn()
     {
         return $this->sortColumn;
     }
 
-    
+    /**
+     * 设置排序字段
+     * @param $value
+     */
     public function setSortColumn($value)
     {
         $this->sortColumn = $value;
@@ -159,22 +199,36 @@ abstract class Repository implements RepositoryInterface, SortRepositoryInterfac
         throw new \RuntimeException('This repository does not support "getTreeItems" method.');
     }
 
-    
+    /**
+     * @return array
+     */
     public function getTreeAncestorItems()
     {
         throw new \RuntimeException('This repository does not support "getTreeAncestorItems" method.');
     }
 
-    
+    /**
+     * 构建 Repository
+     * @param $params string
+     *
+     * @return $this
+     */
     public static function make(...$params)
     {
         return new static(...$params);
     }
 
-    
+    /**
+     * 根据输入各种输入构建数据仓库
+     * @param mixed $repository
+     * @param array $args
+     * @return Repository
+     */
     public static function instance($repository, array $args = [])
     {
-        
+        /**
+         * 部分场景只需要构建表单
+         */
         if (null === $repository) {
             return null;
         }

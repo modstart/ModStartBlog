@@ -17,7 +17,10 @@ use ModStart\App\Web\ModStartWeb;
 use ModStart\Core\Facades\ModStart;
 use ModStart\Module\ModuleManager;
 
-
+/**
+ * Class ModStartServiceProvider
+ * @package ModStart
+ */
 class ModStartServiceProvider extends ServiceProvider
 {
     protected $commands = [
@@ -142,7 +145,7 @@ class ModStartServiceProvider extends ServiceProvider
 
     private function setupMonitor()
     {
-        
+        /** @remove if condition after 20220417 */
         if (class_exists('\\ModStart\\Core\\Monitor\\DataBaseMonitor')) {
             \ModStart\Core\Monitor\DatabaseMonitor::init();
         }

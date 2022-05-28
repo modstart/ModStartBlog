@@ -5,7 +5,14 @@ namespace ModStart\Field;
 
 use ModStart\Core\Exception\BizException;
 
-
+/**
+ * JsonID内容字段
+ *
+ * [1,2,3]
+ *
+ * Class JsonIdItems
+ * @package ModStart\Field
+ */
 class JsonIdItems extends AbstractField
 {
     const ITEM_STYLE_TITLE = 'title';

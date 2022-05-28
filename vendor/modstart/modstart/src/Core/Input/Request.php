@@ -8,13 +8,21 @@ use Illuminate\Support\Str;
 class Request
 {
 
-    
+    /**
+     * @return string
+     *
+     * @example visit http://www.example.com/url/path?foo=bar -> url/path
+     */
     public static function path()
     {
         return \Illuminate\Support\Facades\Request::path();
     }
 
-    
+    /**
+     * @return string
+     *
+     * @example visit http://www.example.com/url/path?foo=bar -> /url/path
+     */
     public static function basePath()
     {
         static $path = null;
@@ -30,7 +38,12 @@ class Request
         return $path;
     }
 
-    
+    /**
+     *
+     * @return string
+     *
+     * @example visit http://www.example.com/url/path?foo=bar -> /url/path?foo=bar
+     */
     public static function basePathWithQueries()
     {
         $url = self::basePath();
@@ -40,7 +53,11 @@ class Request
         return $url;
     }
 
-    
+    /**
+     * @return string
+     *
+     * @example visit http://www.example.com/url/path?foo=bar -> http://www.example.com/url/path?foo=bar
+     */
     public static function currentPageUrl()
     {
         if (\Illuminate\Support\Facades\Request::ajax()) {
@@ -63,7 +80,11 @@ class Request
     }
 
 
-    
+    /**
+     * @return string
+     *
+     * @example visit http://www.example.com/url/path?foo=bar -> http://www.example.com/url/path
+     */
     public static function currentPageUrlWithOutQueries()
     {
         $url = \Illuminate\Support\Facades\Request::url();
@@ -133,7 +154,11 @@ class Request
         return $schema;
     }
 
-    
+    /**
+     * 返回当前系统的协议和域名
+     *
+     * @return string
+     */
     public static function domainUrl($subdirFix = false)
     {
         $url = self::schema() . '://' . self::domain();
@@ -153,7 +178,9 @@ class Request
         return \Illuminate\Support\Facades\Request::ajax() || self::headerGet('is-ajax');
     }
 
-    
+    /**
+     * @return \Illuminate\Http\Request
+     */
     public static function instance()
     {
         return \Illuminate\Support\Facades\Request::instance();

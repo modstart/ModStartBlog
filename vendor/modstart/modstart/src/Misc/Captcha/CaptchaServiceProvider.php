@@ -4,11 +4,18 @@ namespace ModStart\Misc\Captcha;
 
 use Illuminate\Support\ServiceProvider;
 
-
+/**
+ * Class CaptchaServiceProvider
+ * @package Mews\Captcha
+ */
 class CaptchaServiceProvider extends ServiceProvider
 {
 
-    
+    /**
+     * Boot the service provider.
+     *
+     * @return null
+     */
     public function boot()
     {
         $this->publishes([
@@ -16,10 +23,15 @@ class CaptchaServiceProvider extends ServiceProvider
         ], 'config');
     }
 
-    
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
     public function register()
     {
-                $this->mergeConfigFrom(
+        // Merge configs
+        $this->mergeConfigFrom(
             __DIR__ . '/../../../config/captcha.php', 'captcha'
         );
 

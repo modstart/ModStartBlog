@@ -34,7 +34,9 @@ class AuthController extends Controller
         if (modstart_config('adminSSOClientEnable', false)) {
             return Response::redirect(modstart_admin_url('sso/client?redirect=' . urlencode($redirect)));
         }
-        
+        /**
+         * 获取人机检测Provider
+         */
         $captchaProviderName = modstart_config('AdminManagerEnhance_LoginCaptchaProvider', null);
         $captchaProvider = null;
         if (class_exists(\Module\Vendor\Provider\Captcha\CaptchaProvider::class)) {
@@ -53,7 +55,8 @@ class AuthController extends Controller
                 && modstart_config('AdminManagerEnhance_SmsCaptchaQuick', false)
             );
             if ($isSmsCaptchaQuickLogin) {
-                            } else {
+                // do nothing
+            } else {
                 $username = $input->getTrimString('username');
                 $password = $input->getTrimString('password');
                 if (empty($username)) {
@@ -76,7 +79,7 @@ class AuthController extends Controller
                 }
             }
             if ($isSmsCaptchaQuickLogin) {
-                
+                /** @var $smsCaptchaProvider \Module\CaptchaSms\Provider\SmsCaptchaProvider */
                 $smsCaptchaProvider = $captchaProvider;
                 $phone = $smsCaptchaProvider->getVerifiedPhone();
                 $ret = Admin::loginByPhone($phone);
@@ -102,7 +105,8 @@ class AuthController extends Controller
             Session::put(Admin::ADMIN_USER_ID_SESSION_KEY, $adminUser['id']);
             Session::forget('_adminUserPasswordWeak');
             if ($isSmsCaptchaQuickLogin) {
-                            } else {
+                // do nothing
+            } else {
                 if (strlen($password) < 6 && StrUtil::passwordStrength($password) <= 1) {
                     Session::put('_adminUserPasswordWeak', true);
                 }

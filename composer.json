@@ -1,0 +1,41 @@
+{
+  "name": "soft/blog",
+  "description": "",
+  "keywords": [
+  ],
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "ext-json": "*",
+    "php": ">=5.5.9",
+    "laravel/framework": "5.1.*",
+    "modstart/modstart-laravel5": "dev-master"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require-dev": {
+  },
+  "autoload": {
+    "classmap": [
+      "database"
+    ],
+    "psr-4": {
+      "App\\": "app/",
+      "Module\\": "module/"
+    }
+  },
+  "config": {
+    "preferred-install": "dist",
+    "secure-http": false,
+    "allow-plugins": {
+      "easywechat-composer/easywechat-composer": true,
+      "kylekatarnls/update-helper": true
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://modstart.com/composer"
+    }
+  ]
+}

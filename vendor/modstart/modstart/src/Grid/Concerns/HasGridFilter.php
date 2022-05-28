@@ -8,10 +8,14 @@ use ModStart\Grid\GridFilter;
 
 trait HasGridFilter
 {
-    
+    /**
+     * @var array Grid筛选条件Join表
+     */
     protected $gridFilterJoins = [];
 
-    
+    /**
+     * @var GridFilter
+     */
     protected $gridFilter;
 
     private function setupGridFilter()
@@ -19,7 +23,9 @@ trait HasGridFilter
         $this->gridFilter = new GridFilter($this->model);
     }
 
-    
+    /**
+     * @return GridFilter
+     */
     public function getGridFilter()
     {
         return $this->gridFilter;
@@ -30,7 +36,14 @@ trait HasGridFilter
         return $this->gridFilterJoins;
     }
 
-    
+    /**
+     * @param $mode = left|right|inner
+     * @param $table
+     * @param $first
+     * @param null $operator
+     * @param null $second
+     * @return $this
+     */
     public function gridFilterJoinAdd($mode, $table, $first, $operator = null, $second = null)
     {
         $this->gridFilterJoins[] = [

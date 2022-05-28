@@ -44,8 +44,10 @@ class FileManager
         }
         switch ($action) {
             case 'config':
-                            case 'uploadDirect':
-                            case 'uploadDirectRaw':
+                // upload and save to user space
+            case 'uploadDirect':
+                // update and not save to user space
+            case 'uploadDirectRaw':
             case 'categoryEdit':
             case 'categoryDelete':
             case 'init':
@@ -113,10 +115,21 @@ class FileManager
         return Response::generateSuccessData(ArrayUtil::keepKeys($data, ['path', 'category', 'size', 'filename']));
     }
 
-    
+    /**
+     * 直接上传模式（不分片），用户文件管理中可见
+     *
+     * @param InputPackage $input
+     * @param $category
+     * @param $uploadTable
+     * @param $uploadCategoryTable
+     * @param $userId
+     * @param $option
+     * @return mixed
+     * @throws \Exception
+     */
     private static function uploadDirectExecute(InputPackage $input, $category, $uploadTable, $uploadCategoryTable, $userId, $option)
     {
-        
+        /** @var UploadedFile $file */
         $file = Input::file('file');
         if (empty($file)) {
             return Response::jsonError('file empty');
@@ -143,10 +156,21 @@ class FileManager
         return Response::jsonSuccessData($data);
     }
 
-    
+    /**
+     * 直接上传模式（不分片），用户文件管理中不可见
+     *
+     * @param InputPackage $input
+     * @param $category
+     * @param $uploadTable
+     * @param $uploadCategoryTable
+     * @param $userId
+     * @param $option
+     * @return mixed
+     * @throws \Exception
+     */
     private static function uploadDirectRawExecute(InputPackage $input, $category, $uploadTable, $uploadCategoryTable, $userId, $option)
     {
-        
+        /** @var UploadedFile $file */
         $file = Input::file('file');
         if (empty($file)) {
             return Response::jsonError('file empty');
@@ -206,7 +230,18 @@ class FileManager
         ]);
     }
 
-    
+    /**
+     * 保存到文件库中，
+     *
+     * @param InputPackage $input
+     * @param $category
+     * @param $uploadTable
+     * @param $uploadCategoryTable
+     * @param $userId
+     * @param $option
+     * @return mixed
+     * @throws BizException
+     */
     private static function saveRawExecute(InputPackage $input, $category, $uploadTable, $uploadCategoryTable, $userId, $option)
     {
         $path = $input->getTrimString('path');

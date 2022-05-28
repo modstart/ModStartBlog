@@ -13,16 +13,29 @@ use ModStart\Field\Type;
 use ModStart\Form\Form;
 use ModStart\ModStart;
 
-
+/**
+ * @mixin AbstractField
+ * @property Form $context
+ */
 trait CanCascadeFields
 {
-    
+    /**
+     * @var array
+     */
     protected $conditions = [];
 
-    
+    /**
+     * @var array
+     */
     protected $cascadeGroups = [];
 
-    
+    /**
+     * @param $operator
+     * @param $value
+     * @param $closure \Closure function($builder) { }
+     *
+     * @return $this
+     */
     public function when($operator, $value, $closure = null)
     {
         if (func_num_args() == 2) {
@@ -43,7 +56,10 @@ trait CanCascadeFields
         return '=';
     }
 
-    
+    /**
+     * @param string $operator
+     * @param mixed $value
+     */
     protected function formatValues($operator, &$value)
     {
         if (in_array($operator, ['in', 'notIn'])) {
@@ -56,7 +72,11 @@ trait CanCascadeFields
         }
     }
 
-    
+    /**
+     * @param string $operator
+     * @param mixed $value
+     * @param \Closure $closure
+     */
     protected function addDependents($operator, $value, \Closure $closure)
     {
         $index = count($this->conditions);
@@ -72,7 +92,11 @@ trait CanCascadeFields
         ]);
     }
 
-    
+    /**
+     * Add cascade scripts to contents.
+     *
+     * @return void
+     */
     protected function addCascadeScript()
     {
         if (empty($this->conditions)) {
@@ -155,7 +179,9 @@ JS;
         ModStart::script($script);
     }
 
-    
+    /**
+     * @return string
+     */
     protected function getFieldNormalizedScript()
     {
         if ($this->context instanceof Form) {

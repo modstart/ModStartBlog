@@ -6,7 +6,9 @@ namespace ModStart\Field\Plugin;
 
 class RichHtmlPlugin
 {
-    
+    /**
+     * @var AbstractRichHtmlPlugin[]
+     */
     private static $list = [];
 
     public static function reigster($plugin)
@@ -14,7 +16,9 @@ class RichHtmlPlugin
         self::$list[] = $plugin;
     }
 
-    
+    /**
+     * @return AbstractRichHtmlPlugin[]
+     */
     public static function all()
     {
         foreach (self::$list as $k => $plugin) {

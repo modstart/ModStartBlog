@@ -10,7 +10,11 @@ class ModStartHook
 {
     private static $listeners = [];
 
-    
+    /**
+     * subscribe hook
+     * @param $name string|array PageHeadAppend,DialogPageHeadAppend
+     * @param $callable \Closure
+     */
     public static function subscribe($name, $callable)
     {
         if (!is_array($name)) {
@@ -24,7 +28,11 @@ class ModStartHook
         }
     }
 
-    
+    /**
+     * get hook listeners
+     * @param string $name
+     * @return array|mixed
+     */
     public static function get($name = '')
     {
         if (empty($name)) {
@@ -33,7 +41,13 @@ class ModStartHook
         return array_key_exists($name, self::$listeners) ? self::$listeners[$name] : [];
     }
 
-    
+    /**
+     * fire one hook and get array result
+     * @param $name
+     * @param null $param
+     * @param null $extra
+     * @return array|mixed
+     */
     public static function fire($name, &$param = null, $extra = null)
     {
         $results = [];
@@ -43,7 +57,13 @@ class ModStartHook
         return $results;
     }
 
-    
+    /**
+     * fire one hook and get string result
+     * @param $name
+     * @param null $param
+     * @param null $extra
+     * @return string
+     */
     public static function fireInView($name, &$param = null, $extra = null)
     {
         return join('', self::fire($name, $param, $extra));

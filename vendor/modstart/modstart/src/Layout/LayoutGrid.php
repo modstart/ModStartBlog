@@ -12,7 +12,9 @@ class LayoutGrid extends AbstractField
     protected $isLayoutField = true;
     private $layoutClosure = null;
 
-    
+    /**
+     * LayoutGrid constructor.
+     */
     public function __construct($closure)
     {
         parent::__construct(IdUtil::generate('LayoutGrid'));
@@ -27,7 +29,13 @@ class LayoutGrid extends AbstractField
     }
 
 
-    
+    /**
+     * @param $widths
+     * @param $closure
+     *
+     * @example
+     * $closure = function ($builder) { }
+     */
     public function layoutColumn($widths, $closure)
     {
         if (!is_array($widths)) {

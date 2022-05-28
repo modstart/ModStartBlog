@@ -19,13 +19,16 @@ abstract class AbstractDataStorage
     const PATTERN_DATA = '/^data\\/([a-z_]+)\\/(\\d+\\/\\d+\\/\\d+\\/\\d+_[a-zA-Z0-9]{4}_\\d+\\.[a-z0-9]+)$/';
     const PATTERN_DATA_STRING = '/data\\/([a-z_]+)\\/(\\d+\\/\\d+\\/\\d+\\/\\d+_[a-zA-Z0-9]{4}_\\d+\\.[a-z0-9]+)/';
 
-    
+    /** @var FilesystemInterface */
     protected $localStorage;
-    
+    /** @var AbstractDataRepository */
     protected $repository;
     protected $option = [];
 
-    
+    /**
+     * AbstractStorageService constructor.
+     * @param array $option
+     */
     public function __construct($option)
     {
         $this->option = $option;
@@ -80,7 +83,13 @@ abstract class AbstractDataStorage
         return '';
     }
 
-    
+    /**
+     * 获取路径的完整路径
+     * @param $path
+     * @return mixed|string
+     * 如果path是公共路径（http,https）直接返回
+     * 如果是本地路径，返回完整路径，如 /data/xxxxx.xx
+     */
     public function getDriverFullPath($path)
     {
         if (empty($path)) {
@@ -97,7 +106,13 @@ abstract class AbstractDataStorage
         return config('data.baseUrl', '/') . $path;
     }
 
-    
+    /**
+     * 获取路径的内部可用完整路径
+     * @param $path
+     * @return mixed|string
+     * 如果path是公共路径（http,https）直接返回
+     * 如果是本地路径，返回完整路径，如 /data/xxxxx.xx
+     */
     public function getDriverFullPathInternal($path)
     {
         if (Str::startsWith($path, '//')) {
@@ -116,7 +131,9 @@ abstract class AbstractDataStorage
         return $this->repository;
     }
 
-    
+    /**
+     * 断点上传相关方法
+     */
     protected function multiPartInitToken(array $param)
     {
         $category = $param['category'];
@@ -129,7 +146,8 @@ abstract class AbstractDataStorage
         } else {
             $file['chunkUploaded'] = 0;
             $file['hash'] = $hash;
-                        $extension = FileUtil::extension($file['name']);
+            // 计算临时文件路径
+            $extension = FileUtil::extension($file['name']);
             $file['path'] = strtolower(Str::random(32)) . '.' . $extension;
             $file['fullPath'] = self::DATA_TEMP . '/' . $category . '/' . $file['path'];
         }

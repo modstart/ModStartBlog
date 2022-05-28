@@ -7,10 +7,19 @@ namespace ModStart\Core\Util;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
-
+/**
+ * 路由相关操作
+ *
+ * Class RouteUtil
+ * @package ModStart\Core\Util
+ * @since 1.5.0
+ */
 class RouteUtil
 {
-    
+    /**
+     * 解析当前访问路由的Controller和Method
+     * @return array = [ controller, method ]
+     */
     public static function parseControllerMethod()
     {
         $routeAction = Route::currentRouteAction();

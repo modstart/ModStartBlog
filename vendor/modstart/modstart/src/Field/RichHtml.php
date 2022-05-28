@@ -21,7 +21,11 @@ class RichHtml extends AbstractField
         ]);
     }
 
-    
+    /**
+     * 编辑器模式
+     * @param $mode string default|simple
+     * @return $this
+     */
     public function editorMode($mode)
     {
         $this->addVariables(['editorMode'=>$mode]);

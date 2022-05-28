@@ -28,7 +28,9 @@ return [
                 'path[style|d]',
             ]),
             'HTML.SafeIframe' => true,
-                                    'URI.SafeIframeRegexp' => "%^(http://|https://|//|/)?([a-zA-Z0-9\\./=\\%_\\-\?&]+)$%",
+            // https://xxx.com/data/video/xxxx/xx/xx/xxxxxx.mp4
+            // /data/xxxx.mp4
+            'URI.SafeIframeRegexp' => "%^(http://|https://|//|/)?([a-zA-Z0-9\\./=\\%_\\-\?&]+)$%",
             'AutoFormat.AutoParagraph' => true,
             'AutoFormat.RemoveEmpty' => false,
             'CSS.AllowImportant' => true,
@@ -49,20 +51,24 @@ return [
             'rev' => 1,
             'debug' => false,
             'elements' => [
-                                ['section', 'Block', 'Flow', 'Common'],
+                // http://developers.whatwg.org/sections.html
+                ['section', 'Block', 'Flow', 'Common'],
                 ['nav', 'Block', 'Flow', 'Common'],
                 ['article', 'Block', 'Flow', 'Common'],
                 ['aside', 'Block', 'Flow', 'Common'],
                 ['header', 'Block', 'Flow', 'Common'],
                 ['footer', 'Block', 'Flow', 'Common'],
 
-                                ['address', 'Block', 'Flow', 'Common'],
+                // Content model actually excludes several tags, not modelled here
+                ['address', 'Block', 'Flow', 'Common'],
                 ['hgroup', 'Block', 'Required: h1 | h2 | h3 | h4 | h5 | h6', 'Common'],
 
-                                ['figure', 'Block', 'Optional: (figcaption, Flow) | (Flow, figcaption) | Flow', 'Common'],
+                // http://developers.whatwg.org/grouping-content.html
+                ['figure', 'Block', 'Optional: (figcaption, Flow) | (Flow, figcaption) | Flow', 'Common'],
                 ['figcaption', 'Inline', 'Flow', 'Common'],
 
-                                ['video', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', [
+                // http://developers.whatwg.org/the-video-element.html#the-video-element
+                ['video', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', [
                     'src' => 'URI',
                     'type' => 'Text',
                     'width' => 'Length',
@@ -76,14 +82,16 @@ return [
                     'type' => 'Text',
                 ]],
 
-                                ['s', 'Inline', 'Inline', 'Common'],
+                // http://developers.whatwg.org/text-level-semantics.html
+                ['s', 'Inline', 'Inline', 'Common'],
                 ['var', 'Inline', 'Inline', 'Common'],
                 ['sub', 'Inline', 'Inline', 'Common'],
                 ['sup', 'Inline', 'Inline', 'Common'],
                 ['mark', 'Inline', 'Inline', 'Common'],
                 ['wbr', 'Inline', 'Empty', 'Core'],
 
-                                ['ins', 'Block', 'Flow', 'Common', ['cite' => 'URI', 'datetime' => 'CDATA']],
+                // http://developers.whatwg.org/edits.html
+                ['ins', 'Block', 'Flow', 'Common', ['cite' => 'URI', 'datetime' => 'CDATA']],
                 ['del', 'Block', 'Flow', 'Common', ['cite' => 'URI', 'datetime' => 'CDATA']],
             ],
             'attributes' => [

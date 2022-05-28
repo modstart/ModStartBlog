@@ -14,7 +14,10 @@ class RepositoryUtil
         });
     }
 
-    
+    /**
+     * @param array|\stdClass $item
+     * @return object
+     */
     public static function itemFromArray($item)
     {
         return (object)$item;

@@ -11,7 +11,14 @@ use ModStart\Grid\Grid;
 use ModStart\Grid\GridFilter;
 use ModStart\Support\Concern\HasFluentAttribute;
 
-
+/**
+ * Class AbstractFilter
+ * @package ModStart\Grid\Filter
+ *
+ *
+ * @method AbstractFilter hookRendering($value = null)
+ * > $value = function(AbstractFilter $filter){  }
+ */
 abstract class AbstractFilter
 {
     use HasFluentAttribute;
@@ -21,27 +28,56 @@ abstract class AbstractFilter
     ];
     private $hookRendering;
 
-    
+    /**
+     * @var Grid
+     */
     private $grid;
 
-    
+    /**
+     * @var
+     */
     protected $id;
-    
+    /**
+     * Label of field.
+     *
+     * @var string
+     */
     protected $label;
-    
+    /**
+     * @var string
+     */
     protected $column;
-    
+    /**
+     * field
+     * @var Filter\Field\AbstractFilterField
+     */
     protected $field;
-    
+    /**
+     * @var
+     */
     protected $defaultValue;
-    
+    /**
+     * Query for filter.
+     *
+     * @var string
+     */
     protected $query = 'where';
-    
+    /**
+     * @var GridFilter
+     */
     private $tableFilter;
-    
+    /**
+     * 是否自动展开
+     * @var bool
+     */
     private $autoHide = false;
 
-    
+    /**
+     * AbstractFilter constructor.
+     *
+     * @param $column
+     * @param string $label
+     */
     public function __construct($column, $label = '')
     {
         $this->id = IdUtil::generate('GridFilter');
@@ -58,7 +94,9 @@ abstract class AbstractFilter
         return lcfirst(end($class));
     }
 
-    
+    /**
+     * @param GridFilter $filter
+     */
     public function setTableFilter(GridFilter $filter)
     {
         $this->tableFilter = $filter;
@@ -72,7 +110,11 @@ abstract class AbstractFilter
         return null;
     }
 
-    
+    /**
+     * 获取字段
+     *
+     * @return mixed|$this
+     */
     public function field($value = null)
     {
         if (null === $value) {
@@ -81,14 +123,22 @@ abstract class AbstractFilter
         $this->field = $value;
     }
 
-    
+    /**
+     * 筛选条件默认值
+     * @param $value
+     * @return $this
+     */
     public function defaultValue($value)
     {
         $this->defaultValue = $value;
         return $this;
     }
 
-    
+    /**
+     * 是否自动收缩
+     * @param $autoHide
+     * @return $this|boolean
+     */
     public function autoHide($autoHide = null)
     {
         if (null === $autoHide) {
@@ -98,13 +148,21 @@ abstract class AbstractFilter
         return $this;
     }
 
-    
+    /**
+     * 筛选字段
+     *
+     * @return string
+     */
     public function column()
     {
         return $this->column;
     }
 
-    
+    /**
+     * Build conditions of filter.
+     *
+     * @return array|mixed
+     */
     protected function buildCondition()
     {
         $column = explode('.', $this->column);
@@ -114,7 +172,11 @@ abstract class AbstractFilter
         return call_user_func_array([$this, 'buildRelationCondition'], func_get_args());
     }
 
-    
+    /**
+     * Build query condition of model relation.
+     *
+     * @return array
+     */
     protected function buildRelationCondition()
     {
         $args = func_get_args();
@@ -124,7 +186,11 @@ abstract class AbstractFilter
         }]];
     }
 
-    
+    /**
+     * Variables for filter view.
+     *
+     * @return array
+     */
     public function variables()
     {
         $variables = [
@@ -141,7 +207,11 @@ abstract class AbstractFilter
         return $variables;
     }
 
-    
+    /**
+     * Render this filter.
+     *
+     * @return \Illuminate\View\View|string
+     */
     public function render()
     {
         if ($this->hookRendering instanceof \Closure) {
@@ -157,7 +227,10 @@ abstract class AbstractFilter
         return View::make($view, $this->variables())->render();
     }
 
-    
+    /**
+     * @param null $grid
+     * @return $this|Grid
+     */
     public function grid($grid = null)
     {
         if (null === $grid) {

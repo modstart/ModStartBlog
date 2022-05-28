@@ -5,19 +5,39 @@ use ModStart\Core\Input\Request;
 use ModStart\ModStart;
 use ModStart\Module\ModuleManager;
 
-
+/**
+ * @Util MSCore版本
+ * @desc 获取MSCore版本
+ * @return string 版本号
+ */
 function modstart_version()
 {
     return ModStart::$version;
 }
 
-
+/**
+ * 管理绝对路径
+ * @desc 生成Admin的文件绝对路径
+ * @param string $path
+ * @return string
+ */
 function modstart_admin_path($path = '')
 {
     return ucfirst(config('modstart.admin.directory')) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
 
-
+/**
+ * @Util Admin路径
+ * @desc 生成Admin的路径，自动加前缀
+ * @param string $url 路径
+ * @param array $param 参数
+ * @return string
+ * @example
+ * // 返回 /admin/aaa/bbb
+ * modstart_admin_url('aaa/bbb')
+ * // 返回 /admin/aaa/bbb?x=y
+ * modstart_admin_url('aaa/bbb',['x'=>'y'])
+ */
 function modstart_admin_url($url = '', $param = [])
 {
     if (!empty($param)) {
@@ -31,13 +51,28 @@ function modstart_admin_url($url = '', $param = [])
     return $prefix . $url;
 }
 
-
+/**
+ * 生成Web的文件绝对路径
+ * @param string $path
+ * @return string
+ */
 function modstart_web_path($path = '')
 {
     return ucfirst(config('modstart.web.directory')) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
 
-
+/**
+ * @Util Web路径
+ * @desc 生成Web的路径，自动加前缀
+ * @param string $url 路径
+ * @param array $param 参数
+ * @return string
+ * @example
+ * // 返回 /aaa/bbb
+ * modstart_web_url('aaa/bbb')
+ * // 返回 /aaa/bbb?x=y
+ * modstart_web_url('aaa/bbb',['x'=>'y'])
+ */
 function modstart_web_url($url = '', $param = [])
 {
     if (!empty($param)) {
@@ -48,14 +83,29 @@ function modstart_web_url($url = '', $param = [])
     return $prefix . $url;
 }
 
-
+/**
+ * 生成Api文件绝对路径
+ * @param string $path
+ * @return string
+ */
 function modstart_api_path($path = '')
 {
     return ucfirst(config('modstart.api.directory')) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
 
 
-
+/**
+ * @Util Api路径
+ * @desc 生成Api的路径，自动加前缀
+ * @param string $url 路径
+ * @param array $param 参数
+ * @return string
+ * @example
+ * // 返回 /api/aaa/bbb
+ * modstart_api_url('aaa/bbb')
+ * // 返回 /api/aaa/bbb?x=y
+ * modstart_api_url('aaa/bbb',['x'=>'y'])
+ */
 function modstart_api_url($url = '', $param = [])
 {
     if (!empty($param)) {
@@ -66,13 +116,27 @@ function modstart_api_url($url = '', $param = [])
     return $prefix . '/' . $url;
 }
 
-
+/**
+ * 生成OpenApi的文件绝对路径
+ * @param string $path
+ * @return string
+ */
 function modstart_open_api_path($path = '')
 {
     return ucfirst(config('modstart.openApi.directory')) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
 
-
+/**
+ * OpenApi路径
+ * @desc 生成Api的路径，自动加前缀
+ * @param string $url 路径
+ * @return string
+ * @example
+ * // 返回 /open_api/aaa/bbb
+ * modstart_open_api_url('aaa/bbb')
+ * // 返回 /open_api/aaa/bbb?x=y
+ * modstart_open_api_url('aaa/bbb',['x'=>'y'])
+ */
 function modstart_open_api_url($url = '')
 {
     $prefix = config('modstart.openApi.prefix');
@@ -118,7 +182,11 @@ function modstart_baseurl_active($match, $output = 'active')
     return '';
 }
 
-
+/**
+ * 生成安全的路由地址
+ * @param $name
+ * @return string|null
+ */
 function modstart_action($name, $parameters = [])
 {
     try {
@@ -128,7 +196,21 @@ function modstart_action($name, $parameters = [])
     }
 }
 
-
+/**
+ * @Util 获取配置
+ * @desc 用于获取表 config 中的配置选项
+ * @param $key string 配置名称
+ * @param $default any|string 默认值
+ * @param $useCache bool 启用缓存，默认为true
+ * @return any|string|\ModStart\Core\Config\MConfig 返回配置值或配置对象
+ * @example
+ * // 网站名称
+ * modstart_config('siteName');
+ * // 获取一个配置数组，数组需存储成 json 格式
+ * modstart_config()->getArray('xxx')
+ * // 设置配置项
+ * modstart_config()->set('xxx','aaa')
+ */
 function modstart_config($key = null, $default = '', $useCache = true)
 {
     try {
@@ -141,7 +223,18 @@ function modstart_config($key = null, $default = '', $useCache = true)
     }
 }
 
-
+/**
+ * @Util 模块判断
+ * @desc 判断模块是否已安装并启用
+ * @param $module string 模块名称，如 Member
+ * @param $version string 模块版本要求，如 1.0.0， >=1.0.0
+ * @return bool 模块是否安装并启用
+ * @example
+ * // 模块Member是否安装并启用
+ * modstart_module_enabled('Member')
+ * // 模块Member是否安装了 >=1.2.0 的版本
+ * modstart_module_enabled('Member','>=1.2.0')
+ */
 function modstart_module_enabled($module, $version = null)
 {
     if (null === $version) {
@@ -178,7 +271,18 @@ function LM($module, $name, ...$params)
     return L($name, ...$params);
 }
 
-
+/**
+ * @Util 多语言
+ * @desc 获取多语言翻译
+ * @param $name string 多语言
+ * @param ...$params any 多语言参数
+ * @return string 多语言翻译
+ * @example
+ * // 返回 消息
+ * L('Message');
+ * // 返回 文件最大为10M
+ * L('File Size Limit %s','10M');
+ */
 function L($name, ...$params)
 {
     static $sessionLocale = null;
@@ -351,7 +455,8 @@ if (!function_exists('array_forget')) {
 
             unset($array[array_shift($parts)]);
 
-                        $array = &$original;
+            // clean up after each pass
+            $array = &$original;
         }
     }
 }

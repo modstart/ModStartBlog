@@ -25,9 +25,11 @@ class CodeUtil
     {
         $commentTokens = array(T_COMMENT);
         if (defined('T_DOC_COMMENT')) {
-            $commentTokens[] = T_DOC_COMMENT;         }
+            $commentTokens[] = T_DOC_COMMENT; // PHP 5
+        }
         if (defined('T_ML_COMMENT')) {
-            $commentTokens[] = T_ML_COMMENT;          }
+            $commentTokens[] = T_ML_COMMENT;  // PHP 4
+        }
         $codeNew = [];
         $tokens = token_get_all($code);
         $prevEmpty = false;
@@ -114,7 +116,8 @@ class CodeUtil
         while ($i < $count) {
             $token = $tokens[$i];
             if (is_array($token) && $token[0] === T_NAMESPACE) {
-                                while (++$i < $count) {
+                // Found namespace declaration
+                while (++$i < $count) {
                     if ($tokens[$i] === ';') {
                         $namespace_ok = true;
                         $namespace = trim($namespace);

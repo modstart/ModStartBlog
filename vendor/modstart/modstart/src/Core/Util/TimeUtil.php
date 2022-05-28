@@ -102,25 +102,49 @@ class TimeUtil
         return date($format, $timestamp);
     }
 
-    
+    /**
+     * 获取是否为period之前的时间
+     *
+     * @param $timestamp
+     * @param $period
+     *
+     * @return true|false
+     */
     public static function isBefore($timestamp, $period)
     {
         return $timestamp < time() - $period;
     }
 
-    
+    /**
+     * 获取period之前的时间戳
+     *
+     * @param $period
+     * @return int
+     */
     public static function getBeforeTimestamp($period)
     {
         return time() - $period;
     }
 
-    
+    /**
+     * 获取period之前的时间
+     *
+     * @param $period
+     * @return int
+     */
     public static function getBeforeDatetime($period)
     {
         return date(self::FORMAT_DATETIME, self::getBeforeTimestamp($period));
     }
 
-    
+    /**
+     * 判断一个日期时间是否为空
+     * 经常会出现 0000-00-00 00:00:00 的日期,这样判断就不为空,会发生误判
+     *
+     * @param $datetime
+     *
+     * @return boolean
+     */
     public static function isDatetimeEmpty($datetime)
     {
         $timestamp = strtotime($datetime);
@@ -130,7 +154,14 @@ class TimeUtil
         return false;
     }
 
-    
+    /**
+     * 判断一个日期时间是否为空
+     * 经常会出现 0000-00-00 的日期,这样判断就不为空,会发生误判
+     *
+     * @param $date
+     *
+     * @return boolean
+     */
     public static function isDateEmpty($date)
     {
         $timestamp = strtotime($date);
@@ -192,7 +223,12 @@ class TimeUtil
         return true;
     }
 
-    
+    /**
+     * 将周期转换为秒
+     * 25:12:00 转换为
+     * @param $period
+     * @return int
+     */
     public static function periodToSecond($period)
     {
         $seconds = 0;

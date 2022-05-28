@@ -13,7 +13,9 @@ class LayoutTab extends AbstractField
     private $layoutClosure = null;
     private $tabTitles = [];
 
-    
+    /**
+     * LayoutGrid constructor.
+     */
     public function __construct($closure)
     {
         parent::__construct(IdUtil::generate('LayoutTab'));
@@ -50,7 +52,13 @@ JS;
     }
 
 
-    
+    /**
+     * @param string $title
+     * @param \Closure $closure
+     *
+     * @example
+     * $closure = function ($builder) { }
+     */
     public function tab($title, $closure)
     {
         $this->tabTitles[] = $title;

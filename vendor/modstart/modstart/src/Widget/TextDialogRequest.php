@@ -6,7 +6,23 @@ namespace ModStart\Widget;
 
 use ModStart\ModStart;
 
-
+/**
+ * Class Label
+ * @package ModStart\Widget
+ *
+ * @method static string primary($text, $url, $disabled = false)
+ * @method static string muted($text, $url, $disabled = false)
+ * @method static string warning($text, $url, $disabled = false)
+ * @method static string danger($text, $url, $disabled = false)
+ * @method static string success($text, $url, $disabled = false)
+ *
+ * @method TextDialogRequest text($text)
+ * @method TextDialogRequest type($type)
+ * @method TextDialogRequest url($url)
+ * @method TextDialogRequest disabled($boolean)
+ * @method TextDialogRequest width($value)
+ * @method TextDialogRequest height($value)
+ */
 class TextDialogRequest extends AbstractWidget
 {
     public static function getAssets()
@@ -32,7 +48,10 @@ class TextDialogRequest extends AbstractWidget
         throw new \Exception('TextDialogRequest error ' . join(',', $methods) . ' ');
     }
 
-    
+    /**
+     * @param mixed ...$arguments
+     * @return TextDialogRequest
+     */
     public static function make(...$arguments)
     {
         $ins = new static();

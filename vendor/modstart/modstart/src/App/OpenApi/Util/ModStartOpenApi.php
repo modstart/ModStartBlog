@@ -10,11 +10,20 @@ use ModStart\Core\Util\SignUtil;
 
 class ModStartOpenApi
 {
-    
+    /**
+     * 接口基础路径
+     * @var string
+     */
     private $apiBase;
-    
+    /**
+     * 接口Key
+     * @var string
+     */
     private $key;
-    
+    /**
+     * 接口Secret
+     * @var string
+     */
     private $secret;
 
     public static function create($apiBase, $key = null, $secret = null)

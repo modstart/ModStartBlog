@@ -18,7 +18,11 @@ class ShellUtil
         return $process->getOutput();
     }
 
-    
+    /**
+     * @param $commandFilter
+     * @return array|string|null
+     * @since 1.7.0
+     */
     public static function commandStatus($commandFilter)
     {
         $cmd = "ps -eo pid,etimes,cmd";
@@ -49,7 +53,11 @@ class ShellUtil
         return null;
     }
 
-    
+    /**
+     * @param $command
+     * @param null $outputFile
+     * @since 1.7.0
+     */
     public static function commandRunBackground($command, $outputFile = null)
     {
         if (null === $outputFile) {
@@ -66,7 +74,8 @@ class ShellUtil
 
     public static function cleanDirWithPattern($dir, $keepMinute, $pattern)
     {
-                shell_exec("/usr/bin/find $dir -maxdepth 1 -mmin +$keepMinute -name \"$pattern\" -exec rm -rfv {} \;");
+        // /usr/bin/find / -maxdepth 1 -mmin +1 -name "core.*" -exec rm -rfv {} \;
+        shell_exec("/usr/bin/find $dir -maxdepth 1 -mmin +$keepMinute -name \"$pattern\" -exec rm -rfv {} \;");
     }
 
     public static function isCli()

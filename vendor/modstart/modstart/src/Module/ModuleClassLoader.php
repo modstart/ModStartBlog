@@ -6,10 +6,15 @@ namespace ModStart\Module;
 
 use Composer\Autoload\ClassLoader;
 
-
+/**
+ * 模块命名空间动态加载器
+ *
+ * Class ModuleClassLoader
+ * @package ModStart\Module
+ */
 class ModuleClassLoader
 {
-    
+    /** @var ClassLoader $loader */
     private static $loader = null;
     private static $namespacesAdded = [];
 
@@ -44,7 +49,11 @@ class ModuleClassLoader
         }
     }
 
-    
+    /**
+     * @param $namespace
+     * @return bool
+     * @since 1.6.0
+     */
     public static function hasNamespace($namespace)
     {
         if (!ends_with($namespace, '\\')) {

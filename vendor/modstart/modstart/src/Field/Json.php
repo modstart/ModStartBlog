@@ -5,7 +5,13 @@ namespace ModStart\Field;
 
 use ModStart\Core\Exception\BizException;
 
-
+/**
+ * Json字段
+ * {} 或 []
+ *
+ * Class Json
+ * @package ModStart\Field
+ */
 class Json extends AbstractField
 {
     public function unserializeValue($value, AbstractField $field)

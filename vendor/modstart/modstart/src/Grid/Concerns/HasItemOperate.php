@@ -9,16 +9,26 @@ use ModStart\Field\Display;
 use ModStart\Grid\Displayer\ItemOperate;
 use ModStart\Support\Concern\HasSetting;
 
-
+/**
+ * Trait HasItemOperate
+ * @package ModStart\Grid\Concerns
+ */
 trait HasItemOperate
 {
-    
+    /**
+     * @var ItemOperate
+     */
     private $itemOperate;
 
-    
+    /**
+     * @var \Closure
+     */
     private $hookItemOperateRendering;
 
-    
+    /**
+     * 操作列初始化时回调
+     * @var \Closure
+     */
     private $hookItemOperateFieldBuild;
 
     private function setupItemOperate()
@@ -54,7 +64,10 @@ trait HasItemOperate
         return $this;
     }
 
-    
+    /**
+     * @param \Closure $callback function(ItemOperate $itemOperate){  }
+     * @return $this|\Closure
+     */
     public function hookItemOperateRendering($callback = null)
     {
         if (null === $callback) {
@@ -64,7 +77,10 @@ trait HasItemOperate
         return $this;
     }
 
-    
+    /**
+     * @param null $callback = function(AbstractField $field){  }
+     * @return $this|\Closure
+     */
     public function hookItemOperateFieldBuild($callback = null)
     {
         if (null === $callback) {
@@ -74,7 +90,10 @@ trait HasItemOperate
         return $this;
     }
 
-    
+    /**
+     * 操作栏浮动
+     * @param $fixed string left|right
+     */
     public function operateFixed($fixed)
     {
         $this->hookItemOperateFieldBuild(function (AbstractField $field) use ($fixed) {
