@@ -1,0 +1,42 @@
+.ub-alert {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background: #ebf7fd;
+    color: #2d7091;
+    border-radius: 0.2rem;
+}
+
+//* + .ub-alert {
+//  margin-top: 0.5rem;
+//}
+
+.ub-alert > .ub-close:first-child {
+    float: right;
+}
+
+.ub-alert > .ub-close:first-child + * {
+    margin-top: 0;
+}
+
+.ub-alert-success {
+    background: var(--color-success-light);
+    color: var(--color-success);
+}
+
+.ub-alert-warning {
+    background: var(--color-warning-light);
+    color: var(--color-warning);
+}
+
+.ub-alert-danger {
+    background: var(--color-danger-light);
+    color: var(--color-danger);
+}
+
+.ub-alert-lg {
+    padding: 1rem;
+}
+
+.ub-alert-lg > .ub-close:first-child {
+    margin: -0.5rem -0.5rem 0 0;
+}

@@ -1,0 +1,92 @@
+.ub-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1010;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    -webkit-transition: opacity 0.15s linear;
+    transition: opacity 0.15s linear;
+    touch-action: cross-slide-y pinch-zoom double-tap-zoom;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.ub-modal.ub-open {
+    opacity: 1;
+    display: block;
+}
+
+.ub-modal.ub-hidden {
+    display: block;
+    visibility: hidden;
+}
+
+.ub-modal.ub-hidden.ub-open {
+    visibility: visible;
+}
+
+.ub-modal-dialog {
+    position: relative;
+    box-sizing: border-box;
+    margin: 2.5rem auto;
+    padding: 0.5rem;
+    width: 30rem;
+    max-width: 100%;
+    max-width: calc(100% - 1rem);
+    background: #fff;
+    opacity: 0;
+    -webkit-transform: translateY(-100px);
+    transform: translateY(-100px);
+    -webkit-transition: opacity 0.3s linear, -webkit-transform 0.3s ease-out;
+    transition: opacity 0.3s linear, transform 0.3s ease-out;
+    border-radius: 3px;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+///* Phone landscape and smaller */
+@media (max-width: 40rem) {
+    .ub-modal-dialog {
+        width: auto;
+        margin: 0.5rem auto;
+    }
+}
+
+.ub-open .ub-modal-dialog {
+    /* 4 */
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+.ub-modal-dialog > .ub-modal-close {
+    margin: -0rem -0rem 0 0;
+    float: right;
+    color: #c4cfdb;
+
+    &:hover {
+        color: var(--color-primary);
+    }
+}
+
+.ub-modal-dialog {
+    & > .ub-modal-head {
+        border-bottom: 1px solid #EEE;
+        padding: 0 0 0.5rem 0;
+    }
+
+    & > .ub-modal-body {
+        padding: 0.5rem 0;
+    }
+
+    & > .ub-modal-foot {
+        padding: 0.5rem 0 0 0;
+        text-align: right;
+        border-top: 1px solid #EEE;
+    }
+}

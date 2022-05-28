@@ -1,0 +1,191 @@
+<?php
+
+
+namespace ModStart;
+
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+use ModStart\Admin\ModStartAdmin;
+use ModStart\App\Api\ModStartApi;
+use ModStart\App\OpenApi\ModStartOpenApi;
+use ModStart\App\Web\ModStartWeb;
+use ModStart\Core\Facades\ModStart;
+use ModStart\Module\ModuleManager;
+
+
+class ModStartServiceProvider extends ServiceProvider
+{
+    protected $commands = [
+        \ModStart\Command\ModuleInstallCommand::class,
+        \ModStart\Command\ModuleUninstallCommand::class,
+        \ModStart\Command\ModuleEnableCommand::class,
+        \ModStart\Command\ModuleDisableCommand::class,
+        \ModStart\Command\ModuleInstallAllCommand::class,
+    ];
+
+    protected $routeMiddleware = [
+        'admin.bootstrap' => \ModStart\Admin\Middleware\BootstrapMiddleware::class,
+        'admin.auth' => \ModStart\Admin\Middleware\AuthMiddleware::class,
+        'web.bootstrap' => \ModStart\App\Web\Middleware\BootstrapMiddleware::class,
+        'api.bootstrap' => \ModStart\App\Api\Middleware\BootstrapMiddleware::class,
+        'api.session' => \ModStart\App\Api\Middleware\SessionMiddleware::class,
+        'openApi.bootstrap' => \ModStart\App\OpenApi\Middleware\BootstrapMiddleware::class,
+    ];
+
+    public function boot()
+    {
+        $this->loadViewsFrom(__DIR__ . '/../views', 'modstart');
+        $this->loadViewsFrom(base_path('module'), 'module');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang/', 'modstart');
+
+
+        $this->publishes([__DIR__ . '/../asset' => public_path('asset')], 'modstart');
+        $this->publishes([__DIR__ . '/../resources/lang' => base_path('resources/lang')], 'modstart');
+
+        $this->registerModuleServiceProviders();
+
+        ModStartAdmin::registerAuthRoutes();
+        ModStartAdmin::registerModuleRoutes();
+        ModStartApi::registerModuleRoutes();
+        ModStartOpenApi::registerModuleRoutes();
+        ModStartWeb::registerModuleRoutes();
+    }
+
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../config/modstart.php', 'modstart');
+        $this->mergeConfigFrom(__DIR__ . '/../config/env.php', 'env');
+        $this->mergeConfigFrom(__DIR__ . '/../config/module.php', 'module');
+        $this->mergeConfigFrom(__DIR__ . '/../config/data.php', 'data');
+
+        if ($subdirUrl = config('modstart.subdirUrl')) {
+            URL::forceRootUrl($subdirUrl);
+        }
+        if ($forceScheme = config('modstart.forceSchema')) {
+            if (\ModStart\ModStart::env() == 'laravel5') {
+                URL::forceSchema($forceScheme);
+            } else {
+                URL::forceScheme($forceScheme);
+            }
+        }
+        View::share('__msRoot', config('modstart.subdir'));
+
+        $this->app->booting(function () {
+            $loader = AliasLoader::getInstance();
+            $loader->alias('ModStart', ModStart::class);
+        });
+
+        $this->app->singleton('modstartConfig', config('modstart.config.driver'));
+
+        $this->registerRouteMiddleware();
+
+        $this->commands($this->commands);
+
+        $this->registerBladeDirectives();
+
+        $this->registerRoutePattern();
+
+        $this->setupMonitor();
+    }
+
+    private function listModuleServiceProviders()
+    {
+        $records = [];
+        $modules = ModuleManager::listAllEnabledModules();
+        foreach ($modules as $module => $_) {
+            $provider = "\\Module\\$module\\Core\\ModuleServiceProvider";
+            if (class_exists($provider)) {
+                $records[] = $provider;
+            }
+            $basic = ModuleManager::getModuleBasic($module);
+            if (empty($basic['providers'])) {
+                continue;
+            }
+            $records = array_merge($records, $basic['providers']);
+        }
+        foreach (['Admin', 'Web', 'Api', 'OpenApi'] as $app) {
+            $provider = "\\App\\$app\\Core\\ModuleServiceProvider";
+            if (class_exists($provider)) {
+                $records [] = $provider;
+            }
+        }
+        return $records;
+    }
+
+    public function registerModuleServiceProviders()
+    {
+        if (config('env.APP_DEBUG')) {
+            $providers = $this->listModuleServiceProviders();
+        } else {
+            $providers = Cache::rememberForever('ModStartServiceProviders', function () {
+                return $this->listModuleServiceProviders();
+            });
+        }
+        foreach ($providers as $provider) {
+            if (class_exists($provider)) {
+                $this->app->register($provider);
+            }
+        }
+    }
+
+    private function registerRoutePattern()
+    {
+        Route::pattern('id', '[0-9]+');
+        Route::pattern('alias', '[a-zA-Z0-9]+');
+        Route::pattern('alias_url', '[a-zA-Z0-9_]+');
+    }
+
+    private function setupMonitor()
+    {
+        
+        if (class_exists('\\ModStart\\Core\\Monitor\\DataBaseMonitor')) {
+            \ModStart\Core\Monitor\DatabaseMonitor::init();
+        }
+        if (class_exists('\\ModStart\\Core\\Monitor\\HttpMonitor')) {
+            \ModStart\Core\Monitor\HttpMonitor::init();
+        }
+        if (class_exists('\\ModStart\\Core\\Monitor\\StatisticMonitor')) {
+            \ModStart\Core\Monitor\StatisticMonitor::init();
+        }
+    }
+
+    private function registerRouteMiddleware()
+    {
+        $router = app('router');
+        foreach ($this->routeMiddleware as $key => $middleware) {
+            if (PHP_VERSION_ID >= 80000) {
+                $router->aliasMiddleware($key, $middleware);
+            } else {
+                $router->middleware($key, $middleware);
+            }
+        }
+    }
+
+    private function registerBladeDirectives()
+    {
+        $this->app->singleton('assetPathDriver', config('modstart.asset.driver'));
+
+        Blade::directive('asset', function ($expression = '') use (&$assetBase) {
+            if (empty($expression)) {
+                return '';
+            }
+            if (PHP_VERSION_ID > 80000) {
+                $regx = '/(.+)/i';
+            } else {
+                $regx = '/\\((.+)\\)/i';
+            }
+            if (preg_match($regx, $expression, $mat)) {
+                $file = trim($mat[1], '\'" "');
+                $driver = app('assetPathDriver');
+                return $driver->getCDN($file) . $driver->getPathWithHash($file);
+            } else {
+                return '';
+            }
+        });
+    }
+}

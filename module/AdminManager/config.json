@@ -1,0 +1,18 @@
+{
+    "name": "AdminManager",
+    "env": [
+        "laravel5",
+        "laravel9"
+    ],
+    "types": [
+        "Admin"
+    ],
+    "require": [
+        "Vendor"
+    ],
+    "title": "管理员基础框架",
+    "version": "1.6.0",
+    "author": "ModStart",
+    "modstartVersion": ">=3.3.0",
+    "description": "提供基于管理员角色、管理员、管理日志基础功能"
+}
