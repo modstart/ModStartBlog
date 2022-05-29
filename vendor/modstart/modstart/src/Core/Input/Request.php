@@ -114,11 +114,14 @@ class Request
                 continue;
             }
             if (is_array($v)) {
-                $v = $v[0];
+                if (!isset($v[0])) {
+                    continue;
+                }
+                $v = urlencode($v[0]);
             } else {
                 $v = urlencode($v);
             }
-            $urls[] = "$k=" . $v;
+            $urls[] = urlencode($k) . '=' . $v;
         }
 
         return join('&', $urls);
