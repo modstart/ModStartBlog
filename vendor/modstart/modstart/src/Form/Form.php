@@ -354,7 +354,7 @@ class Form implements Renderable
     private function validateFields($fields, $data)
     {
         $msgsList = [];
-        if ($validationMessages = $this->fieldValidateMessages($this->editableFields(), $this->dataSubmitted)) {
+        if ($validationMessages = $this->fieldValidateMessages($fields, $data)) {
             $msgsList = array_merge($msgsList, $validationMessages);
         }
         foreach ($msgsList as $column => $msgs) {
@@ -704,6 +704,9 @@ class Form implements Renderable
             case 'gridFilter':
             case 'gridOperateAppend':
             case 'bodyAppend':
+            case 'operateFixed':
+            case 'defaultPageSize':
+            case 'pageSizes':
                 return $this;
         }
         if ($this->isFluentAttribute($method)) {

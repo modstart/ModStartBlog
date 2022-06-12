@@ -66,7 +66,7 @@ class Tecmz
             $param['timestamp'] = time();
             $param['sign'] = SignUtil::common($param, $this->appSecret);
         }
-        if ($this->debug) {
+                if ($this->debug) {
             Log::debug('TecmzApi -> ' . self::$API_BASE . $gate . ' -> ' . json_encode($param));
         }
         return CurlUtil::postJSONBody(self::$API_BASE . $gate, $param);
@@ -186,6 +186,23 @@ class Tecmz
         $post['docPath'] = $docPath;
         $post['pageLimit'] = $pageLimit;
         return $this->request('/doc_to_image', $post);
+    }
+
+    
+    public function docToImageQueue($docPath, $pageLimit = 0)
+    {
+        $post = [];
+        $post['docPath'] = $docPath;
+        $post['pageLimit'] = $pageLimit;
+        return $this->request('/doc_to_image/queue', $post);
+    }
+
+    
+    public function docToImageQuery($jobId)
+    {
+        $post = [];
+        $post['jobId'] = $jobId;
+        return $this->request('/doc_to_image/query', $post);
     }
 
     

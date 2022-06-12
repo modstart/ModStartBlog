@@ -117,7 +117,11 @@ class Request
                 if (!isset($v[0])) {
                     continue;
                 }
-                $v = urlencode($v[0]);
+                if (preg_match('/^\{\w+\}$/', $v[0])) {
+                    $v = $v[0];
+                } else {
+                    $v = urlencode($v[0]);
+                }
             } else {
                 $v = urlencode($v);
             }
