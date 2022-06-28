@@ -14,8 +14,10 @@ use Module\Blog\Type\BlogCommentStatus;
 use Module\Member\Auth\MemberUser;
 use Module\Vendor\Provider\Captcha\CaptchaProvider;
 
+
 class CommentController extends Controller
 {
+    
     public function add()
     {
         $input = InputPackage::buildFromInput();

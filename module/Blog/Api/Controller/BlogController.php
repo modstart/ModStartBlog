@@ -16,8 +16,10 @@ use Module\Blog\Type\BlogCommentStatus;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Member\Util\MemberUtil;
 
+
 class BlogController extends Controller
 {
+    
     public function paginate()
     {
         $input = InputPackage::buildFromInput();
@@ -59,6 +61,7 @@ class BlogController extends Controller
         ]);
     }
 
+    
     public function get()
     {
         $input = InputPackage::buildFromInput();

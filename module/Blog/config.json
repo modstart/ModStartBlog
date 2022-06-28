@@ -1,6 +1,6 @@
 {
     "name": "Blog",
-    "title": "个人博客",
+    "title": "博客系统",
     "require": [
         "Partner",
         "Banner",

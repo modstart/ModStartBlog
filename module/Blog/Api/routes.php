@@ -8,8 +8,11 @@ $router->group([
     'middleware' => $middleware,
 ], function () use ($router) {
 
+    $router->match(['post'], 'blog/paginate', 'BlogController@paginate');
+    $router->match(['post'], 'blog/get', 'BlogController@get');
+
     $router->match(['post'], 'blog/comment/add', 'CommentController@add');
 
-    $router->match(['post'], 'blog/message/add', 'MessageController@add');
+    $router->match(['post'], 'blog/message/paginate', 'MessageController@paginate');
 
 });

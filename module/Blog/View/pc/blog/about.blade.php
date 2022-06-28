@@ -4,7 +4,6 @@
 @section('pageKeywords')关于博主@endsection
 @section('pageDescription')关于博主@endsection
 
-
 @section('bodyContent')
 
     <div class="ub-container">

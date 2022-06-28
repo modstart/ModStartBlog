@@ -16,8 +16,11 @@ use Module\Member\Auth\MemberUser;
 use Module\Member\Util\MemberUtil;
 use Module\Vendor\Provider\Captcha\CaptchaProvider;
 
+
+
 class MessageController extends Controller
 {
+    
     public function paginate()
     {
         $input = InputPackage::buildFromInput();
