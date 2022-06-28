@@ -10,9 +10,9 @@
 
     <div class="ub-container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-8 margin-top">
 
-                <div class="tw-bg-white margin-top tw-p-1 tw-rounded">
+                <div class="tw-bg-white tw-p-1 tw-rounded">
                     {!! \Module\Banner\Render\BannerRender::position('home') !!}
                 </div>
 
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 margin-top">
 
                 @include('module::Blog.View.pc.blog.inc.info')
 

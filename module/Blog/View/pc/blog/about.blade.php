@@ -8,9 +8,9 @@
 
     <div class="ub-container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-8 margin-top">
 
-                <div class="tw-p-6 margin-top tw-bg-white tw-rounded">
+                <div class="tw-p-6  tw-bg-white tw-rounded">
                     <div class="tw-text-lg">
                         <i class="iconfont icon-user"></i>
                         关于我
@@ -23,7 +23,7 @@
                 </div>
 
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 margin-top">
 
                 @include('module::Blog.View.pc.blog.inc.info')
 
