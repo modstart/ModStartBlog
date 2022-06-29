@@ -13,7 +13,7 @@
             <div class="col-md-8 margin-top">
 
                 <div class="tw-bg-white tw-p-1 tw-rounded">
-                    {!! \Module\Banner\Render\BannerRender::position('home') !!}
+                    {!! \Module\Banner\Render\BannerRender::position('blogHome') !!}
                 </div>
 
                 <div class="tw-p-6 tw-rounded tw-bg-white margin-top">

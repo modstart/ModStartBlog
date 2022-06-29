@@ -30,9 +30,6 @@ return [
         ],
         'Banner' => [
             'enable' => true,
-            'config' => [
-                'position' => '[{"k":"home","v":"首页"}]',
-            ],
         ],
     ],
 ];

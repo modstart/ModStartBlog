@@ -9,6 +9,8 @@ use ModStart\Admin\Widget\DashboardItemA;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Layout\Row;
 use ModStart\Module\ModuleClassLoader;
+use Module\Banner\Biz\BannerPositionBiz;
+use Module\Banner\Biz\QuickBannerPositionBiz;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Vendor\Admin\Config\AdminWidgetDashboard;
 use Module\Vendor\Admin\Config\AdminWidgetLink;
@@ -88,6 +90,9 @@ class ModuleServiceProvider extends ServiceProvider
         HomePageProvider::register(BlogHomePageProvider::class);
         SearchBoxProvider::register(BlogSearchBoxProvider::class);
         ModuleClassLoader::addClass('MBlog', __DIR__ . '/MBlog.php');
+        if (class_exists(QuickBannerPositionBiz::class)) {
+            BannerPositionBiz::register(QuickBannerPositionBiz::make('blogHome', '博客系统首页'));
+        }
     }
 
     
