@@ -45,6 +45,7 @@ class MessageController extends Controller
         ]);
     }
 
+    
     public function add()
     {
         $input = InputPackage::buildFromInput();

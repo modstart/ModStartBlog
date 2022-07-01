@@ -13,6 +13,7 @@ class ContentVerifyJob extends BaseJob
     public $body;
     public $param;
 
+    
     public static function create($name, $param, $title, $body = null)
     {
         $job = new static();

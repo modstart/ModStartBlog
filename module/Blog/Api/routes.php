@@ -14,5 +14,6 @@ $router->group([
     $router->match(['post'], 'blog/comment/add', 'CommentController@add');
 
     $router->match(['post'], 'blog/message/paginate', 'MessageController@paginate');
+    $router->match(['post'], 'blog/message/add', 'MessageController@add');
 
 });

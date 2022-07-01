@@ -34,11 +34,11 @@ class NotifierProvider
         }
     }
 
-    public static function notifyProcess($biz, $title, $content, $processUrl)
+    public static function notifyProcess($biz, $title, $content, $processUrl, $processUrlParam = [])
     {
-        self::notify($biz, $title, $content, [
+        self::notify($biz, $title, $content, array_merge($processUrlParam, [
             'processUrl' => $processUrl,
-        ]);
+        ]));
     }
 
     public static function notifyNoneLoginOperateProcessUrl($biz, $title, $content, $processUrlPath, $processUrlParam = [])
