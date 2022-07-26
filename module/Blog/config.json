@@ -1,6 +1,10 @@
 {
     "name": "Blog",
     "title": "博客系统",
+    "types": [
+        "PC",
+        "Mobile"
+    ],
     "require": [
         "Partner",
         "Banner",

@@ -27,6 +27,8 @@
 
                 @include('module::Blog.View.pc.blog.inc.info')
 
+                @include('module::Blog.View.pc.blog.inc.contact')
+
                 @include('module::Blog.View.pc.blog.inc.categories')
 
                 @include('module::Blog.View.pc.blog.inc.blogLatest')

@@ -10,6 +10,7 @@ use Illuminate\View\View;
 use ModStart\Core\Input\Response;
 use ModStart\Core\Monitor\StatisticMonitor;
 use ModStart\Core\Util\CurlUtil;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -27,6 +28,13 @@ trait ExceptionReportHandleTrait
             }
             if ($needReport && $exception instanceof MethodNotAllowedHttpException) {
                 $needReport = false;
+            }
+            if ($needReport && $exception instanceof HttpException) {
+                switch ($exception->getStatusCode()) {
+                    case 200:
+                        $needReport = false;
+                        break;
+                }
             }
             if ($needReport && $exception instanceof \UnexpectedValueException) {
                 if (Str::contains($exception->getMessage(), 'Invalid method override')) {
@@ -66,6 +74,15 @@ trait ExceptionReportHandleTrait
             return null;
         } elseif ($exception instanceof ModelNotFoundException) {
             return null;
+        } else if ($exception instanceof HttpException) {
+            switch ($exception->getStatusCode()) {
+                case 200:
+                    $ret = Response::sendError($exception->getMessage());
+                    if ($ret instanceof View) {
+                        return response()->make($ret);
+                    }
+                    return $ret;
+            }
         }
 
         try {
