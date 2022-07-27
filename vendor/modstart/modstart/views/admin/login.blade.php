@@ -28,7 +28,13 @@
                     <i class="iconfont icon-user-o"></i> {!! L('Admin Login') !!}
                 </div>
                 <div class="slogan">
-                    {{ modstart_config('adminLoginSlogan','Admin Login') }}
+                    @if(modstart_config('adminLoginSlogan'))
+                        {{ modstart_config('adminLoginSlogan') }}
+                    @elseif(defined('\App\Constant\AppConstant::APP_NAME'))
+                        {{\App\Constant\AppConstant::APP_NAME}}
+                    @else
+                        Admin Login
+                    @endif
                 </div>
             </div>
             <div class="form">
