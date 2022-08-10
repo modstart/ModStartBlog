@@ -47,10 +47,12 @@ use ModStart\Support\Manager\FieldManager;
  * @method Grid|mixed canShow($value = null)
  * @method Grid|mixed canExport($value = null)
  * @method Grid|mixed canImport($value = null)
+ * @method Grid|mixed canCopy($value = null)
  * @method Grid|mixed canMultiSelectItem($value = null)
  * @method Grid|mixed canSingleSelectItem($value = null)
  * @method Grid|mixed urlAdd($value = null)
  * @method Grid|mixed urlEdit($value = null)
+ * @method Grid|mixed textEdit($value = null)
  * @method Grid|mixed urlDelete($value = null)
  * @method Grid|mixed urlShow($value = null)
  * @method Grid|mixed urlExport($value = null)
@@ -112,6 +114,7 @@ class Grid
         'canShow',
         'canExport',
         'canImport',
+        'canCopy',
         'canMultiSelectItem',
         'canSingleSelectItem',
         'canBatchDelete',
@@ -119,6 +122,7 @@ class Grid
         'canSort',
         'urlAdd',
         'urlEdit',
+        'textEdit',
         'urlDelete',
         'urlShow',
         'urlExport',
@@ -158,6 +162,7 @@ class Grid
     private $canShow = true;
     private $canExport = false;
     private $canImport = false;
+    private $canCopy = false;
     private $canMultiSelectItem = false;
     private $canSingleSelectItem = false;
     private $canBatchDelete = false;
@@ -165,6 +170,7 @@ class Grid
     private $canSort = false;
     private $urlAdd;
     private $urlEdit;
+    private $textEdit;
     private $urlDelete;
     private $urlShow;
     private $urlExport;

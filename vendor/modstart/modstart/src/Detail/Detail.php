@@ -179,6 +179,7 @@ class Detail implements Renderable
             case 'canShow':
             case 'canExport':
             case 'canImport':
+            case 'canCopy':
             case 'canBatchDelete':
             case 'treeMaxLevel':
             case 'hookSaving':
@@ -202,7 +203,8 @@ class Detail implements Renderable
             case 'pageSizes':
             case 'canBatchSelect':
             case 'batchOperatePrepend':
-            case 'gridToolbar';
+            case 'gridToolbar':
+            case 'textEdit':
                 return $this;
         }
         if ($this->isFluentAttribute($method)) {

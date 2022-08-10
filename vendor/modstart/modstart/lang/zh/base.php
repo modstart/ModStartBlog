@@ -11,6 +11,7 @@ return [
     'Add' => '增加',
     'Edit' => '编辑',
     'Delete' => '删除',
+    'Copy' => '复制',
     'Add Success' => '增加成功',
     'Created At' => '创建时间',
     'Updated At' => '更新时间',
@@ -205,4 +206,5 @@ return [
     'File Not Exists' => '文件不存在',
     'Upload Error : %s' => '上传错误:%s',
     'Server Error' => '服务器错误',
+    'Remark' => '备注',
 ];

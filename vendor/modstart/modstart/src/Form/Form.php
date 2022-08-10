@@ -15,6 +15,7 @@ use ModStart\Core\Exception\ResultException;
 use ModStart\Core\Input\InputPackage;
 use ModStart\Core\Input\Response;
 use ModStart\Core\Type\SortDirection;
+use ModStart\Core\Util\CRUDUtil;
 use ModStart\Core\Util\IdUtil;
 use ModStart\Field\AbstractField;
 use ModStart\Field\AutoRenderedFieldValue;
@@ -92,6 +93,7 @@ use stdClass;
  * @method  Form|mixed canAdd($value = null)
  * @method  Form|mixed canEdit($value = null)
  * @method  Form|mixed canDelete($value = null)
+ * @method  Form|mixed canCopy($value = null)
  * @method  Form|mixed formClass($value = null)
  * @method  Form|mixed treeMaxLevel($value = null)
  * @method  Form|mixed treeRootPid($value = null)
@@ -147,6 +149,7 @@ class Form implements Renderable
         'canEdit',
         'canDelete',
         'canSort',
+        'canCopy',
         'formClass',
         'treeMaxLevel',
         'treeRootPid',
@@ -232,6 +235,7 @@ class Form implements Renderable
     private $canEdit = true;
     private $canDelete = true;
     private $canSort = false;
+    private $canCopy = false;
     private $formClass = '';
     private $treeMaxLevel = 99;
     private $treeRootPid = 0;
@@ -477,7 +481,20 @@ class Form implements Renderable
     public function add()
     {
         $this->mode(FormMode::ADD);
+        $isCopy = false;
+        if ($this->canCopy()) {
+            $copyId = CRUDUtil::copyId();
+            if ($copyId) {
+                $this->itemId($copyId);
+                $this->item($this->repository()->editing($this));
+                $this->itemId(0);
+                $isCopy = true;
+            }
+        }
         $this->build();
+        if ($isCopy) {
+            $this->fillFields();
+        }
         return $this;
     }
 
@@ -710,6 +727,7 @@ class Form implements Renderable
             case 'canBatchSelect':
             case 'batchOperatePrepend':
             case 'gridToolbar';
+            case 'textEdit':
                 return $this;
         }
         if ($this->isFluentAttribute($method)) {

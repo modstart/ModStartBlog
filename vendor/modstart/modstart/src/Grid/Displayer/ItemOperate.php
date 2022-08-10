@@ -19,6 +19,7 @@ use ModStart\Widget\TextLink;
  * @method ItemOperate|mixed canShow($value = null)
  * @method ItemOperate|mixed canEdit($value = null)
  * @method ItemOperate|mixed canDelete($value = null)
+ * @method ItemOperate|mixed canCopy($value = null)
  */
 class ItemOperate extends AbstractDisplayer
 {
@@ -30,6 +31,7 @@ class ItemOperate extends AbstractDisplayer
     protected $canEdit;
     protected $canDelete;
     protected $canSort;
+    protected $canCopy;
     protected $operates = [];
     protected $onlyOperate = null;
     protected $prependOperates = [];
@@ -41,6 +43,7 @@ class ItemOperate extends AbstractDisplayer
         'canEdit',
         'canDelete',
         'canSort',
+        'canCopy',
     ];
 
     public function reset()
@@ -51,6 +54,7 @@ class ItemOperate extends AbstractDisplayer
         $this->canEdit = $this->grid->canEdit();
         $this->canDelete = $this->grid->canDelete();
         $this->canSort = $this->grid->canSort();
+        $this->canCopy = $this->grid->canCopy() && $this->grid->canAdd();
         $this->resetOperates();
         return $this;
     }
@@ -110,14 +114,21 @@ class ItemOperate extends AbstractDisplayer
             $this->operates[] = TextAction::primary(L('Show'), 'data-show');
         }
         if ($this->canEdit() && $this->grid->urlEdit()) {
+            $editText = $this->grid->textEdit();
+            if (empty($editText)) {
+                $editText = L('Edit');
+            }
             if ($this->grid->editBlankPage()) {
-                $this->operates[] = TextLink::primary(L('Edit'), $this->grid->urlEdit() . '?_id=' . $this->item->{$this->grid->getRepositoryKeyName()});
+                $this->operates[] = TextLink::primary($editText, $this->grid->urlEdit() . '?_id=' . $this->item->{$this->grid->getRepositoryKeyName()});
             } else {
-                $this->operates[] = TextAction::primary(L('Edit'), 'data-edit');
+                $this->operates[] = TextAction::primary($editText, 'data-edit');
             }
         }
         if ($this->canDelete() && $this->grid->urlDelete()) {
             $this->operates[] = TextAction::danger(L('Delete'), 'data-delete');
+        }
+        if ($this->canCopy()) {
+            $this->operates[] = TextAction::muted(L('Copy'), 'data-add-button data-add-copy-button');
         }
         $this->operates = array_merge($this->operates, $this->appendOperates);
         return join('', $this->operates);
