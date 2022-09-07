@@ -49,7 +49,7 @@
             @endif
         </div>
         @if(!empty($record['_cover']))
-            <div class="tw-w-40 tw-ml-4 tw-flex-shrink-0">
+            <div class="lg:tw-w-40 tw-w-20 tw-ml-4 tw-flex-shrink-0">
                 <div class="ub-cover-3-2 tw-rounded" style="background-image:url({{$record['_cover']}})"></div>
             </div>
         @endif
