@@ -24,6 +24,8 @@ class BlogCategoryController extends Controller
                 
                 $builder->id('id', 'ID');
                 $builder->text('title', '名称');
+                $builder->text('keywords', '关键词');
+                $builder->textarea('description', '描述');
                 $builder->display('blogCount', '博客数')->listable(true)->addable(false)->editable(false);
                 $builder->display('created_at', L('Created At'))->listable(false);
                 $builder->display('updated_at', L('Updated At'))->listable(false);

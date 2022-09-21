@@ -45,8 +45,8 @@ class BlogController extends Controller
             $category = \MBlog::getCategory($categoryId);
             BizException::throwsIfEmpty('分类不存在', $category);
             $pageTitle = $category['title'];
-            $pageKeywords = $category['title'];
-            $pageDescription = $category['title'];
+            $pageKeywords = $category['keywords'];
+            $pageDescription = $category['description'];
         }
         return Response::generateSuccessData([
             'pageTitle' => $pageTitle,
