@@ -189,11 +189,12 @@ class Tecmz
     }
 
     
-    public function docToImageQueue($docPath, $pageLimit = 0)
+    public function docToImageQueue($docPath, $pageLimit = 0, $imageQuality = '')
     {
         $post = [];
         $post['docPath'] = $docPath;
         $post['pageLimit'] = $pageLimit;
+        $post['imageQuality'] = $imageQuality;
         return $this->request('/doc_to_image/queue', $post);
     }
 
@@ -208,10 +209,23 @@ class Tecmz
     
     public function imageCompress($format, $imageData)
     {
+        $ret = $this->request('/image_compress/prepare', []);
+        if (Response::isError($ret)) {
+            return $ret;
+        }
         $post = [];
         $post['format'] = $format;
         $post['imageData'] = base64_encode($imageData);
-        return $this->request('/image_compress', $post);
+        $server = $ret['data']['server'];
+                $ret = CurlUtil::postJSONBody($server, $post);
+                if (Response::isError($ret)) {
+            return $ret;
+        }
+        return Response::generate(0, 'ok', [
+            'imageOriginalSize' => $ret['data']['originalSize'],
+            'imageCompressSize' => $ret['data']['compressSize'],
+            'imageUrl' => $ret['data']['url'],
+        ]);
     }
 
     

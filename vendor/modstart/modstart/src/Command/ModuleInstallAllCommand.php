@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use ModStart\Admin\Auth\Admin;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Input\Response;
+use ModStart\ModStart;
 use ModStart\Module\ModuleManager;
 
 class ModuleInstallAllCommand extends Command
@@ -28,7 +29,6 @@ class ModuleInstallAllCommand extends Command
             }
             $this->info("");
         }
-        $this->warn("ModuleInstallAll Run Finished");
 
         $initUsers = config('env.MS_INIT_ADMIN_USERS', '');
         if ($initUsers) {
@@ -55,6 +55,28 @@ class ModuleInstallAllCommand extends Command
             }
         }
 
+        $this->publishHotfixFiles();
+
+        $this->warn("ModuleInstallAll Run Finished");
+
+    }
+
+    private function publishHotfixFiles()
+    {
+        $this->warn(">>> Publish Hotfix");
+        $env = ModStart::env();
+        $dir = rtrim(base_path('vendor/modstart/modstart/resources/hot_fix'), '/') . '/';
+        $jsonFile = $dir . $env . '.json';
+        if (!file_exists($jsonFile)) {
+            return;
+        }
+        $json = @json_decode(file_get_contents($jsonFile), true);
+        foreach ($json as $f => $path) {
+            $content = file_get_contents($dir . $env . '/' . $f);
+            @file_put_contents(base_path($path), $content);
+            $this->info('Hotfix: ' . $path);
+        }
+        $this->info("");
     }
 
 }
