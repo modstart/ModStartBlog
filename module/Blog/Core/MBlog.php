@@ -7,6 +7,7 @@ use ModStart\Core\Util\TagUtil;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\BlogTagUtil;
 
+
 class MBlog
 {
     public static function categoryTree()
@@ -14,12 +15,14 @@ class MBlog
         return BlogCategoryUtil::categoryTree();
     }
 
+    
     public static function latestBlog($limit)
     {
         $paginateData = self::paginateBlog(0, 1, $limit);
         return $paginateData['records'];
     }
 
+    
     public static function paginateBlog($categoryId, $page = 1, $pageSize = 10, $option = [])
     {
         if ($categoryId > 0) {
@@ -60,11 +63,13 @@ class MBlog
         ];
     }
 
+    
     public static function getCategory($categoryId)
     {
         return BlogCategoryUtil::get($categoryId);
     }
 
+    
     public static function tags()
     {
         return BlogTagUtil::all();
