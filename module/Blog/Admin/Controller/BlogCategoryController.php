@@ -10,6 +10,7 @@ use ModStart\Admin\Layout\AdminCRUDBuilder;
 use ModStart\Form\Form;
 use ModStart\Grid\GridFilter;
 use ModStart\Support\Concern\HasFields;
+use Module\Blog\Type\BlogCategoryTemplateView;
 use Module\Blog\Util\BlogCategoryUtil;
 
 class BlogCategoryController extends Controller
@@ -26,6 +27,7 @@ class BlogCategoryController extends Controller
                 $builder->text('title', '名称');
                 $builder->text('keywords', '关键词');
                 $builder->textarea('description', '描述');
+                $builder->select('templateView', '列表模板')->optionType(BlogCategoryTemplateView::class);
                 $builder->display('blogCount', '博客数')->listable(true)->addable(false)->editable(false);
                 $builder->display('created_at', L('Created At'))->listable(false);
                 $builder->display('updated_at', L('Updated At'))->listable(false);

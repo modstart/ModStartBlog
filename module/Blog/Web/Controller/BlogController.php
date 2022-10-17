@@ -16,7 +16,11 @@ class BlogController extends ModuleBaseController
     {
         $viewData = Response::tryGetData($api->paginate());
         $viewData['pageHtml'] = PageHtmlUtil::render($viewData['total'], $viewData['pageSize'], $viewData['page'], '?' . Request::mergeQueries(['page' => ['{page}']]));
-        return $this->view('blog.list', $viewData);
+        $templateView = 'blog.list';
+        if (!empty($viewData['category']['templateView'])) {
+            $templateView = 'blog.' . $viewData['category']['templateView'];
+        }
+        return $this->view($templateView, $viewData);
     }
 
     public function show(\Module\Blog\Api\Controller\BlogController $api, $id)
@@ -24,7 +28,11 @@ class BlogController extends ModuleBaseController
         InputPackage::mergeToInput('id', $id);
         $viewData = Response::tryGetData($api->get());
         $viewData['commentPageHtml'] = PageHtmlUtil::render($viewData['commentTotal'], $viewData['commentPageSize'], $viewData['commentPage'], '?commentPage={page}');
-        return $this->view('blog.show', $viewData);
+        $templateView = 'blog.show';
+        if (!empty($viewData['record']['templateView'])) {
+            $templateView = 'blog.' . $viewData['record']['templateView'];
+        }
+        return $this->view($templateView, $viewData);
     }
 
 }
