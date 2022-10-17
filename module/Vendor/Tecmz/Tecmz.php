@@ -229,6 +229,36 @@ class Tecmz
     }
 
     
+    public function randomAvatar()
+    {
+        $ret = $this->request('/random_avatar/prepare', []);
+        if (Response::isError($ret)) {
+            return $ret;
+        }
+        if ('png' == $ret['data']['format']) {
+            $imageData = @base64_decode($ret['data']['imageData']);
+        } else {
+            $post = [];
+            $post['format'] = $ret['data']['format'];
+            $post['imageData'] = $ret['data']['imageData'];
+            $post['toFormat'] = 'png';
+            $server = $ret['data']['server'];
+                        $ret = CurlUtil::postJSONBody($server, $post);
+                        if (Response::isError($ret)) {
+                return $ret;
+            }
+            $imageData = CurlUtil::getRaw($ret['data']['url']);
+        }
+        if (empty($imageData)) {
+            return Response::generateError('图片数据为空');
+        }
+        return Response::generate(0, 'ok', [
+            'size' => strlen($imageData),
+            'imageData' => $imageData,
+        ]);
+    }
+
+    
     public function ocr($format, $imageData)
     {
         $post = [];
