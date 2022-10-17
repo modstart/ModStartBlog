@@ -74,4 +74,10 @@ class MBlog
     {
         return BlogTagUtil::all();
     }
+
+    
+    public static function tagRecords()
+    {
+        return BlogTagUtil::records();
+    }
 }

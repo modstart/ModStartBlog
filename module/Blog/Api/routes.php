@@ -10,10 +10,9 @@ $router->group([
 
     $router->match(['post'], 'blog/paginate', 'BlogController@paginate');
     $router->match(['post'], 'blog/get', 'BlogController@get');
-
     $router->match(['post'], 'blog/comment/add', 'CommentController@add');
-
     $router->match(['post'], 'blog/message/paginate', 'MessageController@paginate');
     $router->match(['post'], 'blog/message/add', 'MessageController@add');
+    $router->match(['post'], 'blog/tags/all', 'TagsController@all');
 
 });

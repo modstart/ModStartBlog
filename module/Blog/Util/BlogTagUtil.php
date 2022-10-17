@@ -6,6 +6,7 @@ namespace Module\Blog\Util;
 
 use Illuminate\Support\Facades\Cache;
 use ModStart\Core\Dao\ModelUtil;
+use ModStart\Core\Util\ArrayUtil;
 use ModStart\Core\Util\TagUtil;
 
 class BlogTagUtil
@@ -32,5 +33,15 @@ class BlogTagUtil
             }
             return $tags;
         });
+    }
+
+    public static function records()
+    {
+        $all = self::all();
+        $records = array_build($all, function ($k, $v) {
+            return [$k, ['name' => $k, 'count' => $v]];
+        });
+        $records = ArrayUtil::sortByKey($records, 'count', 'desc');
+        return $records;
     }
 }
