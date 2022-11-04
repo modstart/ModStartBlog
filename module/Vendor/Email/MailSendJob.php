@@ -32,8 +32,7 @@ class MailSendJob extends BaseJob
         $job->emailUserName = $emailUserName;
         $job->option = $option;
         $job->module = $module;
-        $job->onQueue('DefaultJob');
-        if ($delay > 0) {
+                if ($delay > 0) {
             $job->delay($delay);
         }
         app('Illuminate\Contracts\Bus\Dispatcher')->dispatch($job);
