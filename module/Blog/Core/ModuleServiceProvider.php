@@ -16,6 +16,7 @@ use Module\Vendor\Admin\Config\AdminWidgetDashboard;
 use Module\Vendor\Admin\Config\AdminWidgetLink;
 use Module\Vendor\Provider\HomePage\HomePageProvider;
 use Module\Vendor\Provider\SearchBox\SearchBoxProvider;
+use Module\Vendor\Provider\SiteUrl\SiteUrlBiz;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -58,7 +59,7 @@ class ModuleServiceProvider extends ServiceProvider
                 [
                     'title' => '博客管理',
                     'icon' => 'description',
-                    'sort' => 150,
+                    'sort' => 100,
                     'children' => [
                         [
                             'title' => '博客管理',
@@ -93,6 +94,9 @@ class ModuleServiceProvider extends ServiceProvider
         ModuleClassLoader::addClass('MBlog', __DIR__ . '/MBlog.php');
         if (class_exists(QuickBannerPositionBiz::class)) {
             BannerPositionBiz::register(QuickBannerPositionBiz::make('blogHome', '博客系统首页'));
+        }
+        if (class_exists(SiteUrlBiz::class)) {
+            SiteUrlBiz::register(BlogSiteUrlBiz::class);
         }
     }
 
