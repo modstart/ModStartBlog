@@ -31,6 +31,7 @@ class SiteUrlProvider
         return self::$list;
     }
 
+    
     public static function update($url, $title = '', $param = [])
     {
         BizException::throwsIfEmpty('SiteUrlProvider.Error -> url empty', $url);
@@ -40,6 +41,7 @@ class SiteUrlProvider
         }
     }
 
+    
     public static function delete($url)
     {
         BizException::throwsIfEmpty('SiteUrlProvider.Error -> url empty', $url);
