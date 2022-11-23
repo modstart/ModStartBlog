@@ -25,6 +25,7 @@ class BlogCategoryController extends Controller
                 
                 $builder->id('id', 'ID');
                 $builder->text('title', '名称');
+                $builder->image('cover', '封面')->help('默认模板不显示，可安装更多模板查看效果');
                 $builder->text('keywords', '关键词');
                 $builder->textarea('description', '描述');
                 $builder->select('templateView', '列表模板')->optionType(BlogCategoryTemplateView::class);

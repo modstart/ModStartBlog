@@ -22,6 +22,16 @@ class MBlog
         return $paginateData['records'];
     }
 
+
+    
+    public static function hottestBlog($limit)
+    {
+        $paginateData = self::paginateBlog(0, 1, $limit, [
+            'order' => ['clickCount', 'desc'],
+        ]);
+        return $paginateData['records'];
+    }
+
     
     public static function paginateBlog($categoryId, $page = 1, $pageSize = 10, $option = [])
     {
