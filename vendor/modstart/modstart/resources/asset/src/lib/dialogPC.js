@@ -59,6 +59,7 @@ let Dialog = {
         let index = $(ele).data('popover-dialog');
         if (index) {
             layer.close(index);
+            $(ele).data('popover-dialog', null);
         }
     },
     alertSuccess: function (msg, callback) {
@@ -217,7 +218,7 @@ let Dialog = {
                 opt.width = $(window).width() - 20 + 'px';
             }
         }
-        let value = opt.defaultValue;
+        let value = opt.defaultValue + '';
         let ok = false;
         let inputDialog = Dialog.dialogContent([
             '<div id="dialog-input-box" style="width:', opt.width, ';height:', opt.height, ';background:#FFF;border-radius:3px;">',

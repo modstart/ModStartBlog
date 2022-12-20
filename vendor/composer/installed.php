@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'd018004327572c2699bae46f62a78348e3634ceb',
+        'reference' => 'fe664c3022745c557f31599797c4c7cee98b4dea',
         'name' => 'soft/blog',
         'dev' => true,
     ),
@@ -139,7 +139,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../ezyang/htmlpurifier',
             'aliases' => array(),
-            'reference' => '1ab79098bbbdc616f27132779355a7cb86be442b',
+            'reference' => 'abcca0f778a9717d9c1b8d1020cec86a2ec657d2',
             'dev_requirement' => false,
         ),
         'guzzlehttp/guzzle' => array(
@@ -625,7 +625,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'd018004327572c2699bae46f62a78348e3634ceb',
+            'reference' => 'fe664c3022745c557f31599797c4c7cee98b4dea',
             'dev_requirement' => false,
         ),
         'swiftmailer/swiftmailer' => array(
