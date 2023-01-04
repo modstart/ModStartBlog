@@ -148,11 +148,12 @@ class Tecmz
     }
 
     
-    public function express($type, $no)
+    public function express($type, $no, $phone = null)
     {
         $post = [];
         $post['type'] = $type;
         $post['no'] = $no;
+        $post['phone'] = $phone;
         return $this->request('/express', $post);
     }
 
@@ -276,6 +277,229 @@ class Tecmz
         $post['name'] = $name;
         $post['idCardNumber'] = $idCardNumber;
         return $this->request('/person_verify_id_card', $post);
+    }
+
+    private function callFileConvertQueue($type, $url, $name = null, $param = [])
+    {
+        if (is_array($url)) {
+            $url = json_encode($url, JSON_UNESCAPED_UNICODE);
+        }
+        $post = [];
+        $post['url'] = $url;
+        $post['name'] = $name;
+        $post['param'] = json_encode($param, JSON_UNESCAPED_UNICODE);
+        return $this->request('/' . $type . '/queue', $post);
+    }
+
+    private function callFileConvertQuery($type, $jobId)
+    {
+        $post = [];
+        $post['jobId'] = $jobId;
+        return $this->request('/' . $type . '/query', $post);
+    }
+
+    
+    public function aiToImageQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('ai_to_image', $url, $name, $param);
+    }
+
+    
+    public function aiToImageQuery($jobId)
+    {
+        return $this->callFileConvertQuery('ai_to_image', $jobId);
+    }
+
+    
+    public function amrConvertQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('amr_convert', $url, $name, $param);
+    }
+
+    
+    public function amrConvertQuery($jobId)
+    {
+        return $this->callFileConvertQuery('amr_convert', $jobId);
+    }
+
+    
+    public function docToPdfQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('doc_to_pdf', $url, $name, $param);
+    }
+
+    
+    public function docToPdfQuery($jobId)
+    {
+        return $this->callFileConvertQuery('doc_to_pdf', $jobId);
+    }
+
+    
+    public function epsToImageQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('eps_to_image', $url, $name, $param);
+    }
+
+    
+    public function epsToImageQuery($jobId)
+    {
+        return $this->callFileConvertQuery('eps_to_image', $jobId);
+    }
+
+    
+    public function mp3ConvertQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('mp3_convert', $url, $name, $param);
+    }
+
+    
+    public function mp3ConvertQuery($jobId)
+    {
+        return $this->callFileConvertQuery('mp3_convert', $jobId);
+    }
+
+    
+    public function wavConvertQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('wav_convert', $url, $name, $param);
+    }
+
+    
+    public function wavConvertQuery($jobId)
+    {
+        return $this->callFileConvertQuery('wav_convert', $jobId);
+    }
+
+    
+    public function pdfCollectQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('pdf_collect', $url, $name, $param);
+    }
+
+    
+    public function pdfCollectQuery($jobId)
+    {
+        return $this->callFileConvertQuery('pdf_collect', $jobId);
+    }
+
+    
+    public function pdfDecryptQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('pdf_decrypt', $url, $name, $param);
+    }
+
+    
+    public function pdfDecryptQuery($jobId)
+    {
+        return $this->callFileConvertQuery('pdf_decrypt', $jobId);
+    }
+
+    
+    public function pdfEncryptQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('pdf_encrypt', $url, $name, $param);
+    }
+
+    
+    public function pdfEncryptQuery($jobId)
+    {
+        return $this->callFileConvertQuery('pdf_encrypt', $jobId);
+    }
+
+    
+    public function pdfOptimizeQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('pdf_optimize', $url, $name, $param);
+    }
+
+    
+    public function pdfOptimizeQuery($jobId)
+    {
+        return $this->callFileConvertQuery('pdf_optimize', $jobId);
+    }
+
+    
+    public function pdfToImageQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('pdf_to_image', $url, $name, $param);
+    }
+
+    
+    public function pdfToImageQuery($jobId)
+    {
+        return $this->callFileConvertQuery('pdf_to_image', $jobId);
+    }
+
+    
+    public function pdfWatermarkQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('pdf_watermark', $url, $name, $param);
+    }
+
+    
+    public function pdfWatermarkQuery($jobId)
+    {
+        return $this->callFileConvertQuery('pdf_watermark', $jobId);
+    }
+
+    
+    public function psdToImageQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('psd_to_image', $url, $name, $param);
+    }
+
+    
+    public function psdToImageQuery($jobId)
+    {
+        return $this->callFileConvertQuery('psd_to_image', $jobId);
+    }
+
+    
+    public function pdfToWordQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('pdf_to_word', $url, $name, $param);
+    }
+
+    
+    public function pdfToWordQuery($jobId)
+    {
+        return $this->callFileConvertQuery('pdf_to_word', $jobId);
+    }
+
+    
+    public function pdfToExcelQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('pdf_to_excel', $url, $name, $param);
+    }
+
+    
+    public function pdfToExcelQuery($jobId)
+    {
+        return $this->callFileConvertQuery('pdf_to_excel', $jobId);
+    }
+
+    
+    public function imageToWordQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('image_to_word', $url, $name, $param);
+    }
+
+    
+    public function imageToWordQuery($jobId)
+    {
+        return $this->callFileConvertQuery('image_to_word', $jobId);
+    }
+
+    
+    public function imageToExcelQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('image_to_excel', $url, $name, $param);
+    }
+
+    
+    public function imageToExcelQuery($jobId)
+    {
+        return $this->callFileConvertQuery('image_to_excel', $jobId);
     }
 
 }

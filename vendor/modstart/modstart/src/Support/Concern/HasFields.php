@@ -70,7 +70,10 @@ use ModStart\Layout\LayoutTab;
  * @method \ModStart\Layout\LayoutTab         layoutTab($callback)
  * $callback = function (Form $form) { });
  * @method \ModStart\Layout\LayoutPanel       layoutPanel($title, $callback)
+ * $callback = function (Form $form) { });
+ * @method \ModStart\Layout\LayoutLine        layoutLine($title, $callback)
  * @method \ModStart\Layout\LayoutSeparator   layoutSeparator($title)
+ * @method \ModStart\Layout\LayoutHtml        layoutHtml($html)
  */
 trait HasFields
 {

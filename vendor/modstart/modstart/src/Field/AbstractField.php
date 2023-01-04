@@ -237,7 +237,7 @@ class AbstractField implements Renderable
         if (isset($arguments[0])) {
             $this->label = $arguments[0];
         } else {
-            $this->label = $column;
+            $this->label = null;
         }
         $this->setup();
     }

@@ -51,7 +51,8 @@ let Dialog = {
             layer.close(index);
         }
         index = layer.tips(msg, ele, {
-            tips: [1, '#333']
+            tips: [1, '#333'],
+            time: 0,
         });
         $(ele).data('popover-dialog', index);
     },

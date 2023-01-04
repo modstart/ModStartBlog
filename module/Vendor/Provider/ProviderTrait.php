@@ -8,11 +8,13 @@ trait ProviderTrait
     
     private static $list = [];
 
+    
     public static function register($provider)
     {
         self::$list[] = $provider;
     }
 
+    
     public static function listAll()
     {
         static $processed = false;
@@ -31,7 +33,7 @@ trait ProviderTrait
             }
         }
         if ($hasOrder) {
-            usort(self::$list, function ($o1, $o2) {
+            @usort(self::$list, function ($o1, $o2) {
                 if ($o1->order() == $o2->order()) {
                     return 0;
                 }
@@ -42,16 +44,7 @@ trait ProviderTrait
         return self::$list;
     }
 
-    private static function getByName($name)
-    {
-        foreach (self::all() as $item) {
-            if ($item->name() == $name) {
-                return $item;
-            }
-        }
-        return null;
-    }
-
+    
     public static function allMap()
     {
         return array_build(self::all(), function ($k, $v) {
@@ -61,6 +54,7 @@ trait ProviderTrait
         });
     }
 
+    
     public static function allDefaultMap()
     {
         return array_merge(
@@ -71,5 +65,21 @@ trait ProviderTrait
                 ];
             })
         );
+    }
+
+    
+    public static function isEmpty()
+    {
+        return empty(self::$list);
+    }
+
+    private static function getByName($name)
+    {
+        foreach (self::all() as $item) {
+            if ($item->name() == $name) {
+                return $item;
+            }
+        }
+        return null;
     }
 }
