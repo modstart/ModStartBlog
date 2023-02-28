@@ -40,6 +40,7 @@ class BlogController extends Controller
                 $builder->text('seoKeywords', 'SEO关键词')->listable(false);
                 $builder->textarea('seoDescription', 'SEO描述')->listable(false);
                 $builder->datetime('postTime', '发布时间')->defaultValue(date('Y-m-d H:i:s'));
+                $builder->switch('isTop', '置顶')->gridEditable(true);
                 $builder->switch('isPublished', '发布')->optionsYesNo()->defaultValue(true);
                 $builder->display('created_at', L('Created At'))->listable(false);
                 $builder->display('updated_at', L('Updated At'))->listable(false);

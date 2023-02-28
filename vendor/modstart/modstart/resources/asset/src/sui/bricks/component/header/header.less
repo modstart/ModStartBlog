@@ -1,3 +1,4 @@
+@header-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 5%);
 
 .ub-header {
     height: 3rem;
@@ -22,8 +23,12 @@
 
     }
 
+    &.bg-transparent {
+        background-color: transparent;
+    }
+
     &.transparent {
-        background: transparent;
+        background-color: transparent;
 
         .menu-toggle {
             color: #FFF;
@@ -720,7 +725,7 @@
 }
 
 @media screen and (min-width: 40rem) {
-    .ub-header-b {
+    .ub-header-b, .ub-header {
         position: sticky;
         transition: top 0.3s;
         z-index: 2000;
@@ -728,9 +733,13 @@
     }
 
     html.body-scroll-far {
-        .ub-header-b {
+        .ub-header-b, .ub-header {
             top: 0px;
-            box-shadow: 0 4px 8px 0 rgb(0 0 0 / 5%);
+            box-shadow: @header-box-shadow;
+
+            &.bg-transparent {
+                background-color: #FFF;
+            }
         }
     }
 }
@@ -1388,7 +1397,7 @@
         }
 
         .header-container {
-            box-shadow: 0 0 5px #CCC;
+            box-shadow: @header-box-shadow;
         }
     }
 }

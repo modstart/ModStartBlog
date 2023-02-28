@@ -12,7 +12,7 @@
 
                 <div class="tw-p-6  tw-bg-white tw-rounded">
                     <div class="tw-text-lg">
-                        <i class="iconfont icon-user"></i>
+                        <i class="iconfont icon-user ub-text-primary"></i>
                         关于我
                     </div>
                     <div class="tw-mt-4">

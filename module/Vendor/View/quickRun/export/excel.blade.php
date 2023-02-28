@@ -6,7 +6,7 @@
     @parent
     <script src="@asset('asset/vendor/vue.js')"></script>
     <script src="@asset('asset/vendor/element-ui/index.js')"></script>
-    <script src="@asset('asset/entry/gridExcelWork.js')"></script>
+    <script src="@asset('asset/entry/exportWork.js')"></script>
     <script>
         $(function () {
             new Vue({
@@ -18,7 +18,7 @@
                 },
                 methods: {
                     doExport() {
-                        MS.gridExcelWork.doExportProcessExecute((page, cb) => {
+                        MS.exportWork.doExportExecute('xlsx', (page, cb) => {
                             MS.api.postSuccess(
                                 window.location.href,
                                 {

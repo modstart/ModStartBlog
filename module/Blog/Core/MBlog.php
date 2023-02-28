@@ -40,7 +40,10 @@ class MBlog
         }
         $option['where']['isPublished'] = true;
         if (!isset($option['order'])) {
-            $option['order'] = ['postTime', 'desc'];
+            $option['order'] = [
+                ['isTop', 'desc'],
+                ['postTime', 'desc'],
+            ];
         }
         if (!isset($option['whereOperate'])) {
             $option['whereOperate'] = [];

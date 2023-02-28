@@ -14,7 +14,7 @@
 
                 <div class="tw-p-6 margin-top tw-bg-white tw-rounded">
                     <div class="tw-text-lg">
-                        <i class="iconfont icon-comment"></i>
+                        <i class="iconfont icon-comment ub-text-primary"></i>
                         博客留言
                     </div>
                     <div class="tw-mt-4">

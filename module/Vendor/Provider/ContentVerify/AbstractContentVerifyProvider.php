@@ -22,7 +22,10 @@ abstract class AbstractContentVerifyProvider
     abstract public function title();
 
     
-    abstract public function verifyAutoProcess($param);
+    public function verifyAutoProcess($param)
+    {
+        return false;
+    }
 
     
     abstract public function verifyCount();
@@ -30,8 +33,18 @@ abstract class AbstractContentVerifyProvider
     
     abstract public function verifyRule();
 
+
     
-    abstract public function buildForm(Form $form, $param);
+    public function useFormVerify()
+    {
+        return false;
+    }
+
+    
+    public function buildForm(Form $form, $param)
+    {
+        return null;
+    }
 
     
     public function verifyUrl()
@@ -64,8 +77,11 @@ abstract class AbstractContentVerifyProvider
             return;
         }
         NotifierProvider::notifyNoneLoginOperateProcessUrl(
-            $this->name(), '[审核]' . $shortTitle, $body,
-            'content_verify/' . $this->name(), $param
+            $this->name(),
+            '[审核]' . $shortTitle,
+            $body,
+            $this->useFormVerify() ? 'content_verify/' . $this->name() : null,
+            $param
         );
     }
 

@@ -14,7 +14,11 @@
     >
         <div>
             <div class="ub-text-truncate">
-                <a href="{{modstart_web_url('blog/'.$record['id'])}}" class="pb-keywords-highlight tw-text-xl tw-text-gray-800">
+                @if($record['isTop'])
+                    <span class="tw tw-align-top tw-bg-red-100 tw-inline-block tw-leading-6 tw-px-3 tw-rounded tw-text-lg tw-text-red-500">置顶</span>
+                @endif
+                <a href="{{modstart_web_url('blog/'.$record['id'])}}"
+                   class="pb-keywords-highlight tw-align-top tw-inline-block tw-leading-6 tw-text-gray-800 tw-text-xl">
                     {{$record['title']}}
                 </a>
             </div>
@@ -55,7 +59,10 @@
             </div>
             @if(!empty($record['_cover']))
                 <div class="lg:tw-w-40 tw-w-full lg:tw-ml-4 tw-flex-shrink-0">
-                    <div class="ub-cover-3-2 tw-rounded" style="background-image:url({{$record['_cover']}})"></div>
+                    <div class="tw-overflow-hidden tw-rounded">
+                        <div class="hover:tw-rotate-3 hover:tw-scale-110 tw-duration-300 tw-ease-in-out tw-rounded tw-transform ub-cover-3-2"
+                             style="background-image:url({{$record['_cover']}})"></div>
+                    </div>
                 </div>
             @endif
         </div>
