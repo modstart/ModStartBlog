@@ -6,5 +6,5 @@ class AppConstant
 {
     const APP = 'blog';
     const APP_NAME = 'ModStartBlog';
-    const VERSION = '6.8.0';
+    const VERSION = '6.9.0';
 }
