@@ -26,7 +26,8 @@
 
 @section('htmlProperties')
     @parent
-    page-tabs-enable
+    @if(config('modstart.admin.tabsEnable',true)) page-tabs-enable {{$_isTab?'data-page-is-tab':''}} @endif
+    data-theme="{{config('modstart.admin.theme','default')}}"
 @endsection
 
 @section('bodyAppend')
@@ -131,6 +132,13 @@
                     </div>
                     @if(\ModStart\Admin\Auth\AdminPermission::permit('SystemManage'))
                         <div class="menu-item">
+                            <a class="title" href="javascript:;" data-ajax-request-loading
+                               data-ajax-request="{{action('\ModStart\Admin\Controller\SystemController@clearCache')}}">
+                                <i class="iconfont icon-magic-wand" data-tip-popover="{{L('Clear Cache')}}"></i>
+                            </a>
+                        </div>
+                        @if(0)
+                        <div class="menu-item">
                             <a class="title" href="javascript:;">
                                 <i class="iconfont icon-ul" data-tip-popover="{{L('Quick Operate')}}"></i>
                             </a>
@@ -141,6 +149,7 @@
                                 @endif
                             </div>
                         </div>
+                        @endif
                     @endif
                     <div class="menu-item">
                         <a class="title admin-user" href="javascript:;">

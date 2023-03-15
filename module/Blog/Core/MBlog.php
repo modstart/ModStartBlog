@@ -22,6 +22,33 @@ class MBlog
         return $paginateData['records'];
     }
 
+    
+    public static function topestBlog($limit)
+    {
+        $paginateData = self::paginateBlog(0, 1, $limit, [
+            'isTop' => true,
+        ]);
+        return $paginateData['records'];
+    }
+
+    
+    public static function hotBlog($limit)
+    {
+        $paginateData = self::paginateBlog(0, 1, $limit, [
+            'isHot' => true,
+        ]);
+        return $paginateData['records'];
+    }
+
+    
+    public static function recommendBlog($limit)
+    {
+        $paginateData = self::paginateBlog(0, 1, $limit, [
+            'isRecommend' => true,
+        ]);
+        return $paginateData['records'];
+    }
+
 
     
     public static function hottestBlog($limit)

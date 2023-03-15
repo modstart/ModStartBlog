@@ -129,16 +129,6 @@ class Tecmz
     }
 
     
-    public function audioConvert($from, $to, $contentBase64)
-    {
-        $post = [];
-        $post['from'] = $from;
-        $post['to'] = $to;
-        $post['content'] = $contentBase64;
-        return $this->request('/audio_convert', $post);
-    }
-
-    
     public function asr($type, $contentBase64)
     {
         $post = [];
@@ -500,6 +490,30 @@ class Tecmz
     public function imageToExcelQuery($jobId)
     {
         return $this->callFileConvertQuery('image_to_excel', $jobId);
+    }
+
+    
+    public function imageThumbQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('image_thumb', $url, $name, $param);
+    }
+
+    
+    public function imageThumbQuery($jobId)
+    {
+        return $this->callFileConvertQuery('image_thumb', $jobId);
+    }
+
+    
+    public function docToHtmlQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('doc_to_html', $url, $name, $param);
+    }
+
+    
+    public function docToHtmlQuery($jobId)
+    {
+        return $this->callFileConvertQuery('doc_to_html', $jobId);
     }
 
 }

@@ -22,7 +22,9 @@
     "description": "提供一个基础的博客系统",
     "suggest": [
         "Member",
-        "SiteMapManager"
+        "SiteMapManager",
+        "Blog",
+        "PayCenter"
     ],
     "config": {
     }

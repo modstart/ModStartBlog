@@ -46,7 +46,7 @@
                     </div>
                 </div>
 
-                <div class="tw-p-6 margin-top tw-bg-white tw-rounded">
+                <div class="tw-p-6 margin-bottom tw-bg-white tw-rounded">
                     <div class="row">
                         <div class="col-6">
                             <div>
@@ -79,8 +79,13 @@
                     </div>
                 </div>
 
+                @if(modstart_module_enabled('Reward'))
+                    <div class="tw-p-4 margin-bottom tw-bg-white tw-rounded-lg">
+                        @include('module::Reward.View.pc.public.reward',[ 'biz'=>'blog', 'bizId'=>$record['id'] ])
+                    </div>
+                @endif
 
-                <div class="tw-p-6 margin-top tw-bg-white tw-rounded">
+                <div class="tw-p-6 margin-bottom tw-bg-white tw-rounded">
                     <div class="tw-text-lg">
                         <i class="iconfont icon-comment"></i>
                         博客评论
@@ -105,7 +110,7 @@
                                                  style="background-image:url({{$comment['_memberUser']['avatar']}})"></div>
                                         @else
                                             <div class="ub-cover-1-1 tw-rounded-full"
-                                                 style="background-image:url( @asset('asset/image/avatar.png') )"></div>
+                                                 style="background-image:url( @asset('asset/image/avatar.svg') )"></div>
                                         @endif
                                     </div>
                                     <div class="tw-flex-grow tw-ml-4">
@@ -134,7 +139,7 @@
                 </div>
 
 
-                <div class="tw-p-6 margin-top tw-bg-white tw-rounded">
+                <div class="tw-p-6 margin-bottom tw-bg-white tw-rounded">
                     <div class="tw-text-lg">
                         <i class="iconfont icon-comment"></i>
                         发表评论
@@ -145,7 +150,7 @@
                             <div class="pb-blog-comment">
                                 <div class="tw-flex">
                                     <div class="tw-w-10">
-                                        <div class="ub-cover-1-1 tw-rounded-full" style="background-image:url({{\ModStart\Core\Assets\AssetsUtil::fixOrDefault(!empty($_memberUser)?$_memberUser['avatar']:'','asset/image/avatar.png')}})"></div>
+                                        <div class="ub-cover-1-1 tw-rounded-full" style="background-image:url({{\ModStart\Core\Assets\AssetsUtil::fixOrDefault(!empty($_memberUser)?$_memberUser['avatar']:'','asset/image/avatar.svg')}})"></div>
                                     </div>
                                     <div class="tw-flex-grow tw-leading-10 tw-ml-4 tw-text-lg">
                                         @if(!empty($_memberUser))

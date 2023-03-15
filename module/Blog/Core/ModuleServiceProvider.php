@@ -12,6 +12,7 @@ use ModStart\Module\ModuleClassLoader;
 use Module\Banner\Biz\BannerPositionBiz;
 use Module\Banner\Biz\QuickBannerPositionBiz;
 use Module\Blog\Util\BlogCategoryUtil;
+use Module\Reward\Biz\RewardBiz;
 use Module\Vendor\Admin\Config\AdminWidgetDashboard;
 use Module\Vendor\Admin\Config\AdminWidgetLink;
 use Module\Vendor\Provider\HomePage\HomePageProvider;
@@ -97,6 +98,9 @@ class ModuleServiceProvider extends ServiceProvider
         }
         if (class_exists(SiteUrlBiz::class)) {
             SiteUrlBiz::register(BlogSiteUrlBiz::class);
+        }
+        if (modstart_module_enabled('Reward')) {
+            RewardBiz::register(BlogRewardBiz::class);
         }
     }
 

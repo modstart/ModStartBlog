@@ -11,7 +11,7 @@ class BlogFieldsModify extends Migration
         Schema::table('blog', function (Blueprint $table) {
 
             $table->tinyInteger('isTop')->nullable()->comment('置顶');
-            $table->integer('commentCount')->nullable()->comment('置顶');
+            $table->integer('commentCount')->nullable()->comment('评论数量');
 
         });
     }
