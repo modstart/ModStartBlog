@@ -267,7 +267,14 @@ class AbstractField implements Renderable
             return $this->rules;
         }
         // echo json_encode([$this->column, $this->rules]) . "\n";
-        $this->rules[] = $rule;
+        if (is_array($rule)) {
+            $rule = array_filter($rule);
+            $this->rules = array_merge($this->rules, $rule);
+        } else {
+            if (!empty($rule)) {
+                $this->rules[] = $rule;
+            }
+        }
         // $rules = array_filter(explode('|', "{$this->rules}|$rules"));
         // $this->rules = implode('|', $rules);
         return $this;
