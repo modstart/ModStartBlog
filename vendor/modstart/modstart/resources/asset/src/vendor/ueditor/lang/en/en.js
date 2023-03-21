@@ -26,6 +26,9 @@ UE.I18N['en'] = {
         'lineheight':'LineHeight','edittip':'EditTip','customstyle':'CustomStyle', 'scrawl':'Scrawl', 'autotypeset':'AutoTypeset',
         'touppercase':'UpperCase', 'tolowercase':'LowerCase','template':'Template','background':'Background','inserttable':'InsertTable',
     },
+    'autosave': {
+        'autoRestoreTip': 'Has been recovered from draft'
+    },
     'insertorderedlist':{
         'num':'1,2,3...',
         'num1':'1),2),3)...',
@@ -48,16 +51,17 @@ UE.I18N['en'] = {
     },
     'paragraph':{'p':'Paragraph', 'h1':'Title 1', 'h2':'Title 2', 'h3':'Title 3', 'h4':'Title 4', 'h5':'Title 5', 'h6':'Title 6'},
     'fontfamily':{
+        'default':'Default',
         'songti':'Sim Sun',
         'kaiti':'Sim Kai',
         'heiti':'Sim Hei',
         'lishu':'Sim Li',
         'yahei': 'Microsoft YaHei',
-        'andaleMono':'Andale Mono',
+        // 'andaleMono':'Andale Mono',
         'arial': 'Arial',
-        'arialBlack':'Arial Black',
-        'comicSansMs':'Comic Sans MS',
-        'impact':'Impact',
+        // 'arialBlack':'Arial Black',
+        // 'comicSansMs':'Comic Sans MS',
+        // 'impact':'Impact',
         'timesNewRoman':'Times New Roman'
     },
     'customstyle':{

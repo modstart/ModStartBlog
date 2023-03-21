@@ -17,7 +17,7 @@ window.UE = baidu.editor = {
   instants: {},
   I18N: {},
   _customizeUI: {},
-  version: "2.9.0"
+  version: "3.0.0"
 };
 var dom = (UE.dom = {});
 
@@ -821,9 +821,9 @@ var utils = (UE.utils = {
   cssStyleToDomStyle: (function() {
     var test = document.createElement("div").style,
       cache = {
-        float: test.cssFloat != undefined
+        float: test.cssFloat !== undefined
           ? "cssFloat"
-          : test.styleFloat != undefined ? "styleFloat" : "float"
+          : test.styleFloat !== undefined ? "styleFloat" : "float"
       };
 
     return function(cssName) {
@@ -2255,7 +2255,7 @@ var domUtils = (dom.domUtils = {
   POSITION_IS_CONTAINED: 8,
   POSITION_CONTAINS: 16,
   //ie6使用其他的会有一段空白出现
-  fillChar: ie && browser.version == "6" ? "\ufeff" : "\u200B",
+  fillChar: ie && browser.version === "6" ? "\ufeff" : "\u200B",
   //-------------------------Node部分--------------------------------
   keys: {
     /*Backspace*/ 8: 1,
@@ -2431,7 +2431,7 @@ var domUtils = (dom.domUtils = {
      * ```
      */
   inDoc: function(node, doc) {
-    return domUtils.getPosition(node, doc) == 10;
+    return domUtils.getPosition(node, doc) === 10;
   },
   /**
      * 根据给定的过滤规则filterFn， 查找符合该过滤规则的node节点的第一个祖先节点，
@@ -3773,7 +3773,7 @@ var domUtils = (dom.domUtils = {
      * ```
      */
   getComputedStyle: function(element, styleName) {
-    //一下的属性单独处理
+    //以下的属性单独处理
     var pros = "width height top left";
 
     if (pros.indexOf(styleName) > -1) {
@@ -3787,14 +3787,14 @@ var domUtils = (dom.domUtils = {
       );
     }
     //忽略文本节点
-    if (element.nodeType == 3) {
+    if (element.nodeType === 3) {
       element = element.parentNode;
     }
     //ie下font-size若body下定义了font-size，则从currentStyle里会取到这个font-size. 取不到实际值，故此修改.
     if (
       browser.ie &&
       browser.version < 9 &&
-      styleName == "font-size" &&
+      styleName === "font-size" &&
       !element.style.fontSize &&
       !dtd.$empty[element.tagName] &&
       !dtd.$nonChild[element.tagName]
@@ -4773,21 +4773,21 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
       range.startContainer &&
       range.endContainer &&
       range.startContainer === range.endContainer &&
-      range.startOffset == range.endOffset;
+      range.startOffset === range.endOffset;
   }
 
   function selectOneNode(rng) {
     return (
       !rng.collapsed &&
-      rng.startContainer.nodeType == 1 &&
+      rng.startContainer.nodeType === 1 &&
       rng.startContainer === rng.endContainer &&
-      rng.endOffset - rng.startOffset == 1
+      rng.endOffset - rng.startOffset === 1
     );
   }
   function setEndPoint(toStart, node, offset, range) {
     //如果node是自闭合标签要处理
     if (
-      node.nodeType == 1 &&
+      node.nodeType === 1 &&
       (dtd.$empty[node.tagName] || dtd.$nonChild[node.tagName])
     ) {
       offset = domUtils.getNodeIndex(node) + (toStart ? 0 : 1);
@@ -6256,7 +6256,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
           var child = range.startContainer.childNodes[range.startOffset];
           if (
             child &&
-            child.nodeType == 1 &&
+            child.nodeType === 1 &&
             (dtd.$empty[child.tagName] || dtd.$nonChild[child.tagName])
           ) {
             node = child;
@@ -7407,7 +7407,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
               me.options.lang +
               "/" +
               me.options.lang +
-              ".js?20220907",
+              ".js?20230319",
           tag: "script",
           type: "text/javascript",
           defer: "defer"
@@ -7684,15 +7684,19 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
         !domUtils.isBody(form);
         form = form.parentNode
       ) {
-        if (form.tagName == "FORM") {
+        if (form.tagName === "FORM") {
           me.form = form;
           if (me.options.autoSyncData) {
             domUtils.on(me.window, "blur", function() {
               setValue(form, me);
             });
+            domUtils.on(form, "submit", function() {
+              me.fireEvent("beforesubmit");
+            });
           } else {
             domUtils.on(form, "submit", function() {
               setValue(this, me);
+              me.fireEvent("beforesubmit");
             });
           }
           break;
@@ -7803,7 +7807,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
           : domUtils.findParent(
               me.iframe.parentNode,
               function(node) {
-                return node.tagName == "FORM";
+                return node.tagName === "FORM";
               },
               true
             );
@@ -8250,15 +8254,35 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
         }
         me.fireEvent("contentchange");
       });
+      // 当内容最末尾为非字符时，比较难以在最后插入字符，所以在点击时，自动添加一个空的p标签
+      domUtils.on(me.body, "click", function(e) {
+        try {
+          var node = me.body.lastChild;
+          if (!node) {
+            return;
+          }
+          var rect = node.getBoundingClientRect();
+          if (e.clientY > rect.top + rect.height) {
+            var p = document.createElement('p');
+            p.innerHTML = '<br />';
+            me.body.appendChild(p);
+            setTimeout(function () {
+              me.focus(true);
+            }, 100);
+          }
+        } catch (e) {
+          console.error('auto insert p at end', e);
+        }
+      });
       domUtils.on(doc, ["mouseup", "keydown"], function(evt) {
         //特殊键不触发selectionchange
         if (
-          evt.type == "keydown" &&
+          evt.type === "keydown" &&
           (evt.ctrlKey || evt.metaKey || evt.shiftKey || evt.altKey)
         ) {
           return;
         }
-        if (evt.button == 2) return;
+        if (evt.button === 2) return;
         me._selectionChange(250, evt);
       });
     },
@@ -8523,7 +8547,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, "g");
     setEnabled: function() {
       var me = this,
         range;
-      if (me.body.contentEditable == "false") {
+      if (me.body.contentEditable === "false") {
         me.body.contentEditable = true;
         range = me.selection.getRange();
         //有可能内容丢失了
@@ -8897,6 +8921,7 @@ UE.Editor.defaultOptions = function(editor) {
           UE.ajax.request(configUrl, {
             method: "GET",
             dataType: isJsonp ? "jsonp" : "",
+            headers: me.options.serverHeaders || {},
             onsuccess: function(r) {
               try {
                 var config = isJsonp ? r : eval("(" + r.responseText + ")");
@@ -9022,6 +9047,7 @@ UE.ajax = (function() {
         method: "POST",
         timeout: 5000,
         async: true,
+        headers: {},
         data: {}, //需要传递对象的话只能覆盖
         onsuccess: function() {},
         onerror: function() {}
@@ -9036,6 +9062,8 @@ UE.ajax = (function() {
       ? utils.extend(defaultAjaxOptions, ajaxOptions)
       : defaultAjaxOptions;
 
+    // console.log('ajaxOpts',ajaxOpts);
+
     var submitStr = json2str(ajaxOpts); // { name:"Jim",city:"Beijing" } --> "name=Jim&city=Beijing"
     //如果用户直接通过data参数传递json对象过来，则也要将此json对象转化为字符串
     if (!utils.isEmptyObject(ajaxOpts.data)) {
@@ -9043,7 +9071,7 @@ UE.ajax = (function() {
     }
     //超时检测
     var timerID = setTimeout(function() {
-      if (xhr.readyState != 4) {
+      if (xhr.readyState !== 4) {
         timeIsOut = true;
         xhr.abort();
         clearTimeout(timerID);
@@ -9053,19 +9081,24 @@ UE.ajax = (function() {
     var method = ajaxOpts.method.toUpperCase();
     var str =
       url +
-      (url.indexOf("?") == -1 ? "?" : "&") +
-      (method == "POST" ? "" : submitStr + "&noCache=" + +new Date());
+      (url.indexOf("?") === -1 ? "?" : "&") +
+      (method === "POST" ? "" : submitStr + "&noCache=" + +new Date());
     xhr.open(method, str, ajaxOpts.async);
     xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
-        if (!timeIsOut && xhr.status == 200) {
+      if (xhr.readyState === 4) {
+        if (!timeIsOut && xhr.status === 200) {
           ajaxOpts.onsuccess(xhr);
         } else {
           ajaxOpts.onerror(xhr);
         }
       }
     };
-    if (method == "POST") {
+    if(ajaxOpts.headers){
+      for(var key in ajaxOpts.headers){
+        xhr.setRequestHeader(key,ajaxOpts.headers[key]);
+      }
+    }
+    if (method === "POST") {
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.send(submitStr);
     } else {
@@ -9214,7 +9247,7 @@ UE.ajax = (function() {
          * ```
          */
     request: function(url, opts) {
-      if (opts && opts.dataType == "jsonp") {
+      if (opts && opts.dataType === "jsonp") {
         doJsonp(url, opts);
       } else {
         doAjax(url, opts);
@@ -12507,6 +12540,7 @@ UE.plugins["font"] = function() {
       strikethrough: "text-decoration",
       fontborder: "border"
     },
+    lang = me.getLang(),
     needCmd = { underline: 1, strikethrough: 1, fontborder: 1 },
     needSetChild = {
       forecolor: "color",
@@ -12516,16 +12550,17 @@ UE.plugins["font"] = function() {
     };
   me.setOpt({
     fontfamily: [
+      { name: "default", val: "default" },
       { name: "songti", val: "宋体,SimSun" },
       { name: "yahei", val: "微软雅黑,Microsoft YaHei" },
-      { name: "kaiti", val: "楷体,楷体_GB2312, SimKai" },
-      { name: "heiti", val: "黑体, SimHei" },
-      { name: "lishu", val: "隶书, SimLi" },
-      { name: "andaleMono", val: "andale mono" },
-      { name: "arial", val: "arial, helvetica,sans-serif" },
-      { name: "arialBlack", val: "arial black,avant garde" },
-      { name: "comicSansMs", val: "comic sans ms" },
-      { name: "impact", val: "impact,chicago" },
+      { name: "kaiti", val: "楷体,楷体_GB2312,SimKai" },
+      { name: "heiti", val: "黑体,SimHei" },
+      { name: "lishu", val: "隶书,SimLi" },
+      // { name: "andaleMono", val: "andale mono" },
+      { name: "arial", val: "arial,helvetica,sans-serif" },
+      // { name: "arialBlack", val: "arial black,avant garde" },
+      // { name: "comicSansMs", val: "comic sans ms" },
+      // { name: "impact", val: "impact,chicago" },
       { name: "timesNewRoman", val: "times new roman" }
     ],
     fontsize: [10, 11, 12, 14, 16, 18, 20, 24, 36]
@@ -12743,14 +12778,14 @@ UE.plugins["font"] = function() {
             value ||
             (this.queryCommandState(cmdName)
               ? "none"
-              : cmdName == "underline"
+              : cmdName === "underline"
                 ? "underline"
-                : cmdName == "fontborder" ? "1px solid #000" : "line-through");
+                : cmdName === "fontborder" ? "1px solid #000" : "line-through");
           var me = this,
             range = this.selection.getRange(),
             text;
 
-          if (value == "default") {
+          if (value === "default") {
             if (range.collapsed) {
               text = me.document.createTextNode("font");
               range.insertNode(text).select();
@@ -12851,9 +12886,10 @@ UE.plugins["font"] = function() {
         },
         queryCommandValue: function(cmdName) {
           var startNode = this.selection.getStart();
+          var styleVal;
 
           //trace:946
-          if (cmdName == "underline" || cmdName == "strikethrough") {
+          if (cmdName === "underline" || cmdName === "strikethrough") {
             var tmpNode = startNode,
               value;
             while (
@@ -12872,7 +12908,8 @@ UE.plugins["font"] = function() {
             }
             return "none";
           }
-          if (cmdName == "fontborder") {
+
+          else if (cmdName === "fontborder") {
             var tmp = startNode,
               val;
             while (tmp && dtd.$inline[tmp.tagName]) {
@@ -12886,9 +12923,9 @@ UE.plugins["font"] = function() {
             return "";
           }
 
-          if (cmdName == "FontSize") {
-            var styleVal = domUtils.getComputedStyle(startNode, style),
-              tmp = /^([\d\.]+)(\w+)$/.exec(styleVal);
+          else if (cmdName === "FontSize") {
+            styleVal = domUtils.getComputedStyle(startNode, style);
+            tmp = /^([\d\.]+)(\w+)$/.exec(styleVal);
 
             if (tmp) {
               return Math.floor(tmp[1]) + tmp[2];
@@ -12897,7 +12934,24 @@ UE.plugins["font"] = function() {
             return styleVal;
           }
 
-          return domUtils.getComputedStyle(startNode, style);
+          else if(cmdName === 'FontFamily'){
+            styleVal = domUtils.getComputedStyle(startNode, style)
+            // 移除左右引号
+            styleVal = styleVal.replace(/['"]/g, '');
+            let fontFamily = lang.fontfamily.default;
+            for(var v of me.options["fontfamily"] || []){
+              // console.log('FontFamily',styleVal, v.val);
+              if(v.val === styleVal){
+                fontFamily = styleVal;
+                break;
+              }
+            }
+            // console.log('FontFamily',styleVal, fontFamily);
+            return fontFamily;
+          }
+
+          value = domUtils.getComputedStyle(startNode, style);
+          return value;
         },
         queryCommandState: function(cmdName) {
           if (!needCmd[cmdName]) return 0;
@@ -13811,7 +13865,7 @@ UE.plugins["paragraph"] = function() {
           domUtils.POSITION_FOLLOWING
         )
       ) {
-        if (current.nodeType == 3 || !block(current)) {
+        if (current.nodeType === 3 || !block(current)) {
           tmpRange.setStartBefore(current);
           while (current && current !== bookmark2.end && !block(current)) {
             tmpNode = current;
@@ -13828,7 +13882,7 @@ UE.plugins["paragraph"] = function() {
             domUtils.setAttributes(para, attrs);
             if (
               sourceCmdName &&
-              sourceCmdName == "customstyle" &&
+              sourceCmdName === "customstyle" &&
               attrs.style
             ) {
               para.style.cssText = attrs.style;
@@ -13847,10 +13901,10 @@ UE.plugins["paragraph"] = function() {
           if (
             block(parent) &&
             !domUtils.isBody(para.parentNode) &&
-            utils.indexOf(notExchange, parent.tagName) == -1
+            utils.indexOf(notExchange, parent.tagName) === -1
           ) {
             //存储dir,style
-            if (!(sourceCmdName && sourceCmdName == "customstyle")) {
+            if (!(sourceCmdName && sourceCmdName === "customstyle")) {
               parent.getAttribute("dir") &&
                 para.setAttribute("dir", parent.getAttribute("dir"));
               //trace:1070
@@ -13878,7 +13932,7 @@ UE.plugins["paragraph"] = function() {
               domUtils.setAttributes(parent, attrs);
               if (
                 sourceCmdName &&
-                sourceCmdName == "customstyle" &&
+                sourceCmdName === "customstyle" &&
                 attrs.style
               ) {
                 parent.style.cssText = attrs.style;
@@ -13889,7 +13943,7 @@ UE.plugins["paragraph"] = function() {
               domUtils.remove(para.parentNode, true);
             }
           }
-          if (utils.indexOf(notExchange, parent.tagName) != -1) {
+          if (utils.indexOf(notExchange, parent.tagName) !== -1) {
             current = parent;
           } else {
             current = para;
@@ -13945,13 +13999,13 @@ UE.plugins["paragraph"] = function() {
       if (
         browser.gecko &&
         range.collapsed &&
-        range.startContainer.nodeType == 1
+        range.startContainer.nodeType === 1
       ) {
         var child = range.startContainer.childNodes[range.startOffset];
         if (
           child &&
-          child.nodeType == 1 &&
-          child.tagName.toLowerCase() == style
+          child.nodeType === 1 &&
+          child.tagName.toLowerCase() === style
         ) {
           range.setStart(child, 0).collapse(true);
         }
@@ -15444,6 +15498,7 @@ UE.plugin.register("autosave", function () {
             return;
         }
 
+        // console.log('autosave', saveKey, saveData);
         me.setPreferences(saveKey, saveData);
 
         editor.fireEvent("afterautosave", {
@@ -15475,18 +15530,28 @@ UE.plugin.register("autosave", function () {
                 }
                 if (me.getOpt('autoSaveRestore')) {
                     var data = me.getPreferences(saveKey);
+                    // console.log('saveKey', saveKey, data);
                     if (data) {
                         me.body.innerHTML = data;
+                        me.fireEvent('showmessage',{
+                          type:'info',
+                          content:me.getLang('autosave').autoRestoreTip
+                        })
                     }
                 }
                 // console.log('saveKey', saveKey);
             },
+            beforesubmit: function(){
+                if (!me.getOpt("autoSaveEnable") || !saveKey) {
+                  return;
+                }
+                me.execCommand('clear_auto_save_content');
+            },
             contentchange: function () {
-                if (!me.getOpt("autoSaveEnable")) {
+                if(!me.isReady){
                     return;
                 }
-
-                if (!saveKey) {
+                if (!me.getOpt("autoSaveEnable") || !saveKey) {
                     return;
                 }
 
@@ -15496,7 +15561,7 @@ UE.plugin.register("autosave", function () {
 
                 me._autoSaveTimer = window.setTimeout(function () {
                     save(me);
-                }, 500);
+                }, 1000);
             }
         },
         commands: {
@@ -16742,7 +16807,7 @@ UE.plugins["list"] = function() {
     var root = UE.htmlparser(html.html, true);
     if ((li = domUtils.findParentByTagName(rng.startContainer, "li", true))) {
       var list = li.parentNode,
-        tagName = list.tagName == "OL" ? "ul" : "ol";
+        tagName = list.tagName === "OL" ? "ul" : "ol";
       utils.each(root.getNodesByTagName(tagName), function(n) {
         n.tagName = list.tagName;
         n.setAttr();
@@ -16756,12 +16821,12 @@ UE.plugins["list"] = function() {
             type = n.parentNode.getStyle("list-style-type");
           }
           if (!type) {
-            type = list.tagName == "OL" ? "decimal" : "disc";
+            type = list.tagName === "OL" ? "decimal" : "disc";
           }
         }
         var index = utils.indexOf(listStyle[list.tagName], type);
         if (n.parentNode !== root)
-          index = index + 1 == listStyle[list.tagName].length ? 0 : index + 1;
+          index = index + 1 === listStyle[list.tagName].length ? 0 : index + 1;
         var currentStyle = listStyle[list.tagName][index];
         if (customStyle[currentStyle]) {
           n.setAttr("class", "custom_" + currentStyle);
@@ -16790,8 +16855,8 @@ UE.plugins["list"] = function() {
             tmpNode = newChildrens[newChildrens.length - 1];
             if (
               !tmpNode ||
-              tmpNode.type != "element" ||
-              tmpNode.tagName != "br"
+              tmpNode.type !== "element" ||
+              tmpNode.tagName !== "br"
             ) {
               var br = UE.uNode.createElement("br");
               br.parentNode = li;
@@ -16811,7 +16876,7 @@ UE.plugins["list"] = function() {
     utils.each(root.getNodesByTagName("li"), function(li) {
       var tmpP = UE.uNode.createElement("p");
       for (var i = 0, ci; (ci = li.children[i]); ) {
-        if (ci.type == "text" || dtd.p[ci.tagName]) {
+        if (ci.type === "text" || dtd.p[ci.tagName]) {
           tmpP.appendChild(ci);
         } else {
           if (tmpP.firstChild()) {
@@ -16836,7 +16901,7 @@ UE.plugins["list"] = function() {
       var lastChild = p.lastChild();
       if (
         lastChild &&
-        lastChild.type == "text" &&
+        lastChild.type === "text" &&
         /^\s*$/.test(lastChild.data)
       ) {
         p.removeChild(lastChild);
@@ -16858,8 +16923,8 @@ UE.plugins["list"] = function() {
         var span = container.firstChild();
         if (
           span &&
-          span.type == "element" &&
-          span.tagName == "span" &&
+          span.type === "element" &&
+          span.tagName === "span" &&
           /Wingdings|Symbol/.test(span.getStyle("font-family"))
         ) {
           for (var p in unorderlisttype) {
@@ -16876,7 +16941,7 @@ UE.plugins["list"] = function() {
         }
       }
       utils.each(root.getNodesByTagName("p"), function(node) {
-        if (node.getAttr("class") != "MsoListParagraph") {
+        if (node.getAttr("class") !== "MsoListParagraph") {
           return;
         }
 
@@ -16886,12 +16951,12 @@ UE.plugins["list"] = function() {
         node.setAttr("class", "");
 
         function appendLi(list, p, type) {
-          if (list.tagName == "ol") {
+          if (list.tagName === "ol") {
             if (browser.ie) {
               var first = p.firstChild();
               if (
-                first.type == "element" &&
-                first.tagName == "span" &&
+                first.type === "element" &&
+                first.tagName === "span" &&
                 orderlisttype[type].test(first.innerText())
               ) {
                 p.removeChild(first);
@@ -16912,7 +16977,7 @@ UE.plugins["list"] = function() {
           cacheNode = node;
 
         if (
-          node.parentNode.tagName != "li" &&
+          node.parentNode.tagName !== "li" &&
           (type = checkListType(node.innerText(), node))
         ) {
           var list = UE.uNode.createElement(
@@ -16925,7 +16990,7 @@ UE.plugins["list"] = function() {
           }
           while (
             node &&
-            node.parentNode.tagName != "li" &&
+            node.parentNode.tagName !== "li" &&
             checkListType(node.innerText(), node)
           ) {
             tmp = node.nextSibling();
@@ -16962,17 +17027,17 @@ UE.plugins["list"] = function() {
       if (!domUtils.inDoc(node, doc)) return;
 
       var parent = node.parentNode;
-      if (parent.tagName == node.tagName) {
+      if (parent.tagName === node.tagName) {
         var nodeStyleType =
-          getStyle(node) || (node.tagName == "OL" ? "decimal" : "disc"),
+          getStyle(node) || (node.tagName === "OL" ? "decimal" : "disc"),
           parentStyleType =
-            getStyle(parent) || (parent.tagName == "OL" ? "decimal" : "disc");
-        if (nodeStyleType == parentStyleType) {
+            getStyle(parent) || (parent.tagName === "OL" ? "decimal" : "disc");
+        if (nodeStyleType === parentStyleType) {
           var styleIndex = utils.indexOf(
             listStyle[node.tagName],
             nodeStyleType
           );
-          styleIndex = styleIndex + 1 == listStyle[node.tagName].length
+          styleIndex = styleIndex + 1 === listStyle[node.tagName].length
             ? 0
             : styleIndex + 1;
           setListStyle(node, listStyle[node.tagName][styleIndex]);
@@ -17017,7 +17082,7 @@ UE.plugins["list"] = function() {
         if (domUtils.hasClass(node, /custom_/)) {
           var paddingLeft = 1,
             currentStyle = getStyle(node);
-          if (node.tagName == "OL") {
+          if (node.tagName === "OL") {
             if (currentStyle) {
               switch (currentStyle) {
                 case "cn":
@@ -17025,7 +17090,7 @@ UE.plugins["list"] = function() {
                 case "cn2":
                   if (
                     index > 10 &&
-                    (index % 10 == 0 || (index > 10 && index < 20))
+                    (index % 10 === 0 || (index > 10 && index < 20))
                   ) {
                     paddingLeft = 2;
                   } else if (index > 20) {
@@ -17077,14 +17142,14 @@ UE.plugins["list"] = function() {
     var nextList = list.nextSibling;
     if (
       nextList &&
-      nextList.nodeType == 1 &&
-      nextList.tagName.toLowerCase() == tag &&
+      nextList.nodeType === 1 &&
+      nextList.tagName.toLowerCase() === tag &&
       (getStyle(nextList) ||
         domUtils.getStyle(nextList, "list-style-type") ||
         (tag == "ol" ? "decimal" : "disc")) == style
     ) {
       domUtils.moveChild(nextList, list);
-      if (nextList.childNodes.length == 0) {
+      if (nextList.childNodes.length === 0) {
         domUtils.remove(nextList);
       }
     }
@@ -17094,11 +17159,11 @@ UE.plugins["list"] = function() {
     var preList = list.previousSibling;
     if (
       preList &&
-      preList.nodeType == 1 &&
+      preList.nodeType === 1 &&
       preList.tagName.toLowerCase() == tag &&
       (getStyle(preList) ||
         domUtils.getStyle(preList, "list-style-type") ||
-        (tag == "ol" ? "decimal" : "disc")) == style
+        (tag == "ol" ? "decimal" : "disc")) === style
     ) {
       domUtils.moveChild(list, preList);
     }
@@ -17141,7 +17206,7 @@ UE.plugins["list"] = function() {
         if (filterFn(node)) {
           return null;
         }
-        if (node.nodeType == 1 && /[ou]l/i.test(node.tagName)) {
+        if (node.nodeType === 1 && /[ou]l/i.test(node.tagName)) {
           return node;
         }
         node = node.parentNode;
@@ -17149,7 +17214,7 @@ UE.plugins["list"] = function() {
       return null;
     }
     var keyCode = evt.keyCode || evt.which;
-    if (keyCode == 13 && !evt.shiftKey) {
+    if (keyCode === 13 && !evt.shiftKey) {
       //回车
       var rng = me.selection.getRange(),
         parent = domUtils.findParent(
@@ -17160,7 +17225,7 @@ UE.plugins["list"] = function() {
           true
         ),
         li = domUtils.findParentByTagName(rng.startContainer, "li", true);
-      if (parent && parent.tagName != "PRE" && !li) {
+      if (parent && parent.tagName !== "PRE" && !li) {
         var html = parent.innerHTML.replace(
           new RegExp(domUtils.fillChar, "g"),
           ""
@@ -17175,12 +17240,12 @@ UE.plugins["list"] = function() {
       }
       var range = me.selection.getRange(),
         start = findList(range.startContainer, function(node) {
-          return node.tagName == "TABLE";
+          return node.tagName === "TABLE";
         }),
         end = range.collapsed
           ? start
           : findList(range.endContainer, function(node) {
-              return node.tagName == "TABLE";
+              return node.tagName === "TABLE";
             });
 
       if (start && end && start === end) {
@@ -17316,7 +17381,7 @@ UE.plugins["list"] = function() {
         }
       }
     }
-    if (keyCode == 8) {
+    if (keyCode === 8) {
       //修中ie中li下的问题
       range = me.selection.getRange();
       if (range.collapsed && domUtils.isStartInblock(range)) {
@@ -17337,7 +17402,7 @@ UE.plugins["list"] = function() {
           }
 
           if (li && (pre = li.previousSibling)) {
-            if (keyCode == 46 && li.childNodes.length) {
+            if (keyCode === 46 && li.childNodes.length) {
               return;
             }
             //有可能上边的兄弟节点是个2级菜单，要追加到2级菜单的最后的li
@@ -19434,7 +19499,8 @@ UE.plugins["autoheight"] = function() {
             domUtils.getXY(node).y + node.offsetHeight + 25,
             Math.max(options.minFrameHeight, options.initialFrameHeight)
           );
-          if (currentHeight != lastHeight) {
+          if (currentHeight !== lastHeight) {
+            me.iframe.parentNode.style.transition = 'width 0.3s, height 0.3s, easy-in-out';
             if (currentHeight !== parseInt(me.iframe.parentNode.style.height)) {
               me.iframe.parentNode.style.height = currentHeight + "px";
             }
@@ -25979,6 +26045,7 @@ UE.plugins["catchremoteimage"] = function () {
         method: "POST",
         dataType: isJsonp ? "jsonp" : "",
         timeout: 60000, //单位：毫秒，回调请求超时设置。目标用户如果网速不是很快的话此处建议设置一个较大的数值
+        headers: me.options.serverHeaders || {},
         onsuccess: callbacks["success"],
         onerror: callbacks["error"]
       };
@@ -27261,6 +27328,110 @@ UE.plugin.register("insertfile", function() {
     }
   };
 });
+
+
+// plugins/markdown-shortcut.js
+UE.plugins["markdown-shortcut"] = function () {
+
+  let me = this;
+  const uiUtils = UE.ui.uiUtils;
+
+  const getCleanHtml = function (node) {
+    let html = node.innerHTML
+    html = html.replace(/[\u200b]*/g, '')
+    return html
+  }
+
+  let shortCuts = [];
+  for (let i = 1; i <= 6; i++) {
+    let command = 'h' + i;
+    const regExp = new RegExp('^\\t?' + Array(i + 1).join('#') + '(\\s|&nbsp;)');
+    shortCuts.push({
+      tagName: ['P'],
+      key: [' '],
+      offset: [i + 1, i + 2],
+      match: [regExp],
+      callback: function (param) {
+        me.__hasEnterExecCommand = true;
+        me.execCommand('paragraph', command);
+        setTimeout(function () {
+          let range = me.selection.getRange();
+          let node = range.startContainer;
+          // safari 下不会自动选中Hx标签
+          if (node.tagName !== 'H' + i) {
+            node = node.parentNode
+          }
+          let html = getCleanHtml(node)
+          html = html.replace(regExp, '');
+          if (!html) {
+            html = domUtils.fillChar;
+          }
+          node.innerHTML = html;
+          me.__hasEnterExecCommand = false;
+        }, 0);
+      }
+    })
+  }
+
+  me.on("ready", function () {
+
+    // let quickOperate = null
+    // domUtils.on(me.body, "mouseover", function (evt) {
+    //   const node = evt.target
+    //   const rect = node.getBoundingClientRect();
+    //   const offset = uiUtils.getClientRect(node)
+    //   offset.left = offset.left - 60
+    //   console.log('mouseover', rect, node, offset);
+    //   // var offset = uiUtils.getViewportOffsetByEvent(evt);
+    //   if (quickOperate) {
+    //     quickOperate.destroy();
+    //   }
+    //   quickOperate = new UE.ui.QuickOperate({
+    //     // items: contextItems,
+    //     className: "edui-quick-operate",
+    //     editor: me
+    //   });
+    //   // console.log('quickOperate', quickOperate);
+    //   quickOperate.render();
+    //   quickOperate.showAt(offset);
+    // });
+
+    domUtils.on(me.body, "keyup", function (e) {
+      let range = me.selection.getRange();
+      if (range.endOffset !== range.startOffset) {
+        return;
+      }
+      let key = e.key;
+      let offset = range.startOffset;
+      const node = range.startContainer.parentNode;
+      let html = getCleanHtml(node);
+      let tagName = node.tagName;
+      // console.log('keyup', [node, range, tagName, key, offset, html]);
+      for (let s of shortCuts) {
+        if (!s.tagName.includes(tagName)) {
+          continue;
+        }
+        if (!s.key.includes(key)) {
+          continue;
+        }
+        if (!s.offset.includes(offset)) {
+          continue;
+        }
+        for (let m of s.match) {
+          let match = html.match(m);
+          // console.log('keyup', [html, m, match]);
+          if (match) {
+            s.callback({
+              node: node,
+            });
+            break;
+          }
+        }
+      }
+    });
+  });
+
+};
 
 
 // ui/ui.js
@@ -29144,6 +29315,290 @@ UE.ui = baidu.editor.ui = {};
 })();
 
 
+// ui/quick-operate.js
+///import core
+///import uicore
+///import ui\popup.js
+///import ui\stateful.js
+(function () {
+  var utils = baidu.editor.utils,
+    domUtils = baidu.editor.dom.domUtils,
+    uiUtils = baidu.editor.ui.uiUtils,
+    UIBase = baidu.editor.ui.UIBase,
+    Popup = baidu.editor.ui.Popup,
+    Stateful = baidu.editor.ui.Stateful,
+    CellAlignPicker = baidu.editor.ui.CellAlignPicker,
+    QuickOperate = (baidu.editor.ui.QuickOperate = function (options) {
+      this.initOptions(options);
+      // this.initMenu();
+    });
+
+  // var menuSeparator = {
+  //   renderHtml: function() {
+  //     return '<div class="edui-menuitem edui-menuseparator"><div class="edui-menuseparator-inner"></div></div>';
+  //   },
+  //   postRender: function() {},
+  //   queryAutoHide: function() {
+  //     return true;
+  //   }
+  // };
+  QuickOperate.prototype = {
+    //   items: null,
+    uiName: "quick-operate",
+    //   initMenu: function() {
+    //     this.items = this.items || [];
+    //     this.initPopup();
+    //     this.initItems();
+    //   },
+    //   initItems: function() {
+    //     for (var i = 0; i < this.items.length; i++) {
+    //       var item = this.items[i];
+    //       if (item == "-") {
+    //         this.items[i] = this.getSeparator();
+    //       } else if (!(item instanceof MenuItem)) {
+    //         item.editor = this.editor;
+    //         item.theme = this.editor.options.theme;
+    //         this.items[i] = this.createItem(item);
+    //       }
+    //     }
+    //   },
+    //   getSeparator: function() {
+    //     return menuSeparator;
+    //   },
+    //   createItem: function(item) {
+    //     //新增一个参数menu, 该参数存储了menuItem所对应的menu引用
+    //     item.menu = this;
+    //     return new MenuItem(item);
+    //   },
+    _Popup_getContentHtmlTpl: Popup.prototype.getContentHtmlTpl,
+    getContentHtmlTpl: function () {
+      //     if (this.items.length == 0) {
+      //       return this._Popup_getContentHtmlTpl();
+      //     }
+      //     var buff = [];
+      //     for (var i = 0; i < this.items.length; i++) {
+      //       var item = this.items[i];
+      //       buff[i] = item.renderHtml();
+      //     }
+      //     return '<div class="%%-body">' + buff.join("") + "</div>";
+      return '<div></div>'
+    },
+    //   _Popup_postRender: Popup.prototype.postRender,
+    //   postRender: function() {
+    //     var me = this;
+    //     for (var i = 0; i < this.items.length; i++) {
+    //       var item = this.items[i];
+    //       item.ownerMenu = this;
+    //       item.postRender();
+    //     }
+    //     domUtils.on(this.getDom(), "mouseover", function(evt) {
+    //       evt = evt || event;
+    //       var rel = evt.relatedTarget || evt.fromElement;
+    //       var el = me.getDom();
+    //       if (!uiUtils.contains(el, rel) && el !== rel) {
+    //         me.fireEvent("over");
+    //       }
+    //     });
+    //     this._Popup_postRender();
+    //   },
+    //   queryAutoHide: function(el) {
+    //     if (el) {
+    //       if (uiUtils.contains(this.getDom(), el)) {
+    //         return false;
+    //       }
+    //       for (var i = 0; i < this.items.length; i++) {
+    //         var item = this.items[i];
+    //         if (item.queryAutoHide(el) === false) {
+    //           return false;
+    //         }
+    //       }
+    //     }
+    //   },
+    //   clearItems: function() {
+    //     for (var i = 0; i < this.items.length; i++) {
+    //       var item = this.items[i];
+    //       clearTimeout(item._showingTimer);
+    //       clearTimeout(item._closingTimer);
+    //       if (item.subMenu) {
+    //         item.subMenu.destroy();
+    //       }
+    //     }
+    //     this.items = [];
+    //   },
+    destroy: function () {
+      if (this.getDom()) {
+        domUtils.remove(this.getDom());
+      }
+      //     this.clearItems();
+    },
+    dispose: function () {
+      this.destroy();
+    }
+  };
+  utils.inherits(QuickOperate, Popup);
+  //
+  // /**
+  //    * @update 2013/04/03 hancong03 新增一个参数menu, 该参数存储了menuItem所对应的menu引用
+  //    * @type {Function}
+  //    */
+  // var MenuItem = (baidu.editor.ui.MenuItem = function(options) {
+  //   this.initOptions(options);
+  //   this.initUIBase();
+  //   this.Stateful_init();
+  //   if (this.subMenu && !(this.subMenu instanceof QuickOperate)) {
+  //     if (options.className && options.className.indexOf("aligntd") != -1) {
+  //       var me = this;
+  //
+  //       //获取单元格对齐初始状态
+  //       this.subMenu.selected = this.editor.queryCommandValue("cellalignment");
+  //
+  //       this.subMenu = new Popup({
+  //         content: new CellAlignPicker(this.subMenu),
+  //         parentMenu: me,
+  //         editor: me.editor,
+  //         destroy: function() {
+  //           if (this.getDom()) {
+  //             domUtils.remove(this.getDom());
+  //           }
+  //         }
+  //       });
+  //       this.subMenu.addListener("postRenderAfter", function() {
+  //         domUtils.on(this.getDom(), "mouseover", function() {
+  //           me.addState("opened");
+  //         });
+  //       });
+  //     } else {
+  //       this.subMenu = new QuickOperate(this.subMenu);
+  //     }
+  //   }
+  // });
+  // MenuItem.prototype = {
+  //   label: "",
+  //   subMenu: null,
+  //   ownerMenu: null,
+  //   uiName: "menuitem",
+  //   alwalysHoverable: true,
+  //   getHtmlTpl: function() {
+  //     return (
+  //       '<div id="##" class="%%" stateful onclick="$$._onClick(event, this);">' +
+  //       '<div class="%%-body">' +
+  //       this.renderLabelHtml() +
+  //       "</div>" +
+  //       "</div>"
+  //     );
+  //   },
+  //   postRender: function() {
+  //     var me = this;
+  //     this.addListener("over", function() {
+  //       me.ownerMenu.fireEvent("submenuover", me);
+  //       if (me.subMenu) {
+  //         me.delayShowSubMenu();
+  //       }
+  //     });
+  //     if (this.subMenu) {
+  //       this.getDom().className += " edui-hassubmenu";
+  //       this.subMenu.render();
+  //       this.addListener("out", function() {
+  //         me.delayHideSubMenu();
+  //       });
+  //       this.subMenu.addListener("over", function() {
+  //         clearTimeout(me._closingTimer);
+  //         me._closingTimer = null;
+  //         me.addState("opened");
+  //       });
+  //       this.ownerMenu.addListener("hide", function() {
+  //         me.hideSubMenu();
+  //       });
+  //       this.ownerMenu.addListener("submenuover", function(t, subMenu) {
+  //         if (subMenu !== me) {
+  //           me.delayHideSubMenu();
+  //         }
+  //       });
+  //       this.subMenu._bakQueryAutoHide = this.subMenu.queryAutoHide;
+  //       this.subMenu.queryAutoHide = function(el) {
+  //         if (el && uiUtils.contains(me.getDom(), el)) {
+  //           return false;
+  //         }
+  //         return this._bakQueryAutoHide(el);
+  //       };
+  //     }
+  //     this.getDom().style.tabIndex = "-1";
+  //     uiUtils.makeUnselectable(this.getDom());
+  //     this.Stateful_postRender();
+  //   },
+  //   delayShowSubMenu: function() {
+  //     var me = this;
+  //     if (!me.isDisabled()) {
+  //       me.addState("opened");
+  //       clearTimeout(me._showingTimer);
+  //       clearTimeout(me._closingTimer);
+  //       me._closingTimer = null;
+  //       me._showingTimer = setTimeout(function() {
+  //         me.showSubMenu();
+  //       }, 250);
+  //     }
+  //   },
+  //   delayHideSubMenu: function() {
+  //     var me = this;
+  //     if (!me.isDisabled()) {
+  //       me.removeState("opened");
+  //       clearTimeout(me._showingTimer);
+  //       if (!me._closingTimer) {
+  //         me._closingTimer = setTimeout(function() {
+  //           if (!me.hasState("opened")) {
+  //             me.hideSubMenu();
+  //           }
+  //           me._closingTimer = null;
+  //         }, 400);
+  //       }
+  //     }
+  //   },
+  //   renderLabelHtml: function() {
+  //     return (
+  //       '<div class="edui-arrow"></div>' +
+  //       '<div class="edui-box edui-icon"></div>' +
+  //       '<div class="edui-box edui-label %%-label">' +
+  //       (this.label || "") +
+  //       "</div>"
+  //     );
+  //   },
+  //   getStateDom: function() {
+  //     return this.getDom();
+  //   },
+  //   queryAutoHide: function(el) {
+  //     if (this.subMenu && this.hasState("opened")) {
+  //       return this.subMenu.queryAutoHide(el);
+  //     }
+  //   },
+  //   _onClick: function(event, this_) {
+  //     if (this.hasState("disabled")) return;
+  //     if (this.fireEvent("click", event, this_) !== false) {
+  //       if (this.subMenu) {
+  //         this.showSubMenu();
+  //       } else {
+  //         Popup.postHide(event);
+  //       }
+  //     }
+  //   },
+  //   showSubMenu: function() {
+  //     var rect = uiUtils.getClientRect(this.getDom());
+  //     rect.right -= 5;
+  //     rect.left += 2;
+  //     rect.width -= 7;
+  //     rect.top -= 4;
+  //     rect.bottom += 4;
+  //     rect.height += 8;
+  //     this.subMenu.showAnchorRect(rect, true, true);
+  //   },
+  //   hideSubMenu: function() {
+  //     this.subMenu.hide();
+  //   }
+  // };
+  // utils.inherits(MenuItem, UIBase);
+  // utils.extend(MenuItem.prototype, Stateful, true);
+})();
+
+
 // ui/menu.js
 ///import core
 ///import uicore
@@ -30937,7 +31392,6 @@ UE.ui = baidu.editor.ui = {};
             if (ci.value.indexOf(value) != -1) return i;
           }
         }
-
         return -1;
       }
     });
@@ -31748,9 +32202,6 @@ UE.ui = baidu.editor.ui = {};
             actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
               editor.getLang("default") +
               "</span>");
-            actions.push('<span onclick=$$._onImgSetFloat("none") class="edui-clickable edui-popup-action-item">' +
-              editor.getLang("default") +
-              "</span>");
             actions.push('<span onclick=$$._onImgSetFloat("left") class="edui-clickable edui-popup-action-item">' +
               editor.getLang("justifyleft") +
               "</span>");
@@ -31825,6 +32276,11 @@ UE.ui = baidu.editor.ui = {};
     _initToolbars: function () {
       var editor = this.editor;
       var toolbars = this.toolbars || [];
+      if(toolbars[0]){
+        toolbars[0].unshift(
+          'message'
+        );
+      }
       var toolbarUis = [];
       var extraUIs = [];
       for (var i = 0; i < toolbars.length; i++) {
@@ -31837,10 +32293,10 @@ UE.ui = baidu.editor.ui = {};
           var toolbarItemUi = null;
           if (typeof toolbarItem == "string") {
             toolbarItem = toolbarItem.toLowerCase();
-            if (toolbarItem == "|") {
+            if (toolbarItem === "|") {
               toolbarItem = "Separator";
             }
-            if (toolbarItem == "||") {
+            if (toolbarItem === "||") {
               toolbarItem = "Breakline";
             }
             var ui = baidu.editor.ui[toolbarItem];
@@ -31848,7 +32304,7 @@ UE.ui = baidu.editor.ui = {};
               if (utils.isFunction(ui)) {
                 toolbarItemUi = new baidu.editor.ui[toolbarItem](editor);
               } else {
-                if (ui.id && ui.id != editor.key) {
+                if (ui.id && ui.id !== editor.key) {
                   continue;
                 }
                 var itemUI = ui.execFn.call(editor, editor, toolbarItem);
@@ -31866,7 +32322,7 @@ UE.ui = baidu.editor.ui = {};
               }
             }
             //fullscreen这里单独处理一下，放到首行去
-            if (toolbarItem == "fullscreen") {
+            if (toolbarItem === "fullscreen") {
               if (toolbarUis && toolbarUis[0]) {
                 toolbarUis[0].items.splice(0, 0, toolbarItemUi);
               } else {
@@ -32265,7 +32721,7 @@ UE.ui = baidu.editor.ui = {};
     editor.options.editor = editor;
     utils.loadFile(document, {
       href:
-        editor.options.themePath + editor.options.theme + "/css/ueditor.css?20220907",
+        editor.options.themePath + editor.options.theme + "/css/ueditor.css?20230319",
       tag: "link",
       type: "text/css",
       rel: "stylesheet"
