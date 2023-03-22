@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-10">
                 @section('memberBodyContent')
-                    {!! $content or '' !!}
+                    {!! empty($content)?'':$content !!}
                 @show
             </div>
         </div>

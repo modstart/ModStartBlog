@@ -62,7 +62,7 @@
                                                 博主回复
                                             </div>
                                             <div class="ub-html">
-                                                {!! $record['content'] !!}
+                                                {!! $record['reply'] !!}
                                             </div>
                                         </div>
                                     </div>

@@ -31,5 +31,8 @@ return [
         'Banner' => [
             'enable' => true,
         ],
+        'VisitStatistic' => [
+            'enable' => true,
+        ],
     ],
 ];
