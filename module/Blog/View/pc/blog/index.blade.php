@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-8 margin-top">
 
-                <div class="tw-bg-white tw-p-1 tw-rounded">
+                <div class="tw-bg-white tw-rounded tw-overflow-hidden">
                     {!! \Module\Banner\Render\BannerRender::position('blogHome') !!}
                 </div>
 
