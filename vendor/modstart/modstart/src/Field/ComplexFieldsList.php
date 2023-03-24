@@ -9,7 +9,7 @@ namespace ModStart\Field;
  * Class ComplexFields
  * @package ModStart\Field
  */
-class ComplexFields extends AbstractField
+class ComplexFieldsList extends AbstractField
 {
     protected $value = [];
     protected $width = 300;
@@ -23,18 +23,19 @@ class ComplexFields extends AbstractField
                 // ['name' => 'xxx', 'title' => '文本', 'type' => 'text', 'defaultValue' => ''],
                 // ['name' => 'xxx', 'title' => '图标', 'type' => 'icon', 'defaultValue' => 'iconfont icon-home'],
             ],
+            'valueItem' => new \stdClass(),
             'iconServer' => modstart_admin_url('widget/icon'),
         ]);
     }
 
-    private function getDefaultValues()
+    private function getValueItem()
     {
         $fields = $this->getVariable('fields');
-        $defaultValue = [];
-        foreach ($fields as $item) {
-            $defaultValue[$item['name']] = isset($f['defaultValue']) ? $f['defaultValue'] : null;
+        $valueItem = [];
+        foreach ($fields as $f) {
+            $valueItem[$f['name']] = isset($f['defaultValue']) ? $f['defaultValue'] : null;
         }
-        return $defaultValue;
+        return $valueItem;
     }
 
     public function iconServer($server)
@@ -46,7 +47,7 @@ class ComplexFields extends AbstractField
     public function fields($value)
     {
         $this->addVariables(['fields' => $value]);
-        $this->defaultValue($this->getDefaultValues());
+        $this->addVariables(['valueItem' => $this->getValueItem()]);
         return $this;
     }
 
@@ -54,7 +55,7 @@ class ComplexFields extends AbstractField
     {
         $value = @json_decode($value, true);
         if (empty($value)) {
-            $value = new \stdClass();
+            $value = [];
         }
         return $value;
     }
@@ -68,7 +69,7 @@ class ComplexFields extends AbstractField
     {
         $value = @json_decode($value, true);
         if (empty($value)) {
-            $value = new \stdClass();
+            $value = [];
         }
         return $value;
     }

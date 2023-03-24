@@ -4,7 +4,6 @@ namespace Module\VisitStatistic\Core;
 
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use ModStart\Admin\Config\AdminMenu;
 use ModStart\Admin\Layout\AdminPage;
@@ -29,8 +28,7 @@ class ModuleServiceProvider extends ServiceProvider
     {
         if (modstart_config('VisitStatistic_Enable', false)) {
             Event::listen(ModStartRequestHandled::class, function (ModStartRequestHandled $e) {
-
-                if (CurrentApp::ADMIN == Session::get('_currentApp') || 'GET' != $e->method) {
+                if (CurrentApp::is(CurrentApp::ADMIN) || !$e->isGet() || !$e->isHtml()) {
                     return;
                 }
                 $data = [];
@@ -58,10 +56,12 @@ class ModuleServiceProvider extends ServiceProvider
 
             AdminWidgetDashboard::registerFoot(function (AdminPage $page) {
                 $data = VisitStatisticDailyReport::report();
-                $line = Line::make()->xData($data['time'])->ySeries(0, $data['pv'], '访问量')->ySeries(1, $data['uv'], '访客数');
+                $line = Line::make()->xData($data['time'])
+                    ->ySeries(0, $data['pv'], '访问量', ['lineColor' => '#4F7FF3'])
+                    ->ySeries(1, $data['uv'], '访客数', ['lineColor' => '#6A46BD']);
                 $page->row(Box::make($line, '<i class="fa fa-bar-chart"></i> 访问统计'));
             });
-            
+
         }
 
         AdminMenu::register(function () {

@@ -44,6 +44,7 @@ class SmsUtil
         return $template;
     }
 
+    
     public static function templates()
     {
         $templates = [
@@ -56,6 +57,7 @@ class SmsUtil
         return $templates;
     }
 
+    
     public static function send($phone, $template, $templateData = [])
     {
         $provider = app()->config->get('SmsSenderProvider');

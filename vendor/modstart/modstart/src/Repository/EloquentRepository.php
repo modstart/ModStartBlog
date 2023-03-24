@@ -16,6 +16,7 @@ use ModStart\Core\Dao\DynamicModel;
 use ModStart\Core\Exception\BizException;
 use ModStart\Core\Exception\ResultException;
 use ModStart\Core\Type\SortDirection;
+use ModStart\Core\Util\ReUtil;
 use ModStart\Core\Util\TreeUtil;
 use ModStart\Detail\Detail;
 use ModStart\Form\Form;
@@ -455,8 +456,16 @@ class EloquentRepository extends Repository
                 ResultException::throwsIfFail($form->hookCall($form->hookChanged()));
             });
         } catch (\Exception $e) {
-            if (Str::contains($e->getMessage(), 'Duplicate entry')) {
+            $message = $e->getMessage();
+            if (Str::contains($message, 'Duplicate entry')) {
                 BizException::throws(L('Records Duplicated'));
+            } else if (Str::contains($message, 'Data too long for column')) {
+                // Data too long for column 'summary' at row
+                $column = ReUtil::group1('/Data too long for column \'(.*)\' at row/', $message);
+                if (!empty($column)) {
+                    BizException::throws("FieldTooLong:$column");
+                }
+                throw $e;
             } else {
                 throw $e;
             }
@@ -507,8 +516,16 @@ class EloquentRepository extends Repository
                 ResultException::throwsIfFail($form->hookCall($form->hookChanged()));
             });
         } catch (\Exception $e) {
-            if (Str::contains($e->getMessage(), 'Duplicate entry')) {
+            $message = $e->getMessage();
+            if (Str::contains($message, 'Duplicate entry')) {
                 BizException::throws(L('Records Duplicated'));
+            } else if (Str::contains($message, 'Data too long for column')) {
+                // Data too long for column 'summary' at row
+                $column = ReUtil::group1('/Data too long for column \'(.*)\' at row/', $message);
+                if (!empty($column)) {
+                    BizException::throws("FieldTooLong:$column");
+                }
+                throw $e;
             } else {
                 throw $e;
             }
