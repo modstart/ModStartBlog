@@ -456,21 +456,41 @@ class EloquentRepository extends Repository
                 ResultException::throwsIfFail($form->hookCall($form->hookChanged()));
             });
         } catch (\Exception $e) {
-            $message = $e->getMessage();
-            if (Str::contains($message, 'Duplicate entry')) {
-                BizException::throws(L('Records Duplicated'));
-            } else if (Str::contains($message, 'Data too long for column')) {
-                // Data too long for column 'summary' at row
-                $column = ReUtil::group1('/Data too long for column \'(.*)\' at row/', $message);
+            $this->throwDatabaseException($e);
+        }
+        return $model->getKey();
+    }
+
+    /**
+     * 统一处理数据库异常
+     * @param \Exception $e
+     * @throws BizException
+     */
+    private function throwDatabaseException(\Exception $e)
+    {
+        $message = $e->getMessage();
+        if (Str::contains($message, 'Duplicate entry')) {
+            BizException::throws(L('Records Duplicated'));
+        }
+        $formatErrorTemplates = [
+            ['Data too long for column', '/Data too long for column \'(.*)\' at row/'],
+            ['Data truncated for column', '/Data truncated for column \'(.*)\' at row/'],
+            ['Incorrect integer value', '/ for column \'(.*)\' at row/'],
+            ['Incorrect decimal value', '/ for column \'(.*)\' at row/'],
+            ['Incorrect datetime value', '/ for column \'(.*)\' at row/'],
+            ['Incorrect time value', '/ for column \'(.*)\' at row/'],
+            ['Incorrect date value', '/ for column \'(.*)\' at row/'],
+        ];
+        foreach ($formatErrorTemplates as $f) {
+            if (Str::contains($message, $f[0])) {
+                $column = ReUtil::group1($f[1], $message);
                 if (!empty($column)) {
-                    BizException::throws("FieldTooLong:$column");
+                    BizException::throws("FieldFormatError:$column");
                 }
-                throw $e;
-            } else {
                 throw $e;
             }
         }
-        return $model->getKey();
+        throw $e;
     }
 
     /**
@@ -516,19 +536,7 @@ class EloquentRepository extends Repository
                 ResultException::throwsIfFail($form->hookCall($form->hookChanged()));
             });
         } catch (\Exception $e) {
-            $message = $e->getMessage();
-            if (Str::contains($message, 'Duplicate entry')) {
-                BizException::throws(L('Records Duplicated'));
-            } else if (Str::contains($message, 'Data too long for column')) {
-                // Data too long for column 'summary' at row
-                $column = ReUtil::group1('/Data too long for column \'(.*)\' at row/', $message);
-                if (!empty($column)) {
-                    BizException::throws("FieldTooLong:$column");
-                }
-                throw $e;
-            } else {
-                throw $e;
-            }
+            $this->throwDatabaseException($e);
         }
         return $result;
     }

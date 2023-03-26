@@ -20,7 +20,9 @@
                             @elseif($f['type']=='text')
                                 <el-input v-model="value['{{$f['name']}}']" size="mini" />
                             @elseif($f['type']=='icon')
-                                <icon-input v-model="value['{{$f['name']}}']" :icons="icons" :inline="true"></icon-input>
+                                <icon-input v-model="value['{{$f['name']}}']" :icons="icons" :inline="true" />
+                            @elseif($f['type']=='number')
+                                <el-input-number v-model="value['{{$f['name']}}']" size="mini" />
                             @endif
                         </td>
                     </tr>
@@ -45,7 +47,7 @@
                 icons: []
             },
             mounted(){
-                this.$api.post('{{$iconServer}}', {}, res => {
+                MS.api.post('{{$iconServer}}', {}, res => {
                     this.icons = res.data
                 })
             },

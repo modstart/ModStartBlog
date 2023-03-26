@@ -370,11 +370,17 @@ class Form implements Renderable
     private function convertBizExceptionToResponse($exception)
     {
         $message = $exception->getMessage();
-        if (Str::startsWith($message, 'FieldTooLong:')) {
-            list($_, $c) = explode(':', $message);
-            $field = $this->getFieldByColumn($c);
-            if ($field) {
-                return Response::jsonError(L('Field %s Too Long', $field->label()));
+        $messageTemplates = [
+            ['FieldTooLong:', 'Field %s Too Long'],
+            ['FieldFormatError:', 'Field %s Format Error'],
+        ];
+        foreach ($messageTemplates as $m) {
+            if (Str::startsWith($message, $m[0])) {
+                list($_, $c) = explode(':', $message);
+                $field = $this->getFieldByColumn($c);
+                if ($field) {
+                    return Response::jsonError(L($m[1], $field->label()));
+                }
             }
         }
         return Response::jsonError($message);

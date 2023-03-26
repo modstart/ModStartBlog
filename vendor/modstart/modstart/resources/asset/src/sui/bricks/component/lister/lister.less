@@ -143,6 +143,17 @@
 
         td {
             font-size: 12px;
+            padding: 0.1rem;
+        }
+
+        tbody {
+            tr {
+                &:last-child {
+                    td {
+                        border-bottom: none;
+                    }
+                }
+            }
         }
     }
 
@@ -193,8 +204,8 @@
     }
 
     &.hover {
-        tbody{
-            tr:hover{
+        tbody {
+            tr:hover {
                 td {
                     background: #F4F8FB;
                 }

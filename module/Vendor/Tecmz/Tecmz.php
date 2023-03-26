@@ -200,15 +200,22 @@ class Tecmz
     }
 
     
-    public function imageCompress($format, $imageData)
+    public function imageCompress($format, $imageData = null, $imageUrl = null, $name = null, $param = [])
     {
         $ret = $this->request('/image_compress/prepare', []);
-        if (Response::isError($ret)) {
+                if (Response::isError($ret)) {
             return $ret;
         }
         $post = [];
         $post['format'] = $format;
-        $post['imageData'] = base64_encode($imageData);
+        if (!empty($imageData)) {
+            $post['imageData'] = base64_encode($imageData);
+        }
+        if (!empty($imageUrl)) {
+            $post['imageUrl'] = $imageUrl;
+        }
+        $post['name'] = $name;
+        $post['param'] = json_encode($param, JSON_UNESCAPED_UNICODE);
         $server = $ret['data']['server'];
                 $ret = CurlUtil::postJSONBody($server, $post);
                 if (Response::isError($ret)) {

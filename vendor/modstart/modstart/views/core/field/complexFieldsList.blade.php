@@ -27,7 +27,9 @@
                                 @elseif($f['type']=='text')
                                     <el-input v-model="value[vIndex]['{{$f['name']}}']" size="mini" />
                                 @elseif($f['type']=='icon')
-                                    <icon-input v-model="value[vIndex]['{{$f['name']}}']" :icons="icons" :inline="true"></icon-input>
+                                    <icon-input v-model="value[vIndex]['{{$f['name']}}']" :icons="icons" :inline="true" />
+                                @elseif($f['type']=='number')
+                                    <el-input-number v-model="value[vIndex]['{{$f['name']}}']" size="mini" />
                                 @endif
                             </td>
                         @endforeach

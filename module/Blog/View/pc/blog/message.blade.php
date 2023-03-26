@@ -37,7 +37,7 @@
                                                  style="background-image:url({{$record['_memberUser']['avatar']}})"></div>
                                         @else
                                             <div class="ub-cover-1-1 tw-rounded-full"
-                                                 style="background-image:url( @asset('asset/image/avatar.png') )"></div>
+                                                 style="background-image:url( @asset('asset/image/avatar.svg') )"></div>
                                         @endif
                                     </div>
                                     <div class="tw-flex-grow tw-ml-4">
@@ -87,7 +87,7 @@
                             <div class="pb-blog-comment">
                                 <div class="tw-flex">
                                     <div class="tw-w-10">
-                                        <div class="ub-cover-1-1 tw-rounded-full" style="background-image:url({{\ModStart\Core\Assets\AssetsUtil::fixOrDefault(empty($_memberUser)?'':$_memberUser['avatar'],'asset/image/avatar.png')}})"></div>
+                                        <div class="ub-cover-1-1 tw-rounded-full" style="background-image:url({{\ModStart\Core\Assets\AssetsUtil::fixOrDefault(empty($_memberUser)?'':$_memberUser['avatar'],'asset/image/avatar.svg')}})"></div>
                                     </div>
                                     <div class="tw-flex-grow tw-leading-10 tw-ml-4 tw-text-lg">
                                         @if(!empty($_memberUser))
