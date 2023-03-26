@@ -13,7 +13,7 @@
          data-scroll-animate="animated fadeInUp"
     >
         <div>
-            <div class="ub-text-truncate">
+            <div class="lg:tw-truncate">
                 @if($record['isTop'])
                     <span class="tw tw-align-top tw-inline-block tw-leading-6 tw-px-3 tw-rounded tw-text-lg tw-bg-blue-100 tw-text-blue-500">置顶</span>
                 @endif
