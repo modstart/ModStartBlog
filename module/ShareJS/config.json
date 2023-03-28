@@ -1,0 +1,19 @@
+{
+    "name": "ShareJS",
+    "title": "一键分享",
+    "require": [
+        "Vendor"
+    ],
+    "env": [
+        "laravel5",
+        "laravel9"
+    ],
+    "version": "1.1.0",
+    "modstartVersion": ">=2.0.0",
+    "author": "ModStart",
+    "description": "提供网页生成一键分享功能",
+    "providers": [
+    ],
+    "config": {
+    }
+}

@@ -29,7 +29,8 @@ class ApiUtil
 
         $data['modules'] = ModuleManager::listAllEnableModuleNames();
 
-                $data['payAlipayOn'] = $config->getBoolean('payAlipayOn');
+                
+        $data['payAlipayOn'] = $config->getBoolean('payAlipayOn');
         $data['payAlipayWebOn'] = $config->getBoolean('payAlipayWebOn');
         $data['payWechatOn'] = $config->getBoolean('payWechatOn');
         $data['payMemberMoneyOn'] = $config->getBoolean('payMemberMoneyOn');

@@ -241,7 +241,7 @@ function modstart_config($key = null, $default = '', $useCache = true)
         if (true === $default || false === $default) {
             return boolval($v);
         }
-        if (0 === $default) {
+        if (is_int($default)) {
             return intval($v);
         }
         if (is_array($default)) {
@@ -249,6 +249,7 @@ function modstart_config($key = null, $default = '', $useCache = true)
             if (null === $v) {
                 return $default;
             }
+            return $v;
         }
         return $v;
     } catch (Exception $e) {

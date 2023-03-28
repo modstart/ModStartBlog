@@ -523,4 +523,29 @@ class Tecmz
         return $this->callFileConvertQuery('doc_to_html', $jobId);
     }
 
+    
+    public function pdfToTextQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('pdf_to_text', $url, $name, $param);
+    }
+
+    
+    public function pdfToTextQuery($jobId)
+    {
+        return $this->callFileConvertQuery('pdf_to_text', $jobId);
+    }
+
+    
+    public function docSmartPreviewQueue($url, $name = null, $param = [])
+    {
+        return $this->callFileConvertQueue('doc_smart_preview', $url, $name, $param);
+    }
+
+    
+    public function docSmartPreviewQuery($jobId)
+    {
+        return $this->callFileConvertQuery('doc_smart_preview', $jobId);
+    }
+
+
 }

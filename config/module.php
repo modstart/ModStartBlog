@@ -31,6 +31,9 @@ return [
         'Banner' => [
             'enable' => true,
         ],
+        'ShareJS' => [
+            'enable' => true,
+        ],
         'VisitStatistic' => [
             'enable' => true,
         ],

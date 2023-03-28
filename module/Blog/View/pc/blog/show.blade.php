@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-8 margin-top">
 
-                <div class="tw-p-6 tw-rounded tw-bg-white tw-py-4">
+                <div class="tw-p-6 tw-rounded tw-bg-white tw-py-4 margin-bottom">
                     <h1 class="tw-mb-4">
                         {{$record['title']}}
                     </h1>
@@ -44,7 +44,11 @@
                             {!! $record['content'] !!}
                         </div>
                     </div>
+                    <div class="tw-text-center">
+                        @include('module::ShareJS.View.buttons')
+                    </div>
                 </div>
+
 
                 <div class="tw-p-6 margin-bottom tw-bg-white tw-rounded">
                     <div class="row">
