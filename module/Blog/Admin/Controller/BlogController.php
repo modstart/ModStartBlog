@@ -16,6 +16,7 @@ use ModStart\Repository\RepositoryUtil;
 use ModStart\Support\Concern\HasFields;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\BlogTagUtil;
+use Module\Vendor\Provider\SiteUrl\SiteUrlProvider;
 
 class BlogController extends Controller
 {
@@ -63,6 +64,10 @@ class BlogController extends Controller
             ->hookChanged(function (Form $form) use (&$updatedCategoryIds) {
                 RepositoryUtil::makeItems($form->item())->map(function ($item) use (&$updatedCategoryIds) {
                     $updatedCategoryIds[] = $item->categoryId;
+                    SiteUrlProvider::update(modstart_web_url('blog/' . $item->id), $item->title, [
+                        'biz' => 'blog',
+                    ]);
+                    var_dump($item);
                 });
                 if (!empty($updatedCategoryIds)) {
                     $updatedCategoryIds = array_unique($updatedCategoryIds);

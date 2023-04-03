@@ -4,6 +4,7 @@ use ModStart\Core\Assets\AssetsUtil;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Util\HtmlUtil;
 use ModStart\Core\Util\TagUtil;
+use Module\Blog\Model\Blog;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\BlogTagUtil;
 
@@ -80,7 +81,15 @@ class MBlog
         ], $option['whereOperate']);
 
         $paginateData = ModelUtil::paginate('blog', $page, $pageSize, $option);
-        $records = $paginateData['records'];
+        $records = self::buildRecords($paginateData['records']);
+        return [
+            'records' => $records,
+            'total' => $paginateData['total'],
+        ];
+    }
+
+    private static function buildRecords($records)
+    {
         ModelUtil::decodeRecordsJson($records, 'images');
         TagUtil::recordsString2Array($records, 'tag');
         foreach ($records as $i => $v) {
@@ -90,16 +99,46 @@ class MBlog
             if (isset($records[$i]['images'][0])) {
                 $records[$i]['_cover'] = $records[$i]['images'][0];
             }
-            if (empty($records[$i]['_cover'])) {
+            if (empty($records[$i]['_cover']) && isset($v['content'])) {
                 $ret = HtmlUtil::extractTextAndImages($v['content']);
                 if (isset($ret['images'][0])) {
                     $records[$i]['_cover'] = AssetsUtil::fixFull($ret['images'][0]);
                 }
             }
         }
+        return $records;
+    }
+
+    
+    public static function listBlogByYear($option = [])
+    {
+
+        $records = Blog::query()->where(['isPublished' => true])
+            ->where('postTime', '<', date('Y-m-d H:i:s'))
+            ->orderBy('postTime', 'desc')
+            ->get(['id', 'images', 'tag', 'title', 'categoryId', 'postTime'])
+            ->toArray();
+        $records = self::buildRecords($records);
+
+        $yearRecords = [];
+        foreach ($records as $i => $v) {
+            $year = date('Y', strtotime($v['postTime']));
+            if (!isset($yearRecords[$year])) {
+                $yearRecords[$year] = [
+                    'count' => 0,
+                    'year' => $year,
+                    'records' => [],
+                ];
+            }
+            $yearRecords[$year]['records'][] = $v;
+        }
+        foreach ($yearRecords as $i => $v) {
+            $yearRecords[$i]['count'] = count($v['records']);
+        }
+
         return [
-            'records' => $records,
-            'total' => $paginateData['total'],
+            'total' => count($records),
+            'records' => $yearRecords,
         ];
     }
 
