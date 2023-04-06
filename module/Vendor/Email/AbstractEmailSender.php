@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\Response;
 
+
 abstract class AbstractEmailSender
 {
     abstract protected function sendExecute($email, $emailUserName, $subject, $content, $param = []);

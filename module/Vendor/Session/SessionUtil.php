@@ -4,7 +4,8 @@
 namespace Module\Vendor\Session;
 
 use Illuminate\Support\Facades\Session;
-use Module\Vendor\Atomic\AtomicUtil;
+use Module\Vendor\Util\AtomicUtil;
+
 
 class SessionUtil
 {

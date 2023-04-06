@@ -16,6 +16,12 @@ return [
         'Blog' => [
             'enable' => true,
         ],
+        // 'AdminApi' => [
+        //     'enable' => true,
+        // ],
+        // 'BlogAdminApi' => [
+        //     'enable' => true,
+        // ],
         'Nav' => [
             'enable' => true,
             'config' => [

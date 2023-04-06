@@ -3,6 +3,7 @@
 
 namespace Module\Vendor\Biz;
 
+
 trait BizTrait
 {
     

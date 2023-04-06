@@ -9,6 +9,7 @@ use Module\Vendor\Log\Logger;
 use Module\Vendor\Provider\MailSender\AbstractMailSenderProvider;
 use Module\Vendor\Provider\MailSender\MailSenderProvider;
 
+
 class MailSendJob extends BaseJob
 {
     public $email;

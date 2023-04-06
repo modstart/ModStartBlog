@@ -8,6 +8,7 @@ use ModStart\Core\Util\ReUtil;
 
 include_once __DIR__ . '/../Shell/include.php';
 
+
 class UniappUtil
 {
     public static function runOrFail($command)
