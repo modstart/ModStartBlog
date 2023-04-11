@@ -67,7 +67,6 @@ class BlogController extends Controller
                     SiteUrlProvider::update(modstart_web_url('blog/' . $item->id), $item->title, [
                         'biz' => 'blog',
                     ]);
-                    var_dump($item);
                 });
                 if (!empty($updatedCategoryIds)) {
                     $updatedCategoryIds = array_unique($updatedCategoryIds);
