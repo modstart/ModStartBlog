@@ -65,7 +65,7 @@
         var app = new Vue({
             el: '#{{$id}}Input',
             data: {
-                value: {!! $defaultValue?json_encode($defaultValue):'[]' !!},
+                value: {!! $value?json_encode($value):($defaultValue?json_encode($defaultValue):'[]') !!},
                 icons: []
             },
             mounted(){

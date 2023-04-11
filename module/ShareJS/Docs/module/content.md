@@ -18,7 +18,7 @@
 在 Blade 模板中通过如下方式调用
 
 ```
-@include('module::ShareJS.View.buttons')
+{!! \Module\ShareJS\View\ShareJSView::buttons() !!}
 ```
 
 > 默认分享到 weibo,qq,qzone,wechat
@@ -26,7 +26,7 @@
 或指定分享网站
 
 ```
-@include('module::ShareJS.View.buttons',['sites'=>'weibo,qq'])
+{!! \Module\ShareJS\View\ShareJSView::buttons('weibo,qq') !!}
 ```
 
 ## 更多参考

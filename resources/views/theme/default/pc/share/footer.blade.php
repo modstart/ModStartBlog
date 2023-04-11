@@ -2,7 +2,7 @@
     <div class="ub-container">
         <div class="line"></div>
         <div class="nav">
-            {!! \Module\Nav\Render\NavRender::position('foot') !!}
+            {!! \Module\Nav\View\NavView::position('foot') !!}
         </div>
         <div class="copyright">
             <a href="http://beian.miit.gov.cn" target="_blank">

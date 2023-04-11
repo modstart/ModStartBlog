@@ -1,10 +1,11 @@
 <?php
 
 
-namespace Module\Vendor\Provider\ContentVerify;
+namespace Module\Vendor\Provider\Schedule;
 
 
-class ContentVerifyProvider
+
+class ScheduleBiz
 {
     
     private static $instances = [
@@ -27,19 +28,4 @@ class ContentVerifyProvider
         }
         return self::$instances;
     }
-
-    
-    public static function get($name)
-    {
-        if (empty($name)) {
-            return null;
-        }
-        foreach (self::all() as $item) {
-            if ($item->name() == $name) {
-                return $item;
-            }
-        }
-        return null;
-    }
-
 }

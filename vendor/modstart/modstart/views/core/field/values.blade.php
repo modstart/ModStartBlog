@@ -7,7 +7,7 @@
         {{$label}}:
     </div>
     <div class="field">
-        <div id="{{$id}}Input">
+        <div id="{{$id}}Input" class="tw-border tw-border-gray-100 tw-border-solid tw-rounded">
             <input type="hidden" name="{{$name}}" :value="jsonValue" />
             @if($viewMode=='mini')
                 <div class="tw-inline-block tw-w-32" v-for="(valueItem,valueIndex) in value">

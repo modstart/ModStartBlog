@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="tw-text-center">
-                        @include('module::ShareJS.View.buttons')
+                        {!! \Module\ShareJS\View\ShareJSView::buttons() !!}
                     </div>
                 </div>
 

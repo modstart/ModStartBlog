@@ -13,8 +13,7 @@ use Module\Vendor\Provider\CensorImage\CensorImageProvider;
 use Module\Vendor\Provider\CensorText\CensorTextProvider;
 use Module\Vendor\Provider\Notifier\NotifierProvider;
 
-
-abstract class AbstractContentVerifyProvider
+abstract class AbstractContentVerifyBiz
 {
     
     abstract public function name();

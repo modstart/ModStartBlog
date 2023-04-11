@@ -9,7 +9,6 @@ use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Util\RandomUtil;
 use ModStart\Core\Util\StrUtil;
 use ModStart\Core\Util\TimeUtil;
-use Illuminate\Support\Facades\Log;
 
 
 class ScheduleProvider
@@ -18,6 +17,7 @@ class ScheduleProvider
     private static $instances = [
     ];
 
+    
     public static function register($provider)
     {
         self::$instances[] = $provider;
@@ -38,7 +38,7 @@ class ScheduleProvider
 
     public static function callByName($name)
     {
-        foreach (self::all() as $provider) {
+        foreach (ScheduleBiz::all() as $provider) {
             if ($provider->name() == $name) {
                 call_user_func([$provider, 'run']);
             }
@@ -48,7 +48,7 @@ class ScheduleProvider
     public static function call(Schedule $schedule)
     {
         $autoCleanHistory = true;
-        foreach (ScheduleProvider::all() as $provider) {
+        foreach (ScheduleBiz::all() as $provider) {
                         
             $schedule->call(function () use ($provider, &$autoCleanHistory) {
                 $data = [];

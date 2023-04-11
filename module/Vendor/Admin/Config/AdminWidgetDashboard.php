@@ -7,7 +7,7 @@ use ModStart\Admin\Auth\AdminPermission;
 use ModStart\Admin\Layout\AdminPage;
 use ModStart\Layout\Row;
 use ModStart\Widget\Box;
-use Module\Vendor\Provider\ContentVerify\ContentVerifyProvider;
+use Module\Vendor\Provider\ContentVerify\ContentVerifyBiz;
 
 class AdminWidgetDashboard
 {
@@ -44,7 +44,7 @@ class AdminWidgetDashboard
     public static function call(AdminPage $page)
     {
         $verifyHtml = [];
-        foreach (ContentVerifyProvider::all() as $provider) {
+        foreach (ContentVerifyBiz::listAll() as $provider) {
             if (AdminPermission::permit($provider->verifyRule())) {
                 $cnt = $provider->verifyCount();
                 if ($cnt > 0) {

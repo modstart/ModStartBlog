@@ -1,13 +1,12 @@
 <?php
 
 
-namespace Module\Nav\Render;
+namespace Module\Nav\View;
 
 
 use Illuminate\Support\Facades\View;
 
-
-class NavRender
+class NavView
 {
     public static function position($position)
     {
