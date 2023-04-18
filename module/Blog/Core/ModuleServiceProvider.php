@@ -13,11 +13,12 @@ use Module\Banner\Biz\BannerPositionBiz;
 use Module\Banner\Biz\QuickBannerPositionBiz;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Reward\Biz\RewardBiz;
-use Module\Vendor\Admin\Config\AdminWidgetDashboard;
-use Module\Vendor\Admin\Config\AdminWidgetLink;
+use Module\Vendor\Admin\Widget\AdminWidgetDashboard;
+use Module\Vendor\Admin\Widget\AdminWidgetLink;
 use Module\Vendor\Provider\HomePage\HomePageProvider;
 use Module\Vendor\Provider\SearchBox\SearchBoxProvider;
 use Module\Vendor\Provider\SiteUrl\SiteUrlBiz;
+use Module\Vendor\Provider\SuperSearch\SuperSearchBiz;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -86,6 +87,10 @@ class ModuleServiceProvider extends ServiceProvider
                             'title' => '关于博主',
                             'url' => '\Module\Blog\Admin\Controller\ConfigController@about',
                         ],
+                        [
+                            'title' => '超级搜索',
+                            'url' => '\Module\Blog\Admin\Controller\BlogSuperSearchController@index',
+                        ],
                     ],
                 ],
             ];
@@ -96,9 +101,8 @@ class ModuleServiceProvider extends ServiceProvider
         if (class_exists(QuickBannerPositionBiz::class)) {
             BannerPositionBiz::register(QuickBannerPositionBiz::make('blogHome', '博客系统首页'));
         }
-        if (class_exists(SiteUrlBiz::class)) {
-            SiteUrlBiz::register(BlogSiteUrlBiz::class);
-        }
+        SiteUrlBiz::register(BlogSiteUrlBiz::class);
+        SuperSearchBiz::register(BlogSuperSearchBiz::class);
         if (modstart_module_enabled('Reward')) {
             RewardBiz::register(BlogRewardBiz::class);
         }

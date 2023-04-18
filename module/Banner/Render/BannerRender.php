@@ -6,6 +6,7 @@ namespace Module\Banner\Render;
 
 use Illuminate\Support\Facades\View;
 
+
 class BannerRender
 {
     public static function position($position,

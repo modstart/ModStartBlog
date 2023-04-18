@@ -9,6 +9,7 @@ use ModStart\Layout\Row;
 use ModStart\Widget\Box;
 use Module\Vendor\Provider\ContentVerify\ContentVerifyBiz;
 
+
 class AdminWidgetDashboard
 {
     private static $icon = [];

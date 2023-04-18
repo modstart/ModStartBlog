@@ -14,6 +14,7 @@ use ModStart\Form\Form;
 use ModStart\Grid\GridFilter;
 use ModStart\Repository\RepositoryUtil;
 use ModStart\Support\Concern\HasFields;
+use Module\Blog\Core\BlogSuperSearchBiz;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\BlogTagUtil;
 use Module\Vendor\Provider\SiteUrl\SiteUrlProvider;
@@ -64,15 +65,20 @@ class BlogController extends Controller
             ->hookChanged(function (Form $form) use (&$updatedCategoryIds) {
                 RepositoryUtil::makeItems($form->item())->map(function ($item) use (&$updatedCategoryIds) {
                     $updatedCategoryIds[] = $item->categoryId;
-                    SiteUrlProvider::update(modstart_web_url('blog/' . $item->id), $item->title, [
-                        'biz' => 'blog',
-                    ]);
+                    SiteUrlProvider::update(modstart_web_url('blog/' . $item->id), $item->title, ['biz' => 'blog']);
+                    BlogSuperSearchBiz::syncUpsert([$item->toArray()]);
                 });
                 if (!empty($updatedCategoryIds)) {
                     $updatedCategoryIds = array_unique($updatedCategoryIds);
                     BlogCategoryUtil::updateCount($updatedCategoryIds);
                 }
                 BlogTagUtil::clearCache();
+            })
+            ->hookDeleted(function (Form $form) {
+                $form->item()->each(function ($item) {
+                    SiteUrlProvider::delete(modstart_web_url('blog/' . $item->id));
+                    BlogSuperSearchBiz::syncDelete($item->id);
+                });
             })
             ->title('博客管理');
     }

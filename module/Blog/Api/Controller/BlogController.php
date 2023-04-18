@@ -12,6 +12,7 @@ use ModStart\Core\Input\InputPackage;
 use ModStart\Core\Input\Response;
 use ModStart\Core\Util\ArrayUtil;
 use ModStart\Core\Util\TagUtil;
+use Module\Blog\Core\BlogSuperSearchBiz;
 use Module\Blog\Type\BlogCommentStatus;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Member\Util\MemberUtil;
@@ -33,13 +34,57 @@ class BlogController extends Controller
         $pageTitle = '';
         $pageKeywords = modstart_config('siteKeywords');
         $pageDescription = modstart_config('siteDescription');
-        if ($keywords) {
-            $option['search'][] = ['__exp' => 'or', 'title' => ['like' => "%$keywords%"], 'tag' => ['like' => "%:$keywords:%"]];
-            $pageTitle = $keywords;
-            $pageKeywords = $keywords;
-            $pageDescription = $keywords;
-        }
-        $paginateData = \MBlog::paginateBlog($categoryId, $page, $pageSize, $option);
+
+        $provider = BlogSuperSearchBiz::provider();
+        $markKeywords = [];
+        if (empty($provider)) {
+            if ($keywords) {
+                $option['search'][] = ['__exp' => 'or', 'title' => ['like' => "%$keywords%"], 'tag' => ['like' => "%:$keywords:%"]];
+                $pageTitle = $keywords;
+                $pageKeywords = $keywords;
+                $pageDescription = $keywords;
+            }
+            $paginateData = \MBlog::paginateBlog($categoryId, $page, $pageSize, $option);
+            $markKeywords = mb_str_split($keywords);
+        } else {
+            $query = [
+                ['isPublished' => ['eq' => 1]],
+                ['postTime' => ['lt' => date('Y-m-d H:i:s')]],
+            ];
+            $order = [
+                ['isTop', 'desc'],
+                ['postTime', 'desc'],
+                ['id', 'desc'],
+            ];
+            if ($categoryId) {
+                $query[] = ['categoryId' => ['eq' => $categoryId]];
+            }
+            if ($keywords) {
+                $query['_or'] = [
+                    ['title' => ['like' => $keywords]],
+                    ['summary' => ['like' => $keywords]],
+                    ['content' => ['like' => $keywords]],
+                    ['keywords' => ['in' => [$keywords]]],
+                ];
+                $query['highlights'] = [
+                    'fields' => [
+                        'title',
+                        'summary',
+                        'content',
+                        'keywords',
+                    ]
+                ];
+            }
+            $paginateData = $provider->search('blog', $page, $pageSize, $query, $order);
+            $markKeywords = $paginateData['markKeywords'];
+            $itemIds = array_map(function ($q) {
+                return $q['id'];
+            }, $paginateData['records']);
+            $paginateData['records'] = ModelUtil::allInWithOrder('blog', 'id', $itemIds);
+            $paginateData['records'] = \MBlog::buildRecords($paginateData['records']);
+                    }
+
+
         $category = null;
         if ($categoryId > 0) {
             $category = \MBlog::getCategory($categoryId);
@@ -56,6 +101,7 @@ class BlogController extends Controller
             'pageSize' => $pageSize,
             'category' => $category,
             'keywords' => $keywords,
+            'markKeywords' => $markKeywords,
             'records' => $paginateData['records'],
             'total' => $paginateData['total'],
         ]);

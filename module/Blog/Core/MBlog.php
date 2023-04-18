@@ -88,7 +88,7 @@ class MBlog
         ];
     }
 
-    private static function buildRecords($records)
+    public static function buildRecords($records)
     {
         ModelUtil::decodeRecordsJson($records, 'images');
         TagUtil::recordsString2Array($records, 'tag');

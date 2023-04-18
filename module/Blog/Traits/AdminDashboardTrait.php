@@ -9,7 +9,7 @@ use ModStart\Admin\Widget\SecurityTooltipBox;
 use ModStart\Layout\Row;
 use Module\AdminManager\Widget\ServerInfoWidget;
 use Module\Blog\Widget\BlogInfoWidget;
-use Module\Vendor\Admin\Config\AdminWidgetDashboard;
+use Module\Vendor\Admin\Widget\AdminWidgetDashboard;
 
 trait AdminDashboardTrait
 {

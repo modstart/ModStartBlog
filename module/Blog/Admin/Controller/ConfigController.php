@@ -6,6 +6,7 @@ namespace Module\Blog\Admin\Controller;
 use Illuminate\Routing\Controller;
 use ModStart\Admin\Layout\AdminConfigBuilder;
 use Module\Vendor\Provider\Captcha\CaptchaProvider;
+use Module\Vendor\Provider\SuperSearch\SuperSearchProvider;
 
 class ConfigController extends Controller
 {
@@ -21,6 +22,7 @@ class ConfigController extends Controller
         $builder->text('Blog_ContactWechat', '联系方式-微信');
         $builder->select('Blog_BlogCaptchaProvider', '博客评论验证')->options(CaptchaProvider::nameTitleMap());
         $builder->select('Blog_MessageCaptchaProvider', '博客留言验证')->options(CaptchaProvider::nameTitleMap());
+        $builder->select('Blog_BlogSuperSearchProvider', '博客超级搜索驱动')->options(SuperSearchProvider::allDefaultMap());
         $builder->formClass('wide');
         return $builder->perform();
     }
