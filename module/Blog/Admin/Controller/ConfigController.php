@@ -5,6 +5,7 @@ namespace Module\Blog\Admin\Controller;
 
 use Illuminate\Routing\Controller;
 use ModStart\Admin\Layout\AdminConfigBuilder;
+use ModStart\Support\Concern\HasFields;
 use Module\Vendor\Provider\Captcha\CaptchaProvider;
 use Module\Vendor\Provider\SuperSearch\SuperSearchProvider;
 
@@ -23,6 +24,12 @@ class ConfigController extends Controller
         $builder->select('Blog_BlogCaptchaProvider', '博客评论验证')->options(CaptchaProvider::nameTitleMap());
         $builder->select('Blog_MessageCaptchaProvider', '博客留言验证')->options(CaptchaProvider::nameTitleMap());
         $builder->select('Blog_BlogSuperSearchProvider', '博客超级搜索驱动')->options(SuperSearchProvider::allDefaultMap());
+        $builder->switch('Blog_DarkModeEnable', '启用暗黑模式')
+            ->when('=', true, function ($builder) {
+                
+                $builder->time('Blog_DarkModeStart', '开始');
+                $builder->time('Blog_DarkModeEnd', '结束');
+            });
         $builder->formClass('wide');
         return $builder->perform();
     }

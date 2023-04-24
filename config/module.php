@@ -29,10 +29,7 @@ return [
             ]
         ],
         'Partner' => [
-            'enable' => true,
-            'config' => [
-                'position' => '[{"k":"home","v":"首页"}]',
-            ],
+            'enable' => true
         ],
         'Banner' => [
             'enable' => true,

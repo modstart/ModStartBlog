@@ -6,78 +6,83 @@
 
 {!! \ModStart\ModStart::js('asset/common/timeago.js') !!}
 
+@if(\Module\Blog\Util\BlogThemeUtil::isDark())
+@section('htmlProperties')data-theme="dark"@endsection
+@endif
+
 @section('bodyContent')
 
-    <div class="ub-container">
+    <div class="ub-container margin-top">
         <div class="row">
             <div class="col-md-8">
 
-                <div class="tw-p-6 margin-top tw-bg-white tw-rounded">
-                    <div class="tw-text-lg">
-                        <i class="iconfont icon-comment ub-text-primary"></i>
-                        博客留言
-                    </div>
-                    <div class="tw-mt-4">
-                        @if(empty($records))
-                            <div class="ub-empty">
-                                <div class="icon">
-                                    <div class="iconfont icon-empty-box"></div>
-                                </div>
-                                <div class="text">
-                                    还没有人评论，赶紧抢个沙发~
-                                </div>
-                            </div>
-                        @endif
-                        @foreach($records as $record)
-                            <div class="tw-border-0 tw-border-b tw-border-solid tw-border-gray-100 tw-pb-6 tw-mb-6">
-                                <div class="tw-flex">
-                                    <div class="tw-w-10">
-                                        @if(!empty($record['_memberUser']))
-                                            <div class="ub-cover-1-1 tw-rounded-full"
-                                                 style="background-image:url({{$record['_memberUser']['avatar']}})"></div>
-                                        @else
-                                            <div class="ub-cover-1-1 tw-rounded-full"
-                                                 style="background-image:url( @asset('asset/image/avatar.svg') )"></div>
-                                        @endif
+                <div class="margin-bottom ub-content-box">
+                    <div class="tw-p-3">
+                        <div class="tw-text-lg">
+                            <i class="iconfont icon-comment"></i>
+                            博客留言
+                        </div>
+                        <div class="tw-mt-4">
+                            @if(empty($records))
+                                <div class="ub-empty">
+                                    <div class="icon">
+                                        <div class="iconfont icon-empty-box"></div>
                                     </div>
-                                    <div class="tw-flex-grow tw-ml-4">
-                                        <div class="tw-leading-6 tw-text-lg">
-                                            {{$record['username']?$record['username']:'匿名用户'}}
+                                    <div class="text">
+                                        还没有人评论，赶紧抢个沙发~
+                                    </div>
+                                </div>
+                            @endif
+                            @foreach($records as $record)
+                                <div class="tw-border-0 ub-border-bottom tw-pb-6 tw-mb-6">
+                                    <div class="tw-flex">
+                                        <div class="tw-w-10">
+                                            @if(!empty($record['_memberUser']))
+                                                <div class="ub-cover-1-1 tw-rounded-full"
+                                                     style="background-image:url({{$record['_memberUser']['avatar']}})"></div>
+                                            @else
+                                                <div class="ub-cover-1-1 tw-rounded-full"
+                                                     style="background-image:url( @asset('asset/image/avatar.svg') )"></div>
+                                            @endif
                                         </div>
-                                        <div class="tw-leading-4 ub-text-muted">
-                                            <time datetime="{{$record['created_at']}}"></time>
-                                            说：
+                                        <div class="tw-flex-grow tw-ml-4">
+                                            <div class="tw-leading-6 tw-text-lg">
+                                                {{$record['username']?$record['username']:'匿名用户'}}
+                                            </div>
+                                            <div class="tw-leading-4 ub-text-muted">
+                                                <time datetime="{{$record['created_at']}}"></time>
+                                                说：
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tw-mt-4 tw-pl-14">
-                                    <div class="ub-html lg">
-                                        {!! $record['content'] !!}
-                                    </div>
-                                </div>
-                                @if(!empty($record['reply']))
                                     <div class="tw-mt-4 tw-pl-14">
-                                        <div class="tw-bg-gray-100 tw-p-2 tw-rounded">
-                                            <div>
-                                                博主回复
-                                            </div>
-                                            <div class="ub-html lg">
-                                                {!! $record['reply'] !!}
-                                            </div>
+                                        <div class="ub-html lg">
+                                            {!! $record['content'] !!}
                                         </div>
                                     </div>
-                                @endif
+                                    @if(!empty($record['reply']))
+                                        <div class="tw-mt-4 tw-pl-14">
+                                            <div class="tw-bg-gray-100 tw-p-2 tw-rounded">
+                                                <div>
+                                                    博主回复
+                                                </div>
+                                                <div class="ub-html lg">
+                                                    {!! $record['reply'] !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                        <div>
+                            <div class="ub-page">
+                                {!! $pageHtml !!}
                             </div>
-                        @endforeach
-                    </div>
-                    <div>
-                        <div class="ub-page">
-                            {!! $pageHtml !!}
                         </div>
                     </div>
                 </div>
-
-                <div class="tw-p-6 margin-top tw-bg-white tw-rounded">
+                <div class="tw-p-6 margin-bottom tw-bg-white tw-rounded">
                     <div class="tw-text-lg">
                         <i class="iconfont icon-comment"></i>
                         我来留言

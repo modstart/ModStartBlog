@@ -6,17 +6,21 @@
 
 {!! \ModStart\ModStart::js('asset/common/timeago.js') !!}
 
+@if(\Module\Blog\Util\BlogThemeUtil::isDark())
+@section('htmlProperties')data-theme="dark"@endsection
+@endif
+
 @section('bodyContent')
 
-    <div class="ub-container">
+    <div class="ub-container margin-top">
         <div class="row">
-            <div class="col-md-8 margin-top">
+            <div class="col-md-8 margin-bottom">
 
-                <div class="tw-p-6 tw-rounded tw-bg-white tw-py-4 margin-bottom">
+                <div class="tw-p-6 tw-rounded ub-content-box tw-py-4 margin-bottom">
                     <h1 class="tw-mb-4">
                         {{$record['title']}}
                     </h1>
-                    <div class="tw-text-gray-400 tw-pb-4 tw-mb-4 tw-border-0 tw-border-b tw-border-solid tw-border-gray-100">
+                    <div class="tw-text-gray-400 tw-pb-4 tw-mb-4 ub-border-bottom">
                         @if($record['_category'])
                             <i class="iconfont icon-category"></i>
                             {{$record['_category']['title']}}
@@ -50,32 +54,32 @@
                 </div>
 
 
-                <div class="tw-p-6 margin-bottom tw-bg-white tw-rounded">
+                <div class="tw-p-6 margin-bottom ub-content-box tw-rounded">
                     <div class="row">
                         <div class="col-6">
                             <div>
-                                <div class="tw-text-gray-400 tw-text-sm">上一篇</div>
+                                <div class="ub-text-default tw-text-sm">上一篇</div>
                                 <div class="tw-pt-2">
                                     @if($recordPrev)
-                                        <a href="{{modstart_web_url('blog/'.$recordPrev['id'])}}" class="tw-text-gray-800 tw-inline-block">
+                                        <a href="{{modstart_web_url('blog/'.$recordPrev['id'])}}" class="ub-text-default tw-inline-block">
                                             {{$recordPrev['title']}}
                                         </a>
                                     @else
-                                        <span class="ub-text-muted">没有了</span>
+                                        <span class="ub-text-default">没有了</span>
                                     @endif
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="tw-text-right">
-                                <div class="tw-text-gray-400 tw-text-sm">下一篇</div>
+                                <div class="ub-text-default tw-text-sm">下一篇</div>
                                 <div class="tw-pt-2">
                                     @if($recordNext)
-                                        <a href="{{modstart_web_url('blog/'.$recordNext['id'])}}" class="tw-text-gray-800 tw-inline-block">
+                                        <a href="{{modstart_web_url('blog/'.$recordNext['id'])}}" class="ub-text-default tw-inline-block">
                                             {{$recordNext['title']}}
                                         </a>
                                     @else
-                                        <span class="ub-text-muted">没有了</span>
+                                        <span class="ub-text-default">没有了</span>
                                     @endif
                                 </div>
                             </div>
@@ -84,12 +88,12 @@
                 </div>
 
                 @if(modstart_module_enabled('Reward'))
-                    <div class="tw-p-4 margin-bottom tw-bg-white tw-rounded-lg">
+                    <div class="tw-p-4 margin-bottom ub-block-box tw-rounded-lg">
                         @include('module::Reward.View.pc.public.reward',[ 'biz'=>'blog', 'bizId'=>$record['id'] ])
                     </div>
                 @endif
 
-                <div class="tw-p-6 margin-bottom tw-bg-white tw-rounded">
+                <div class="tw-p-6 margin-bottom ub-content-box tw-rounded">
                     <div class="tw-text-lg">
                         <i class="iconfont icon-comment"></i>
                         博客评论
@@ -143,7 +147,7 @@
                 </div>
 
 
-                <div class="tw-p-6 margin-bottom tw-bg-white tw-rounded">
+                <div class="tw-p-6 margin-bottom ub-content-box tw-rounded">
                     <div class="tw-text-lg">
                         <i class="iconfont icon-comment"></i>
                         发表评论
@@ -158,9 +162,11 @@
                                     </div>
                                     <div class="tw-flex-grow tw-leading-10 tw-ml-4 tw-text-lg">
                                         @if(!empty($_memberUser))
-                                            <input type="text" name="username" class="form-lg" style="border:none;border-bottom:1px solid #EEE;background:transparent;" value="{{$_memberUser['username']}}" readonly />
+                                            <input type="text" name="username" class="form-lg"
+                                                   style="border:none;border-bottom:1px solid var(--color-body-line);background:transparent;" value="{{$_memberUser['username']}}" readonly />
                                         @else
-                                            <input type="text" name="username" class="form-lg" style="border:none;border-bottom:1px solid #EEE;" placeholder="匿名用户" value="{{!empty($_memberUser)?$_memberUser['username']:''}}" />
+                                            <input type="text" name="username" class="form-lg"
+                                                   style="border:none;border-bottom:1px solid var(--color-body-line);" placeholder="匿名用户" value="{{!empty($_memberUser)?$_memberUser['username']:''}}" />
                                         @endif
                                     </div>
                                     @if(modstart_module_enabled('Member'))
@@ -180,7 +186,8 @@
                                     @endif
                                 </div>
                                 <div class="tw-mt-4">
-                                    <textarea class="form-lg tw-w-full tw-resize-none" name="content" style="height:5rem;" placeholder="输入想说的话"></textarea>
+                                    <textarea class="form-lg tw-w-full tw-resize-none" name="content"
+                                              style="height:5rem;" placeholder="输入想说的话"></textarea>
                                 </div>
                                 <div class="pb-blog-comment-submit-box tw-h-0 tw-overflow-hidden">
                                     <div>

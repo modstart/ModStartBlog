@@ -4,11 +4,15 @@
 @section('pageKeywords')博客标签@endsection
 @section('pageDescription')博客标签@endsection
 
+@if(\Module\Blog\Util\BlogThemeUtil::isDark())
+@section('htmlProperties')data-theme="dark"@endsection
+@endif
+
 @section('bodyContent')
 
     <div class="ub-container">
         <div class="row">
-            <div class="col-md-8 margin-top">
+            <div class="col-md-8 margin-bottom">
 
                 <div class="tw-p-6  tw-bg-white tw-rounded">
                     <div class="tw-text-lg">
@@ -29,7 +33,7 @@
                 </div>
 
             </div>
-            <div class="col-md-4 margin-top">
+            <div class="col-md-4 margin-bottom">
 
                 @include('module::Blog.View.pc.blog.inc.info')
 

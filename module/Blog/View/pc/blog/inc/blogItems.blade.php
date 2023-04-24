@@ -9,7 +9,7 @@
     </div>
 @endif
 @foreach($records as $record)
-    <div class="ub-text-blog tw-border-0 tw-border-b tw-border-gray-100 tw-border-solid tw-pb-6 tw-mb-6"
+    <div class="ub-text-blog tw-border-0 ub-border-bottom tw-pb-6 tw-mb-6"
          data-scroll-animate="animated fadeInUp"
     >
         <div>
@@ -30,7 +30,7 @@
                     </span>
                 @endif
                 <a href="{{modstart_web_url('blog/'.$record['id'])}}"
-                   class="pb-keywords-highlight tw-align-top tw-inline-block tw-leading-6 tw-text-gray-800 tw-text-xl">
+                   class="pb-keywords-highlight tw-align-top tw-inline-block tw-leading-6 ub-text-default tw-text-xl">
                     {{$record['title']}}
                 </a>
             </div>
@@ -59,10 +59,10 @@
                     </div>
                 @endif
                 @if(!empty($record['tag']))
-                    <div class="tw-pt-2 tw-flex tw-flex-wrap pb-keywords-highlight">
+                    <div class="tw-pt-2 pb-keywords-highlight">
                         @foreach($record['tag'] as $t)
                             <a href="{{modstart_web_url('blogs',['keywords'=>$t])}}"
-                               class="tw-rounded-3xl tw-text-gray-400 tw-block tw-bg-gray-100 tw-leading-6 tw-mb-3 tw-px-2 tw-mr-2">
+                               class="btn btn-round btn-sm tw-mr-1 tw-mb-1">
                                 {{$t}}
                             </a>
                         @endforeach

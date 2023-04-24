@@ -4,26 +4,32 @@
 @section('pageKeywords')关于博主@endsection
 @section('pageDescription')关于博主@endsection
 
+@if(\Module\Blog\Util\BlogThemeUtil::isDark())
+@section('htmlProperties')data-theme="dark"@endsection
+@endif
+
 @section('bodyContent')
 
-    <div class="ub-container">
+    <div class="ub-container margin-top">
         <div class="row">
-            <div class="col-md-8 margin-top">
+            <div class="col-md-8 margin-bottom">
 
-                <div class="tw-p-6  tw-bg-white tw-rounded">
-                    <div class="tw-text-lg">
-                        <i class="iconfont icon-user ub-text-primary"></i>
-                        关于我
-                    </div>
-                    <div class="tw-mt-4">
-                        <div class="ub-html lg">
-                            {!! modstart_config('Blog_AboutContent') !!}
+                <div class="ub-content-box">
+                    <div class="tw-p-3">
+                        <div class="tw-text-lg">
+                            <i class="iconfont icon-user"></i>
+                            关于我
+                        </div>
+                        <div class="tw-mt-4">
+                            <div class="ub-html lg">
+                                {!! modstart_config('Blog_AboutContent') !!}
+                            </div>
                         </div>
                     </div>
                 </div>
 
             </div>
-            <div class="col-md-4 margin-top">
+            <div class="col-md-4 margin-bottom">
 
                 @include('module::Blog.View.pc.blog.inc.info')
 

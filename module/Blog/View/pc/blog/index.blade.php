@@ -6,26 +6,32 @@
 
 {!! \ModStart\ModStart::js('asset/common/scrollAnimate.js') !!}
 
+@if(\Module\Blog\Util\BlogThemeUtil::isDark())
+@section('htmlProperties')data-theme="dark"@endsection
+@endif
+
 @section('bodyContent')
 
-    <div class="ub-container">
+    <div class="ub-container margin-top">
         <div class="row">
-            <div class="col-md-8 margin-top">
+            <div class="col-md-8 margin-bottom">
 
-                <div class="tw-bg-white tw-rounded tw-overflow-hidden">
+                <div class="ub-content-box margin-bottom tw-overflow-hidden" style="padding:0;">
                     {!! \Module\Banner\View\BannerView::basic('Blog') !!}
                 </div>
 
-                <div class="tw-p-6 tw-rounded tw-bg-white margin-top">
-                    @include('module::Blog.View.pc.blog.inc.blogItems')
-                    <div>
-                        <div class="ub-page">
-                            {!! $pageHtml !!}
+                <div class="ub-content-box margin-bottom">
+                    <div class="tw-p-3">
+                        @include('module::Blog.View.pc.blog.inc.blogItems')
+                        <div>
+                            <div class="ub-page">
+                                {!! $pageHtml !!}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 margin-top">
+            <div class="col-md-4 margin-bottom">
 
                 @include('module::Blog.View.pc.blog.inc.info')
 
