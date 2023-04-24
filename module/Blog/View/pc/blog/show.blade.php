@@ -40,7 +40,7 @@
                                 </div>
                             @endforeach
                         @endif
-                        <div class="ub-html" style="font-size:0.7rem;">
+                        <div class="ub-html lg">
                             {!! $record['content'] !!}
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                                     </div>
                                 </div>
                                 <div class="tw-mt-4 tw-pl-14">
-                                    <div class="ub-html">
+                                    <div class="ub-html lg">
                                         {!! $comment['content'] !!}
                                     </div>
                                 </div>

@@ -16,7 +16,7 @@
                         关于我
                     </div>
                     <div class="tw-mt-4">
-                        <div class="ub-html">
+                        <div class="ub-html lg">
                             {!! modstart_config('Blog_AboutContent') !!}
                         </div>
                     </div>

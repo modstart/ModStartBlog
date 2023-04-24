@@ -51,7 +51,7 @@
                                     </div>
                                 </div>
                                 <div class="tw-mt-4 tw-pl-14">
-                                    <div class="ub-html">
+                                    <div class="ub-html lg">
                                         {!! $record['content'] !!}
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                             <div>
                                                 博主回复
                                             </div>
-                                            <div class="ub-html">
+                                            <div class="ub-html lg">
                                                 {!! $record['reply'] !!}
                                             </div>
                                         </div>

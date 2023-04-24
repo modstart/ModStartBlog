@@ -186,13 +186,13 @@ class Tecmz
     }
 
     
-    public function docToImageQueue($docPath, $pageLimit = 0, $imageQuality = '')
+    public function docToImageQueue($docPath, $pageLimit = 0, $imageQuality = '', $param = [])
     {
         $post = [];
         $post['docPath'] = $docPath;
         $post['pageLimit'] = $pageLimit;
         $post['imageQuality'] = $imageQuality;
-        return $this->request('/doc_to_image/queue', $post);
+        return $this->request('/doc_to_image/queue', array_merge($post, $param));
     }
 
     

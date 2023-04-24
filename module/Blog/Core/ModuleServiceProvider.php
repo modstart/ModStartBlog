@@ -10,8 +10,8 @@ use ModStart\Core\Dao\ModelUtil;
 use ModStart\Layout\Row;
 use ModStart\Module\ModuleClassLoader;
 use Module\Banner\Biz\BannerPositionBiz;
-use Module\Banner\Biz\QuickBannerPositionBiz;
 use Module\Blog\Util\BlogCategoryUtil;
+use Module\Partner\Biz\PartnerPositionBiz;
 use Module\Reward\Biz\RewardBiz;
 use Module\Vendor\Admin\Widget\AdminWidgetDashboard;
 use Module\Vendor\Admin\Widget\AdminWidgetLink;
@@ -98,9 +98,8 @@ class ModuleServiceProvider extends ServiceProvider
         HomePageProvider::register(BlogHomePageProvider::class);
         SearchBoxProvider::register(BlogSearchBoxProvider::class);
         ModuleClassLoader::addClass('MBlog', __DIR__ . '/MBlog.php');
-        if (class_exists(QuickBannerPositionBiz::class)) {
-            BannerPositionBiz::register(QuickBannerPositionBiz::make('blogHome', '博客系统首页'));
-        }
+        BannerPositionBiz::registerQuick('Blog', '博客系统');
+        PartnerPositionBiz::registerQuick('Blog', '博客系统');
         SiteUrlBiz::register(BlogSiteUrlBiz::class);
         SuperSearchBiz::register(BlogSuperSearchBiz::class);
         if (modstart_module_enabled('Reward')) {
