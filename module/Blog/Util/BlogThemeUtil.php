@@ -4,6 +4,8 @@
 namespace Module\Blog\Util;
 
 
+use ModStart\Core\Util\TimeUtil;
+
 class BlogThemeUtil
 {
     public static function isDark()
@@ -17,13 +19,14 @@ class BlogThemeUtil
             return false;
         }
         $time = date('H:i:s');
-        if ($end < $start) {
-            $t = $start;
-            $start = $end;
-            $end = $t;
-        }
-        if ($time > $start && $time < $end) {
-            return true;
+        if ($end > $start) {
+            if ($time > $start && $time < $end) {
+                return true;
+            }
+        } else {
+            if ($time < $end || $time > $start) {
+                return true;
+            }
         }
         return false;
     }
