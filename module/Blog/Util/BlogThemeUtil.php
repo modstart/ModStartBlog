@@ -17,11 +17,12 @@ class BlogThemeUtil
             return false;
         }
         $time = date('H:i:s');
-        if (
-            ($time > $start && $time < $end)
-            ||
-            ($time > $end && $time < $start)
-        ) {
+        if ($end < $start) {
+            $t = $start;
+            $start = $end;
+            $end = $t;
+        }
+        if ($time > $start && $time < $end) {
             return true;
         }
         return false;
