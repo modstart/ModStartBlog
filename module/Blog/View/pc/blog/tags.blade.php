@@ -10,25 +10,27 @@
 
 @section('bodyContent')
 
-    <div class="ub-container">
+    <div class="ub-container margin-top">
         <div class="row">
-            <div class="col-md-8 margin-bottom">
+            <div class="col-md-8">
 
-                <div class="tw-p-6  tw-bg-white tw-rounded">
-                    <div class="tw-text-lg">
-                        <i class="iconfont icon-tag"></i>
-                        博客标签
-                    </div>
-                    <div class="tw-mt-4">
-                        @foreach($tags as $tag)
-                            <a href="{{modstart_web_url('blogs',['keywords'=>$tag['name']])}}"
-                                   class="tw-rounded-3xl tw-text-gray-600 tw-inline-block tw-bg-gray-100 tw-leading-8 tw-mb-3 tw-px-2 tw-mr-2 @if(!empty($keywords)&&$keywords==$t) ub-bg-primary ub-text-white @endif">
-                                {{$tag['name']}}
-                                <span class="tw-rounded-3xl tw-bg-gray-300 tw-text-white tw-px-2">
-                                    {{$tag['count']?$tag['count']:0}}
-                                </span>
-                            </a>
-                        @endforeach
+                <div class="ub-content-box margin-bottom">
+                    <div class="tw-p-3">
+                        <div class="tw-text-lg">
+                            <i class="iconfont icon-tag"></i>
+                            博客标签
+                        </div>
+                        <div class="tw-mt-4">
+                            @foreach($tags as $t)
+                                <a href="{{modstart_web_url('blogs',['keywords'=>$t['name']])}}"
+                                   class="hover:tw-shadow ub-content-block tw-inline-block tw-leading-5 tw-mb-2 tw-mr-2 tw-px-2 tw-py-1 tw-rounded-3xl @if(!empty($keywords)&&$keywords==$t) ub-bg-primary @endif">
+                                    {{$t['name']}}
+                                    <span class="tw-rounded-3xl tw-bg-gray-400 tw-text-white tw-px-1 tw-opacity-50">
+                                        {{$t['count']?$t['count']:0}}
+                                    </span>
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
 

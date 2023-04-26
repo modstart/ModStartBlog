@@ -30,7 +30,7 @@
                     </span>
                 @endif
                 <a href="{{modstart_web_url('blog/'.$record['id'])}}"
-                   class="pb-keywords-highlight tw-align-top tw-inline-block tw-leading-6 ub-text-default tw-text-xl">
+                   class="pb-keywords-highlight tw-align-top tw-inline-block tw-leading-6 default tw-text-xl">
                     {{$record['title']}}
                 </a>
             </div>
