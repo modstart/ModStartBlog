@@ -39,6 +39,8 @@
 
                 @include('module::Blog.View.pc.blog.inc.tags')
 
+                @include('module::Blog.View.pc.blog.inc.blogHottest')
+
                 @include('module::Blog.View.pc.blog.inc.partners')
 
             </div>

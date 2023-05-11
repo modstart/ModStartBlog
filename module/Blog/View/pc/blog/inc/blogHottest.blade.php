@@ -1,13 +1,13 @@
 <div class="ub-content-box margin-bottom">
     <div class="tw-px-3">
         <div class="tw-text-lg">
-            <i class="fa fa-calendar"></i>
-            最新博客
+            <i class="fa fa-fire"></i>
+            热门博客
         </div>
     </div>
     <div class="tw-px-1">
         <div class="tw-mt-4">
-            @foreach(MBlog::latestBlog(5) as $b)
+            @foreach(MBlog::hottestBlog(5) as $b)
                 <div class="tw-pb-2">
                     <a href="{{modstart_web_url('blog/'.$b['id'])}}"
                        class="tw-block tw-overflow-ellipsis tw-overflow-hidden ub-text-default tw-truncate">
@@ -19,4 +19,3 @@
         </div>
     </div>
 </div>
-

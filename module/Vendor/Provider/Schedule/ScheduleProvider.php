@@ -47,6 +47,9 @@ class ScheduleProvider
 
     public static function call(Schedule $schedule)
     {
+        if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] != 'schedule:run') {
+            return;
+        }
         $autoCleanHistory = true;
         foreach (ScheduleBiz::all() as $provider) {
                         

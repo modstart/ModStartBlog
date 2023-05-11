@@ -95,14 +95,20 @@ class MBlog
         foreach ($records as $i => $v) {
             $records[$i]['_category'] = BlogCategoryUtil::get($v['categoryId']);
             $records[$i]['images'] = AssetsUtil::fixFull($v['images']);
+            $records[$i]['_images'] = [];
+            $records[$i]['_images'] = array_merge($records[$i]['_images'], $records[$i]['images']);
             $records[$i]['_cover'] = null;
             if (isset($records[$i]['images'][0])) {
                 $records[$i]['_cover'] = $records[$i]['images'][0];
             }
-            if (empty($records[$i]['_cover']) && isset($v['content'])) {
+            if (isset($v['content'])) {
                 $ret = HtmlUtil::extractTextAndImages($v['content']);
-                if (isset($ret['images'][0])) {
-                    $records[$i]['_cover'] = AssetsUtil::fixFull($ret['images'][0]);
+                if (!empty($ret['images'])) {
+                    $ret['images'] = AssetsUtil::fixFull($ret['images']);
+                    $records[$i]['_images'] = array_merge($records[$i]['_images'], $ret['images']);
+                }
+                if (empty($records[$i]['_cover']) && isset($ret['images'][0])) {
+                    $records[$i]['_cover'] = $ret['images'][0];
                 }
             }
         }
