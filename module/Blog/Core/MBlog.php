@@ -61,6 +61,15 @@ class MBlog
     }
 
     
+    public static function randomBlog($limit)
+    {
+        $paginateData = self::paginateBlog(0, 1, $limit, [
+            'order' => [\Illuminate\Support\Facades\DB::raw('RAND()'), ''],
+        ]);
+        return $paginateData['records'];
+    }
+
+    
     public static function paginateBlog($categoryId, $page = 1, $pageSize = 10, $option = [])
     {
         if ($categoryId > 0) {
