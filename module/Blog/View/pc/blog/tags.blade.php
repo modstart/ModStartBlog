@@ -4,9 +4,7 @@
 @section('pageKeywords')博客标签@endsection
 @section('pageDescription')博客标签@endsection
 
-@if(\Module\Blog\Util\BlogThemeUtil::isDark())
-@section('htmlProperties')data-theme="dark"@endsection
-@endif
+@include('module::Blog.View.pc.blog.inc.theme')
 
 @section('bodyContent')
 

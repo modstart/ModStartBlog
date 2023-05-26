@@ -6,9 +6,7 @@
 
 {!! \ModStart\ModStart::js('asset/common/timeago.js') !!}
 
-@if(\Module\Blog\Util\BlogThemeUtil::isDark())
-@section('htmlProperties')data-theme="dark"@endsection
-@endif
+@include('module::Blog.View.pc.blog.inc.theme')
 
 @section('bodyContent')
 

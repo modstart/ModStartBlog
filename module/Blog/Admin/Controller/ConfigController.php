@@ -6,6 +6,7 @@ namespace Module\Blog\Admin\Controller;
 use Illuminate\Routing\Controller;
 use ModStart\Admin\Layout\AdminConfigBuilder;
 use ModStart\Support\Concern\HasFields;
+use Module\Blog\Type\BlogDarkModeType;
 use Module\Vendor\Provider\Captcha\CaptchaProvider;
 use Module\Vendor\Provider\SuperSearch\SuperSearchProvider;
 
@@ -27,8 +28,14 @@ class ConfigController extends Controller
         $builder->switch('Blog_DarkModeEnable', '启用暗黑模式')
             ->when('=', true, function ($builder) {
                 
-                $builder->time('Blog_DarkModeStart', '开始');
-                $builder->time('Blog_DarkModeEnd', '结束');
+                $builder->radio('Blog_DarkModeType', '暗黑模式')
+                    ->optionType(BlogDarkModeType::class)
+                    ->when('=', BlogDarkModeType::TIME, function ($builder) {
+                        
+                        $builder->time('Blog_DarkModeStart', '开始');
+                        $builder->time('Blog_DarkModeEnd', '结束');
+                    })
+                    ->defaultValue(BlogDarkModeType::AUTO);
             });
         $builder->formClass('wide');
         return $builder->perform();

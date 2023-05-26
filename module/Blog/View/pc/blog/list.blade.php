@@ -10,9 +10,7 @@
 {!! \ModStart\ModStart::style('[data-markjs]{color:red !important;background:transparent;}') !!}
 {!! \ModStart\ModStart::script("$('.pb-keywords-highlight').mark(".json_encode($markKeywords).".join(' '),{separateWordSearch:true});") !!}
 
-@if(\Module\Blog\Util\BlogThemeUtil::isDark())
-@section('htmlProperties')data-theme="dark"@endsection
-@endif
+@include('module::Blog.View.pc.blog.inc.theme')
 
 @section('bodyContent')
 

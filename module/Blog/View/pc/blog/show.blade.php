@@ -6,9 +6,7 @@
 
 {!! \ModStart\ModStart::js('asset/common/timeago.js') !!}
 
-@if(\Module\Blog\Util\BlogThemeUtil::isDark())
-@section('htmlProperties')data-theme="dark"@endsection
-@endif
+@include('module::Blog.View.pc.blog.inc.theme')
 
 @section('bodyContent')
 
@@ -48,9 +46,11 @@
                             {!! $record['content'] !!}
                         </div>
                     </div>
-                    <div class="tw-text-center">
-                        {!! \Module\ShareJS\View\ShareJSView::buttons() !!}
-                    </div>
+                    @if(modstart_module_enabled('ShareJS'))
+                        <div class="tw-text-center">
+                            {!! \Module\ShareJS\View\ShareJSView::buttons() !!}
+                        </div>
+                    @endif
                 </div>
 
 

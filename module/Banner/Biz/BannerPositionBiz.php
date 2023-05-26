@@ -6,13 +6,14 @@ namespace Module\Banner\Biz;
 
 use Module\Vendor\Provider\BizTrait;
 
+
 class BannerPositionBiz
 {
     use BizTrait;
 
-    public static function registerQuick($name, $title)
+    public static function registerQuick($name, $title, $remark = null)
     {
-        self::register(QuickBannerPositionBiz::make($name, $title));
+        self::register(QuickBannerPositionBiz::make($name, $title, $remark));
     }
 
     
