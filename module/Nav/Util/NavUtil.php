@@ -22,8 +22,7 @@ class NavUtil
         ]);
     }
 
-    
-    public static function listByPosition($position = 'header')
+    public static function tree()
     {
         $nodes = TreeUtil::modelToTree('nav', [
             'position' => 'position',
@@ -32,6 +31,13 @@ class NavUtil
             'link' => 'link',
             'icon' => 'icon',
         ], 'id', 'pid', 'sort', ['enable' => true]);
+        return $nodes;
+    }
+
+    
+    public static function listByPosition($position = 'header')
+    {
+        $nodes = self::tree();
         return array_filter($nodes, function ($item) use ($position) {
             return $item['position'] == $position;
         });

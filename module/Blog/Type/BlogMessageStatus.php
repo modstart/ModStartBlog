@@ -17,7 +17,7 @@ class BlogMessageStatus implements BaseType
         return [
             self::WAIT_VERIFY => '待审核',
             self::VERIFY_SUCCESS => '审核通过',
-            self::VERIFY_FAIL => '审核中',
+            self::VERIFY_FAIL => '审核失败',
         ];
     }
 
