@@ -84,7 +84,7 @@ class AdminConfigBuilder implements Renderable
     }
 
     /**
-     * @param \stdClass|null|false $item null表示使用默认的modstart_config配置获取，false表示不使用任何内容初始化
+     * @param \stdClass|null|false $item null 表示使用默认的 modstart_config 配置获取，false 表示不使用任何内容初始化
      * @param \Closure $callback = function (Form $form) { return Response::generateSuccess('ok'); }
      * @return $this
      */
@@ -109,12 +109,18 @@ class AdminConfigBuilder implements Renderable
         }
         if (null === $item) {
             $item = [];
+            $config = modstart_config();
             foreach ($this->form->fields() as $field) {
                 /** @var $field AbstractField */
                 if ($field->isLayoutField()) {
                     continue;
                 }
-                $v = modstart_config($field->column(), $field->defaultValue());
+                $hasValue = $config->has($field->column());
+                if ($hasValue) {
+                    $v = modstart_config($field->column());
+                } else {
+                    $v = null;
+                }
                 if (is_array($v)) {
                     $v = json_encode($v, JSON_UNESCAPED_UNICODE);
                 }

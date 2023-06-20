@@ -10,6 +10,7 @@ use ModStart\Core\Dao\DynamicModel;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\InputPackage;
+use ModStart\Core\Input\Request;
 use ModStart\Core\Input\Response;
 use ModStart\Core\Util\IdUtil;
 use ModStart\Core\Util\RenderUtil;
@@ -50,6 +51,7 @@ use ModStart\Support\Manager\FieldManager;
  * @method Grid|mixed canCopy($value = null)
  * @method Grid|mixed canMultiSelectItem($value = null)
  * @method Grid|mixed canSingleSelectItem($value = null)
+ * @method Grid|mixed urlGrid($value = null)
  * @method Grid|mixed urlAdd($value = null)
  * @method Grid|mixed urlEdit($value = null)
  * @method Grid|mixed textEdit($value = null)
@@ -121,6 +123,7 @@ class Grid
         'canBatchDelete',
         'canBatchSelect',
         'canSort',
+        'urlGrid',
         'urlAdd',
         'urlEdit',
         'textEdit',
@@ -170,6 +173,7 @@ class Grid
     private $canBatchDelete = false;
     private $canBatchSelect = false;
     private $canSort = false;
+    private $urlGrid;
     private $urlAdd;
     private $urlEdit;
     private $textEdit;
@@ -564,9 +568,10 @@ class Grid
                     $record[$field->column()] = $treePrefix . $record[$field->column()];
                 } else if ($this->engine == GridEngine::TREE_MASS && $field->column() == $this->repository()->getTreeTitleColumn()) {
                     if (count($treeAncestors) < $this->treeMaxLevel() - 1) {
+                        $url = Request::mergeQueries(['_pid' => $record['_id']]);
                         $record[$field->column()] =
                             '<span class="tree-arrow-icon ub-text-muted"><i class="icon iconfont icon-angle-right"></i></span>'
-                            . '<a class="ub-text-primary" href="?_pid=' . $record['_id'] . '" title="' . L('Manage') . '"><i class="icon iconfont icon-sign"></i> ' . htmlspecialchars($record[$field->column()]) . '</a>';
+                            . '<a class="ub-text-primary" href="?' . $url . '" title="' . L('Manage') . '"><i class="icon iconfont icon-sign"></i> ' . htmlspecialchars($record[$field->column()]) . '</a>';
                     } else {
                         $record[$field->column()] =
                             '<span class="tree-arrow-icon ub-text-muted"><i class="icon iconfont icon-angle-right"></i></span>'

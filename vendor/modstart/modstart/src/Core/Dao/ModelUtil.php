@@ -25,6 +25,34 @@ class ModelUtil
 //    }
 
     /**
+     * 判断是否为模型，约定：数据库使用下划线，模型使用驼峰
+     * @param $tableOrModel string|Model
+     */
+    public static function isModel($tableOrModel)
+    {
+        if (!is_string($tableOrModel)) {
+            return true;
+        }
+        return strtolower($tableOrModel) != $tableOrModel;
+    }
+
+    /**
+     * 自动构建出模型
+     * @param $tableOrModel string
+     * @return Model|Builder|mixed|DynamicModel
+     */
+    public static function autoModel($tableOrModel)
+    {
+        if (self::isModel($tableOrModel)) {
+            if (is_string($tableOrModel)) {
+                return new $tableOrModel();
+            }
+            return $tableOrModel;
+        }
+        return self::model($tableOrModel);
+    }
+
+    /**
      * @Util 构建模型
      * @param $model string 数据表
      * @return Model|Builder 数据库模型
@@ -473,9 +501,29 @@ class ModelUtil
         return $changed;
     }
 
-    public static function sortNext($model, $filter = [], $sortField = 'sort')
+    public static function next($model, $current, $where = [], $sortField = 'id', $fields = ['*'])
     {
-        return intval(self::model($model)->where($filter)->max($sortField)) + 1;
+        $record = self::model($model)
+            ->where($where)
+            ->where($sortField, '>', $current)
+            ->orderBy($sortField, 'asc')
+            ->first($fields);
+        return $record ? $record->toArray() : null;
+    }
+
+    public static function prev($model, $current, $where = [], $sortField = 'id', $fields = ['*'])
+    {
+        $record = self::model($model)
+            ->where($where)
+            ->where($sortField, '<', $current)
+            ->orderBy($sortField, 'desc')
+            ->first($fields);
+        return $record ? $record->toArray() : null;
+    }
+
+    public static function sortNext($model, $where = [], $sortField = 'sort')
+    {
+        return intval(self::model($model)->where($where)->max($sortField)) + 1;
     }
 
     public static function sortMove($model, $id, $direction = 'up|down|top|bottom', $filter = [], $idField = 'id', $sortField = 'sort')
