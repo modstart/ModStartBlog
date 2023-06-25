@@ -13,7 +13,7 @@
                name="{{$name}}"
                placeholder="{{$placeholder}}"
                @if(null===$fixedValue)
-               value="{{empty($value)?'':json_encode($value,JSON_UNESCAPED_UNICODE)}}"
+               value="{{json_encode(null===$value?$defaultValue:$value,JSON_UNESCAPED_UNICODE)}}"
                @else
                value="{{empty($fixedValue)?'':json_encode($fixedValue,JSON_UNESCAPED_UNICODE)}}"
                @endif

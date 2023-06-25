@@ -10,7 +10,7 @@
     </div>
     <div class="field">
         <div class="value">{{$value}}</div>
-        <input type="hidden" name="{{$name}}" value="{{$value}}"/>
+        <input type="hidden" name="{{$name}}" value="{{null===$value?$defaultValue:$value}}"/>
         @if(!empty($help))
             <div class="help">{!! $help !!}</div>
         @endif

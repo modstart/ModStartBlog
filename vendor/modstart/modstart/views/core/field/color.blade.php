@@ -14,7 +14,7 @@
                    style="width:8em;vertical-align:middle;"
                    name="{{$name}}"
                    placeholder="{{$placeholder}}"
-                   value="{{$value}}" />
+                   value="{{null===$value?$defaultValue:$value}}" />
             <div id="{{$id}}Color" style="vertical-align:top;"></div>
         </div>
         @if(!empty($help))
