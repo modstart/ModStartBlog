@@ -1,8 +1,8 @@
 @extends($_viewFrame)
 
 @section('pageTitleMain'){{$record['title']}}@endsection
-@section('pageKeywords'){{$record['title']}}@endsection
-@section('pageDescription'){{$record['summary']}}@endsection
+@section('pageKeywords'){{$record['seoKeywords']?$record['seoKeywords']:$record['title']}}@endsection
+@section('pageDescription'){{$record['seoDescription']?$record['seoDescription']:$record['summary']}}@endsection
 
 {!! \ModStart\ModStart::js('asset/common/timeago.js') !!}
 
