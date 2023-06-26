@@ -27,7 +27,7 @@
         var colorpicker = layui.colorpicker;
         colorpicker.render({
             elem: '#{{$id}}Color',
-            color: '{{$value}}',
+            color: '{{null===$value?$defaultValue:$value}}',
             done: function (color) {
                 $('[name={{$name}}]').val(color);
             }

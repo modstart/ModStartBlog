@@ -25,7 +25,7 @@
             el: '#{{$id}}Input',
             data: {
                 max:{!! $maxValue !!},
-                value: {!! null===$value?($defaultValue?$defaultValue:0):$value !!}
+                value: {!! null===$value?(null===$defaultValue?0:$defaultValue):$value !!}
             },
             computed:{
                 inputValue:function(){

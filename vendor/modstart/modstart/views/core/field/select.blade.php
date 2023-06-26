@@ -8,7 +8,7 @@
     </div>
     <div class="field" >
         @if($readonly)
-            <input type="hidden" name="{{$name}}" value="{{$value}}" />
+            <input type="hidden" name="{{$name}}" value="{{null===$value?$defaultValue:$value}}" />
         @endif
         <div class="layui-form tw-inline-block" lay-filter="{{$name}}">
             <select class="form" name="{{$name}}"
