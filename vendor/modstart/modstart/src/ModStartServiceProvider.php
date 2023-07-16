@@ -6,18 +6,22 @@ namespace ModStart;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use ModStart\Admin\ModStartAdmin;
 use ModStart\App\Api\ModStartApi;
 use ModStart\App\OpenApi\ModStartOpenApi;
 use ModStart\App\Web\ModStartWeb;
 use ModStart\Core\Facades\ModStart;
+use ModStart\Core\Input\Request;
 use ModStart\Core\Monitor\DatabaseMonitor;
 use ModStart\Core\Monitor\HttpMonitor;
 use ModStart\Core\Monitor\StatisticMonitor;
+use ModStart\Core\Util\ShellUtil;
 use ModStart\Module\ModuleManager;
 
 /**
@@ -106,6 +110,34 @@ class ModStartServiceProvider extends ServiceProvider
         $this->registerRoutePattern();
 
         $this->setupMonitor();
+
+
+        if (config('modstart.xForwardedHostVisitRedirect', true)) {
+            if (!ShellUtil::isCli()) {
+                $forwardedHost = Request::headerGet('x-forwarded-host');
+                $domain = Request::domain();
+                if ($forwardedHost && $domain && $forwardedHost != $domain) {
+                    $localIgnores = [
+                        'localhost',
+                        '127.0.0.1'
+                    ];
+                    $isLocal = false;
+                    foreach ($localIgnores as $li) {
+                        if (Str::contains($forwardedHost, $li)) {
+                            $isLocal = true;
+                            break;
+                        }
+                    }
+                    if (!$isLocal) {
+                        $redirect = Request::domainUrl() . Request::basePathWithQueries();
+                        Log::info('xForwardedHostVisitRedirect - ' . $forwardedHost . ' to ' . $redirect);
+                        header("HTTP/1.1 301 Moved Permanently");
+                        header("Location: " . $redirect);
+                        exit();
+                    }
+                }
+            }
+        }
     }
 
     private function listModuleServiceProviders()

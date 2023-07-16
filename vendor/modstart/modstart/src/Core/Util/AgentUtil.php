@@ -68,4 +68,55 @@ class AgentUtil
         return !Agent::isPhone() && !Agent::isTablet();
     }
 
+    private static $robots = [
+        '/Googlebot/i' => 'Google',
+        '/Baiduspider/i' => 'Baidu',
+        '/360Spider/i' => '360',
+        '/Sogou/i' => 'Sogou',
+        '/bingbot/i' => 'Bing',
+        '/Bytespider/i' => 'TouTiao',
+        '/YisouSpider/i' => 'Yisou',
+
+        '/duckduckgo\\.com/i' => 'Other',
+        '/DotBot/i' => 'Other',
+        '/AhrefsBot/i' => 'Other',
+        '/SemrushBot/i' => 'Other',
+        '/GeedoBot/i' => 'Other',
+        '/AwarioBot/i' => 'Other',
+        '/MJ12bot/i' => 'Other',
+        '/YandexBot/i' => 'Other',
+        '/YandexImages/i' => 'Other',
+        '/serpstatbot/i' => 'Other',
+        '/NetcraftSurveyAgent/i' => 'Other',
+        '/CensysInspect/i' => 'Other',
+        '/Scrapy/i' => 'Other',
+        '/linkfluence/i' => 'Other',
+        '/Slackbot\\-LinkExpanding/i' => 'Other',
+        '/Apache\\-HttpClient/i' => 'Other',
+        '/github\\-camo/i' => 'Other',
+        '/python\\-http/i' => 'Other',
+        '/python\\-requests/i' => 'Other',
+        '/Go\\-http\\-client/i' => 'Other',
+        '/cpp\\-httplib/i' => 'Other',
+        '/okhttp/i' => 'Other',
+        '/msray/i' => 'Other',
+        '/crawler/i' => 'Other',
+        '/curl\\/\\d+\\.\\d+\\./i' => 'Other',
+        '/Java\\/\\d+\\.\\d+\\./i' => 'Other',
+        '/spider/i' => 'Other',
+    ];
+
+    public static function detectRobot($userAgent = null)
+    {
+        if (null === $userAgent) {
+            $userAgent = AgentUtil::getUserAgent();
+        }
+        foreach (self::$robots as $regex => $robot) {
+            if (preg_match($regex, $userAgent)) {
+                return $robot;
+            }
+        }
+        return null;
+    }
+
 }

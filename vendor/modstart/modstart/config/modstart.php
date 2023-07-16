@@ -2,16 +2,20 @@
 return [
 
     'name' => 'ModStart',
-    'lang' => [
-        'track_missing' => false,
-    ],
 
+    'trackMissingLang' => false,
+    // 开启性能追踪，开启后会在日志中记录必要的请求，如慢SQL执行、多查询请求
     'trackPerformance' => env('TRACK_PERFORMANCE', false),
+    // 慢SQL阈值，单位毫秒
+    'trackLongSqlThreshold' => env('TRACK_LONG_SQL_THRESHOLD', 5000),
     'statisticServer' => env('STATISTIC_SERVER', null),
 
     'forceSchema' => env('FORCE_SCHEMA', null),
     'subdirUrl' => env('SUBDIR_URL', null),
     'subdir' => env('SUBDIR', '/'),
+
+    // 防止X-Forwarded-Host直接访问，遇到通过CDN域名直接访问的情况，直接跳转到主域名
+    'xForwardedHostVisitRedirect' => true,
 
     'admin' => [
         'prefix' => trim(env('ADMIN_PATH', 'admin'), '/'),

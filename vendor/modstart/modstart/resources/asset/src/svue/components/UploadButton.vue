@@ -46,7 +46,11 @@ export default {
         styles: {
             type: String,
             default: 'simple',
-        }
+        },
+        uploadText: {
+            type: String,
+            default: null
+        },
     },
     data() {
         return {
@@ -110,9 +114,10 @@ export default {
                 // console.log('Wait dataUploadConfig')
                 return
             }
-            let text = '<div class="btn btn-block"><i class="iconfont icon-upload"></i> ' + this.L('Select Local File') + '</div>'
+            let uploadText = this.uploadText || this.L('Select Local File')
+            let text = '<div class="btn btn-block"><i class="iconfont icon-upload"></i> ' + uploadText + '</div>'
             if (this.size === 'lg') {
-                text = '<span class="btn btn-block btn-lg"><i class="iconfont icon-upload"></i> ' + this.L('Select Local File') + '</span>'
+                text = '<span class="btn btn-block btn-lg"><i class="iconfont icon-upload"></i> ' + uploadText + '</span>'
             }
             const $this = this
             UploadButtonUploader('#' + this.id, {
@@ -150,7 +155,8 @@ export default {
 @import "webuploader/css.less";
 
 .ub-upload-button {
-    height: 1.6rem;
+    // Wenku 上传时高度不显示进度条，先注释掉
+    // height: 1.6rem;
     overflow: hidden;
 }
 </style>

@@ -8,6 +8,10 @@ const Url = require('./../lib/url');
 const EventManager = require('./../lib/event-manager');
 const SelectorDialog = require('./../lib/selectorDialog');
 import {Tree} from './../svue/lib/tree';
+import {Storage} from './../svue/lib/storage';
+import {FileUtil} from './../svue/lib/file-util';
+import {DateUtil} from './../svue/lib/date-util';
+import {Collection} from './../svue/lib/collection';
 
 const sprintf = require('sprintf-js').sprintf;
 
@@ -112,6 +116,9 @@ const MS = {
     dialog: Dialog,
     util: Util,
     form: Form,
+    file: FileUtil,
+    date: DateUtil,
+    collection: Collection,
     api: {
         defaultCallback: Base.defaultFormCallback,
         post: Base.post,
@@ -121,6 +128,7 @@ const MS = {
     header: Header,
     tree: Tree,
     url: Url,
+    storage: Storage,
     eventManager: EventManager,
     L: function () {
         var lang = arguments[0]
