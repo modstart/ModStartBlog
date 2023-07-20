@@ -1,5 +1,6 @@
 @if(\Module\Blog\Util\BlogThemeUtil::isDarkTime())
-    @section('htmlProperties')data-theme="dark"@endsection
+    @section('htmlProperties') data-theme="dark" @endsection
 @elseif(\Module\Blog\Util\BlogThemeUtil::isDarkAuto())
-    {!! \ModStart\ModStart::css('vendor/Blog/style/prefers-color-scheme.css') !!}
+    @section('htmlProperties') data-theme="auto" @endsection
 @endif
+{!! ModStart::css('vendor/Blog/style/basic.css') !!}
