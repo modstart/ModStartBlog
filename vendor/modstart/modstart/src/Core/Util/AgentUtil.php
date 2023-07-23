@@ -106,6 +106,13 @@ class AgentUtil
         '/crawler/i' => 'Other',
         '/curl\\/\\d+\\.\\d+\\./i' => 'Other',
         '/Java\\/\\d+\\.\\d+\\./i' => 'Other',
+        '/InternetMeasurement/i' => 'Other',
+        '/DingTalkBot/i' => 'Other',
+        '/Vue\\-Telescope/i' => 'Other',
+        '/2ip\\.io/i' => 'Other',
+        '/facebookexternalhit/i' => 'Other',
+        '/coccocbot\\-web/i' => 'Other',
+        '/Dataprovider\\.com/i' => 'Other',
         '/spider/i' => 'Other',
     ];
 

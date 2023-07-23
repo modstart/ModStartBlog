@@ -42,6 +42,7 @@ trait BizTrait
         return null;
     }
 
+    
     public static function allMap()
     {
         return array_build(self::listAll(), function ($k, $v) {
