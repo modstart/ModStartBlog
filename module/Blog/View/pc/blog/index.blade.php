@@ -15,7 +15,7 @@
             <div class="col-md-8 margin-bottom">
 
                 <div class="ub-content-box margin-bottom tw-overflow-hidden" style="padding:0;">
-                    {!! \Module\Banner\View\BannerView::basic('Blog') !!}
+                    {!! \Module\Banner\View\BannerView::basic('Blog',null,'5-2','5-3') !!}
                 </div>
 
                 <div class="ub-content-box margin-bottom">
