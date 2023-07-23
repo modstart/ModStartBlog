@@ -71,10 +71,10 @@
             </div>
             @if(!empty($record['_cover']))
                 <div class="lg:tw-w-40 tw-w-full lg:tw-ml-4 tw-flex-shrink-0">
-                    <div class="tw-overflow-hidden tw-rounded">
+                    <a class="tw-overflow-hidden tw-rounded tw-block" href="{{modstart_web_url('blog/'.$record['id'])}}">
                         <div class="hover:tw-rotate-3 hover:tw-scale-110 tw-duration-300 tw-ease-in-out tw-rounded tw-transform ub-cover-3-2"
-                             style="background-image:url({{$record['_cover']}})"></div>
-                    </div>
+                             style="background-image:url({{$record['_cover']}});"></div>
+                    </a>
                 </div>
             @endif
         </div>
