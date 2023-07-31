@@ -18,7 +18,7 @@ use ModStart\Module\ModuleManager;
 class ModuleStoreUtil
 {
     const REMOTE_BASE = 'https://modstart.com';
-
+    
     public static function remoteModuleData()
     {
         $input = InputPackage::buildFromInput();

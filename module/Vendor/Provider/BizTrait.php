@@ -51,4 +51,15 @@ trait BizTrait
             ];
         });
     }
+
+    public static function allMapEnabled()
+    {
+        return array_build(array_filter(self::listAll(), function ($v) {
+            return $v->enable();
+        }), function ($k, $v) {
+            return [
+                $v->name(), $v->title()
+            ];
+        });
+    }
 }
