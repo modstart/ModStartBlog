@@ -13,6 +13,7 @@ $router->group([
     $router->match(['get'], 'blog/about', 'AboutController@index');
     $router->match(['get'], 'blog/message', 'MessageController@index');
     $router->match(['get'], 'blog/tags', 'TagsController@index');
+    $router->match(['get'], 'blog/archive', 'ArchiveController@index');
 
     $router->match(['get'], 'blogs', 'BlogController@index');
     $router->match(['get'], 'blog/{id}', 'BlogController@show');

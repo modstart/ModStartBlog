@@ -34,6 +34,7 @@ class ModuleServiceProvider extends ServiceProvider
                 ['博客首页', modstart_web_url('blog')],
                 ['博客列表', modstart_web_url('blogs')],
                 ['博客留言', modstart_web_url('blog/message')],
+                ['博客归档', modstart_web_url('blog/archive')],
                 ['博客标签', modstart_web_url('blog/tags')],
                 ['关于博主', modstart_web_url('blog/about')],
             ], $categories));

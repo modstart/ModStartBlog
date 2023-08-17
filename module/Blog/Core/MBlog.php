@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use ModStart\Core\Assets\AssetsUtil;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Util\HtmlUtil;
@@ -173,5 +174,31 @@ class MBlog
     public static function tagRecords()
     {
         return BlogTagUtil::records();
+    }
+
+    
+    public static function archiveMonthCounts($year)
+    {
+        $archiveCounts = Blog::query()
+            ->where('postTime', '<', date('Y-m-d H:i:s'))
+            ->where('postTime', '>=', $year . '-01-01 00:00:00')
+            ->where('postTime', '<=', $year . '-12-31 23:59:59')
+            ->select([DB::raw("DATE_FORMAT(`postTime`,'%m') AS `month`"), DB::raw("COUNT(*) AS total")])
+            ->groupBy('month')
+            ->orderBy('month', 'desc')
+            ->get()->toArray();
+        return $archiveCounts;
+    }
+
+    
+    public static function archiveYearCounts()
+    {
+        $archiveCounts = Blog::query()
+            ->where('postTime', '<', date('Y-m-d H:i:s'))
+            ->select([DB::raw("DATE_FORMAT(`postTime`,'%Y') AS `year`"), DB::raw("COUNT(*) AS total")])
+            ->groupBy('year')
+            ->orderBy('year', 'desc')
+            ->get()->toArray();
+        return $archiveCounts;
     }
 }
