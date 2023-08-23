@@ -8,7 +8,11 @@ use ModStart\Core\Util\ReUtil;
 
 include_once __DIR__ . '/../Shell/include.php';
 
-
+/**
+ * Class UniappUtil
+ * @package Module\Vendor\Developer
+ * @deprecated delete at 2023-10-04
+ */
 class UniappUtil
 {
     public static function runOrFail($command)
@@ -56,7 +60,8 @@ class UniappUtil
         shell_echo_block("处理静态文件");
         $replaces = [
             '"__cdn_url__/"' => 'window.__msCDN+"vendor/' . $module . '/"',
-                        '"/static/' => 'window.__msCDN+"vendor/' . $module . '/static/',
+            // '(/static/' => '(/vendor/' . $module . '/static/',
+            '"/static/' => 'window.__msCDN+"vendor/' . $module . '/static/',
         ];
         $files = glob('dist/build/h5/static/js/*.js');
         foreach ($files as $file) {

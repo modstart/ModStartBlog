@@ -8,7 +8,9 @@ use ModStart\Core\Exception\BizException;
 
 class VideoStreamProvider
 {
-    
+    /**
+     * @var AbstractVideoStreamProvider[]
+     */
     private static $instances = [
     ];
 
@@ -17,7 +19,9 @@ class VideoStreamProvider
         self::$instances[] = $provider;
     }
 
-    
+    /**
+     * @return AbstractVideoStreamProvider[]
+     */
     public static function all()
     {
         foreach (self::$instances as $k => $v) {
@@ -48,7 +52,11 @@ class VideoStreamProvider
         return null;
     }
 
-    
+    /**
+     * @param $name
+     * @return AbstractVideoStreamProvider
+     * @throws BizException
+     */
     public static function get($name)
     {
         foreach (self::all() as $item) {

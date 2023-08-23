@@ -1,6 +1,6 @@
 <?php
 
-
+/* @var \Illuminate\Routing\Router $router */
 
 $router->match(['get', 'post'], 'visit_statistic/config', 'ConfigController@index');
 

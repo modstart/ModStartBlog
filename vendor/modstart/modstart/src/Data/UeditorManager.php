@@ -114,9 +114,11 @@ class UeditorManager
                 return '.' . $v;
             }, $dataUploadConfig['file']['extensions']),
 
-            // 公式渲染
+            // 公式编辑
             "formulaConfig" => [
-                "imageUrlTemplate" => modstart_config('UEditor_FormulaImageUrlTemplate', 'https://latex.codecogs.com/svg.image?{}'),
+                "imageUrlTemplate" => modstart_config('UEditor_FormulaImageUrlTemplate', 'https://r.latexeasy.com/image.svg?{}'),
+                'editorMode' => modstart_config('UEditor_FormulaEditorMode', 'live'),
+                'editorLiveServer' => modstart_config('UEditor_FormulaEditorLiveServer', 'https://latexeasy.com'),
             ]
         ];
         return $config;

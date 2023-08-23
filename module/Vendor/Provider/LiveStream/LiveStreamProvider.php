@@ -8,7 +8,9 @@ use ModStart\Core\Exception\BizException;
 
 class LiveStreamProvider
 {
-    
+    /**
+     * @var AbstractLiveStreamProvider[]
+     */
     private static $instances = [
     ];
 
@@ -17,7 +19,9 @@ class LiveStreamProvider
         self::$instances[] = $provider;
     }
 
-    
+    /**
+     * @return AbstractLiveStreamProvider[]
+     */
     public static function all()
     {
         foreach (self::$instances as $k => $v) {
@@ -48,7 +52,11 @@ class LiveStreamProvider
         return null;
     }
 
-    
+    /**
+     * @param $name
+     * @return AbstractLiveStreamProvider
+     * @throws BizException
+     */
     public static function get($name)
     {
         foreach (self::all() as $item) {

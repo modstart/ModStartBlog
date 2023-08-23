@@ -9,14 +9,19 @@ use ModStart\Admin\Concern\HasAdminQuickCRUD;
 use ModStart\Admin\Layout\AdminCRUDBuilder;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Input\Response;
+use ModStart\Field\AbstractField;
 use ModStart\Field\Tags;
+use ModStart\Field\Type\FieldRenderMode;
 use ModStart\Form\Form;
 use ModStart\Grid\GridFilter;
 use ModStart\Repository\RepositoryUtil;
 use ModStart\Support\Concern\HasFields;
+use ModStart\Widget\TextLink;
 use Module\Blog\Core\BlogSuperSearchBiz;
+use Module\Blog\Type\BlogVisitMode;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\BlogTagUtil;
+use Module\Blog\Util\UrlUtil;
 use Module\Vendor\Provider\SiteUrl\SiteUrlProvider;
 
 class BlogController extends Controller
@@ -29,10 +34,17 @@ class BlogController extends Controller
         $builder
             ->init('blog')
             ->field(function ($builder) {
-                
+                /** @var HasFields $builder */
                 $builder->id('id', 'ID');
                 $builder->select('categoryId', '分类')->optionModelTree('blog_category');
-                $builder->text('title', '标题')->required();
+                $builder->text('title', '标题')
+                    ->hookRendering(function (AbstractField $field, $item, $index) {
+                        switch ($field->renderMode()) {
+                            case FieldRenderMode::GRID:
+                            case FieldRenderMode::DETAIL:
+                                return TextLink::primary(htmlspecialchars($item->title), UrlUtil::blog($item), 'target="_blank"');
+                        }
+                    })->required();
                 $builder->richHtml('content', '内容')->required();
                 $builder->textarea('summary', '摘要')->listable(false);
                 $builder->tags('tag', '标签')
@@ -46,6 +58,13 @@ class BlogController extends Controller
                 $builder->switch('isHot', '热门')->gridEditable(true);
                 $builder->switch('isRecommend', '推荐')->gridEditable(true);
                 $builder->switch('isPublished', '发布')->optionsYesNo()->defaultValue(true);
+                $builder->radio('visitMode', '访问模式')
+                    ->optionType(BlogVisitMode::class)
+                    ->defaultValue(BlogVisitMode::OPEN)
+                    ->when('=', BlogVisitMode::PASSWORD, function ($builder) {
+                        /** @var HasFields $builder */
+                        $builder->text('visitPassword', '访问密码');
+                    });
                 $builder->display('created_at', L('Created At'))->listable(false);
                 $builder->display('updated_at', L('Updated At'))->listable(false);
             })
@@ -53,6 +72,7 @@ class BlogController extends Controller
                 $filter->eq('id', L('ID'));
                 $filter->like('title', '标题');
             })
+            ->pageJumpEnable(true)
             ->hookSaving(function (Form $form) use (&$updatedCategoryIds) {
                 if ($form->itemId()) {
                     $blog = ModelUtil::get('blog', $form->itemId());

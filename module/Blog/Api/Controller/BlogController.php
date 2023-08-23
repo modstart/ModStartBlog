@@ -5,6 +5,7 @@ namespace Module\Blog\Api\Controller;
 
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
 use ModStart\Core\Assets\AssetsUtil;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Exception\BizException;
@@ -14,13 +15,22 @@ use ModStart\Core\Util\ArrayUtil;
 use ModStart\Core\Util\TagUtil;
 use Module\Blog\Core\BlogSuperSearchBiz;
 use Module\Blog\Type\BlogCommentStatus;
+use Module\Blog\Type\BlogVisitMode;
 use Module\Blog\Util\BlogCategoryUtil;
+use Module\Blog\Util\UrlUtil;
 use Module\Member\Util\MemberUtil;
 
-
+/**
+ * @Api 博客系统
+ */
 class BlogController extends Controller
 {
-    
+    /**
+     * @Api 博客-列表
+     * @ApiBodyParam page int 页码
+     * @ApiBodyParam categoryId int 分类ID
+     * @ApiBodyParam keyword string 关键字
+     */
     public function paginate()
     {
         $input = InputPackage::buildFromInput();
@@ -82,7 +92,8 @@ class BlogController extends Controller
             }, $paginateData['records']);
             $paginateData['records'] = ModelUtil::allInWithOrder('blog', 'id', $itemIds);
             $paginateData['records'] = \MBlog::buildRecords($paginateData['records']);
-                    }
+            // Log::info('records-' . json_encode($paginateData['records']));
+        }
 
 
         $category = null;
@@ -107,7 +118,10 @@ class BlogController extends Controller
         ]);
     }
 
-    
+    /**
+     * @Api 博客-详情
+     * @ApiBodyParam id int 博客ID
+     */
     public function get()
     {
         $input = InputPackage::buildFromInput();
@@ -119,20 +133,44 @@ class BlogController extends Controller
         $record['tag'] = TagUtil::string2Array($record['tag']);
         $record['_category'] = BlogCategoryUtil::get($record['categoryId']);
 
+        $record['_visitVerified'] = false;
+        switch ($record['visitMode']) {
+            case BlogVisitMode::PASSWORD:
+                $visitVerifiedIds = Session::get('Blog_VisitVerifiedIds');
+                if (empty($visitVerifiedIds)) {
+                    $visitVerifiedIds = [];
+                }
+                if (in_array($record['id'], $visitVerifiedIds)) {
+                    $record['_visitVerified'] = true;
+                } else {
+                    $record['content'] = null;
+                }
+                break;
+            case BlogVisitMode::OPEN:
+            default:
+                $record['_visitVerified'] = true;
+                break;
+        }
+
+        $comments = [];
+        $commentTotal = 0;
+
         $commentPage = $input->getInteger('commentPage', 1);
         $commentPageSize = 10;
+        if ($record['_visitVerified']) {
+            $option = [];
+            $option['where']['blogId'] = $record['id'];
+            $option['where']['status'] = BlogCommentStatus::VERIFY_SUCCESS;
 
-        $option = [];
-        $option['where']['blogId'] = $record['id'];
-        $option['where']['status'] = BlogCommentStatus::VERIFY_SUCCESS;
-
-        $option['order'] = ['id', 'desc'];
-        $commentPaginateData = ModelUtil::paginate('blog_comment', $commentPage, $commentPageSize, $option);
-
-        $comments = $commentPaginateData['records'];
-        if (modstart_module_enabled('Member')) {
-            MemberUtil::mergeMemberUserBasics($comments);
+            $option['order'] = ['id', 'desc'];
+            $commentPaginateData = ModelUtil::paginate('blog_comment', $commentPage, $commentPageSize, $option);
+            $comments = $commentPaginateData['records'];
+            $commentTotal = $commentPaginateData['total'];
+            if (modstart_module_enabled('Member')) {
+                MemberUtil::mergeMemberUserBasics($comments);
+            }
         }
+
 
         $recordNext = ModelUtil::model('blog')
             ->where('postTime', '<', $record['postTime'])
@@ -158,8 +196,29 @@ class BlogController extends Controller
             'recordPrev' => $recordPrev,
             'commentPage' => $commentPage,
             'commentPageSize' => $commentPageSize,
-            'commentTotal' => $commentPaginateData['total'],
+            'commentTotal' => $commentTotal,
             'comments' => $comments,
         ]);
+    }
+
+    public function visitPasswordVerify()
+    {
+        $input = InputPackage::buildFromInput();
+        $id = $input->getInteger('id');
+        $record = ModelUtil::get('blog', $id);
+        BizException::throwsIfEmpty('记录不存在', $record);
+        BizException::throwsIf('记录数据异常', $record['visitMode'] != BlogVisitMode::PASSWORD);
+        $password = $input->getTrimString('password');
+        BizException::throwsIfEmpty('请输入密码', $password);
+        BizException::throwsIf('密码错误', $password != $record['visitPassword']);
+        $visitVerifiedIds = Session::get('Blog_VisitVerifiedIds');
+        if (empty($visitVerifiedIds) || !is_array($visitVerifiedIds)) {
+            $visitVerifiedIds = [];
+        }
+        if (!in_array($record['id'], $visitVerifiedIds)) {
+            $visitVerifiedIds[] = $record['id'];
+        }
+        Session::set('Blog_VisitVerifiedIds', $visitVerifiedIds);
+        return Response::generate(0, '验证成功', null, UrlUtil::blog($record));
     }
 }

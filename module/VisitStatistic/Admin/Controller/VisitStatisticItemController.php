@@ -21,7 +21,7 @@ class VisitStatisticItemController extends Controller
         $builder
             ->init('visit_statistic_item')
             ->field(function ($builder) {
-                
+                /** @var HasFields $builder */
                 $builder->display('created_at', '时间')->listable(true);
                 $builder->display('ip', 'IP')->listable(true);
                 $builder->display('url', 'URL')->listable(true);

@@ -3,10 +3,16 @@
 
 namespace Module\Vendor\Biz;
 
-
+/**
+ * Trait BizTrait
+ * @package Module\Vendor\Biz
+ * @deprecated delete at 2023-10-04
+ */
 trait BizTrait
 {
-    
+    /**
+     * @var array
+     */
     private static $list = [];
 
     public static function register($biz)

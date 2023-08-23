@@ -4,10 +4,16 @@
 namespace Module\Vendor\Provider\Schedule;
 
 
-
+/**
+ * Class ScheduleProvider
+ * @package Module\Vendor\Provider\Schedule
+ * @since 1.5.0
+ */
 class ScheduleBiz
 {
-    
+    /**
+     * @var AbstractScheduleBiz[]
+     */
     private static $instances = [
     ];
 
@@ -16,7 +22,9 @@ class ScheduleBiz
         self::$instances[] = $provider;
     }
 
-    
+    /**
+     * @return AbstractScheduleBiz[]
+     */
     public static function all()
     {
         foreach (self::$instances as $k => $v) {

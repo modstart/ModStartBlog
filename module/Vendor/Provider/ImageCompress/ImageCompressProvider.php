@@ -10,13 +10,18 @@ class ImageCompressProvider
 {
     use ProviderTrait;
 
-    
+    /**
+     * @return AbstractImageCompressProvider[]
+     */
     public static function all()
     {
         return self::listAll();
     }
 
-    
+    /**
+     * @param $name
+     * @return AbstractImageCompressProvider
+     */
     public static function get($name)
     {
         return self::getByName($name);

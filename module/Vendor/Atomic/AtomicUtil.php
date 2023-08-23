@@ -6,7 +6,16 @@ use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Util\RandomUtil;
 use ModStart\Core\Util\RedisUtil;
 
-
+/**
+ * Class AtomicUtil
+ *
+ * product onece
+ * comsume some times
+ *
+ * example:
+ * - captcha error count
+ * @deprecated delete at 2023-10-04
+ */
 class AtomicUtil
 {
     private static function autoCleanDB()
@@ -17,7 +26,12 @@ class AtomicUtil
     }
 
 
-    
+    /**
+     * 生产一个原子值，生产后可以使用 consume 消费
+     * @param $name string
+     * @param $value int
+     * @param $expire int
+     */
     public static function produce($name, $value, $expire = 3600)
     {
         if (RedisUtil::isEnable()) {
@@ -34,7 +48,11 @@ class AtomicUtil
         }
     }
 
-    
+    /**
+     * 消费一个原子值
+     * @param $name string
+     * @return bool 是否成功
+     */
     public static function consume($name)
     {
         if (RedisUtil::isEnable()) {
@@ -62,7 +80,10 @@ class AtomicUtil
         }
     }
 
-    
+    /**
+     * 移除一个原子值
+     * @param $name
+     */
     public static function remove($name)
     {
         if (RedisUtil::isEnable()) {
@@ -73,7 +94,13 @@ class AtomicUtil
         }
     }
 
-    
+    /**
+     * 请求一个互斥锁
+     * acquire 后必须 release
+     * @param $name string
+     * @param $expire int
+     * @return bool 是否成功
+     */
     public static function acquire($name, $expire = 30)
     {
         if (RedisUtil::isEnable()) {
@@ -115,7 +142,10 @@ class AtomicUtil
         }
     }
 
-    
+    /**
+     * 释放一个互斥锁
+     * @param $name string
+     */
     public static function release($name)
     {
         if (RedisUtil::isEnable()) {

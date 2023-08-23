@@ -14,10 +14,19 @@ use Module\Blog\Type\BlogCommentStatus;
 use Module\Member\Auth\MemberUser;
 use Module\Vendor\Provider\Captcha\CaptchaProvider;
 
-
+/**
+ * @Api 博客系统
+ */
 class CommentController extends Controller
 {
-    
+    /**
+     * @Api 博客评论-添加
+     * @ApiBodyParam blogId int 博客ID
+     * @ApiBodyParam username string 用户名
+     * @ApiBodyParam content string 内容
+     * @ApiBodyParam email string 邮箱
+     * @ApiBodyParam url string 网址
+     */
     public function add()
     {
         $input = InputPackage::buildFromInput();

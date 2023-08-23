@@ -11,7 +11,9 @@ use ModStart\Core\Util\ArrayUtil;
 use ModStart\Core\Util\TimeUtil;
 use Module\Blog\Model\Blog;
 
-
+/**
+ * @Api 博客系统
+ */
 class ArchiveController extends Controller
 {
     public function get()

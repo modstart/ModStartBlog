@@ -5,7 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 
 class VisitStatisticItemCreate extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
 
@@ -16,7 +20,7 @@ class VisitStatisticItemCreate extends Migration
 
             $table->string('url', 200)->nullable()->comment('');
             $table->string('ip', 16)->nullable()->comment('');
-            
+            /** @see \Module\VisitStatistic\Type\VisitStatisticDevice */
             $table->tinyInteger('device')->nullable()->comment('');
             $table->string('ua', 200)->nullable()->comment('');
 
@@ -26,7 +30,11 @@ class VisitStatisticItemCreate extends Migration
 
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
     }

@@ -13,47 +13,84 @@ use Module\Vendor\Provider\CensorImage\CensorImageProvider;
 use Module\Vendor\Provider\CensorText\CensorTextProvider;
 use Module\Vendor\Provider\Notifier\NotifierProvider;
 
-
+/**
+ * Class AbstractContentVerifyProvider
+ * @package Module\Vendor\Provider\ContentVerify
+ * @deprecated delete at 2023-10-10
+ */
 abstract class AbstractContentVerifyProvider
 {
-    
+    /**
+     * 业务唯一标识
+     * @return string
+     * @example post
+     */
     abstract public function name();
 
-    
+    /**
+     * 业务标题
+     * @return string
+     * @example 文章
+     */
     abstract public function title();
 
-    
+    /**
+     * 是否自动审核完成
+     * @param $param
+     * @return boolean
+     */
     public function verifyAutoProcess($param)
     {
         return false;
     }
 
-    
+    /**
+     * 待审核数量
+     * @return int
+     * @example return ModelUtil::count('post', ['status' => PostStatus::VERIFYING])
+     */
     abstract public function verifyCount();
 
-    
+    /**
+     * 审核权限规则（用户首页是否显示待审核数量的权限判断）
+     * @return string
+     * @example '\Module\Post\Admin\Controller\PostController@verifyList'
+     */
     abstract public function verifyRule();
 
 
-    
+    /**
+     * 启用自动表单审核，返回 false 表示不适用表单审核
+     * @return false
+     */
     public function useFormVerify()
     {
         return false;
     }
 
-    
+    /**
+     * 构建审核表单，返回 null 表示不适用表单审核
+     * @param Form $form
+     * @param $param
+     */
     public function buildForm(Form $form, $param)
     {
         return null;
     }
 
-    
+    /**
+     * 后台审核路径
+     * @return string
+     */
     public function verifyUrl()
     {
         return action($this->verifyRule());
     }
 
-    
+    /**
+     * 自动审核成功是否通知
+     * @return bool
+     */
     public function verifyAutoProcessedNotify()
     {
         return true;

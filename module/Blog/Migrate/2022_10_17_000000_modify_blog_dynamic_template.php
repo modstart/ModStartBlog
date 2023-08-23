@@ -5,7 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 
 class ModifyBlogDynamicTemplate extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('blog_category', function (Blueprint $table) {
@@ -16,7 +20,11 @@ class ModifyBlogDynamicTemplate extends Migration
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
 

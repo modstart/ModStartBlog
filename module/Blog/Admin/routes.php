@@ -1,6 +1,6 @@
 <?php
 
-
+/* @var \Illuminate\Routing\Router $router */
 
 Route::match(['get', 'post'], 'blog/config', 'ConfigController@index');
 Route::match(['get', 'post'], 'blog/config/about', 'ConfigController@about');

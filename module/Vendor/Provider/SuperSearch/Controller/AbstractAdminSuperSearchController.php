@@ -14,7 +14,12 @@ use Module\Vendor\Provider\SuperSearch\SuperSearchBiz;
 
 abstract class AbstractAdminSuperSearchController extends Controller
 {
-    
+    /**
+     * @param AbstractSuperSearchProvider $provider
+     * @param array $bizList
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\View\View
+     * @throws BizException
+     */
     public function renderIndex($provider, $bizList)
     {
         $bizList = array_map(function ($biz) {

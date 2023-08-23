@@ -23,7 +23,11 @@ use Module\VisitStatistic\Type\VisitStatisticDevice;
 
 class ModuleServiceProvider extends ServiceProvider
 {
-    
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
     public function boot(Dispatcher $events)
     {
         if (modstart_config('VisitStatistic_Enable', false)) {
@@ -90,7 +94,11 @@ class ModuleServiceProvider extends ServiceProvider
 
     }
 
-    
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
     public function register()
     {
 

@@ -27,6 +27,9 @@ class BlogController extends ModuleBaseController
     {
         InputPackage::mergeToInput('id', $id);
         $viewData = Response::tryGetData($api->get());
+        if (!$viewData['record']['_visitVerified']) {
+            return $this->view('blog.password', $viewData);
+        }
         $viewData['commentPageHtml'] = PageHtmlUtil::render($viewData['commentTotal'], $viewData['commentPageSize'], $viewData['commentPage'], '?commentPage={page}');
         $templateView = 'blog.show';
         if (!empty($viewData['record']['templateView'])) {

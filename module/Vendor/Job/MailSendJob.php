@@ -68,7 +68,7 @@ class MailSendJob extends BaseJob
     public function handle()
     {
         $provider = app()->config->get('EmailSenderProvider');
-        
+        /** @var AbstractMailSenderProvider $instance */
         $instance = MailSenderProvider::get($provider);
         Logger::info('Email', 'Start', $this->email . ' - ' . $this->subject . ' - ' . $this->template);
 

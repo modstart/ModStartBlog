@@ -22,7 +22,11 @@ use Module\Vendor\Provider\SuperSearch\SuperSearchBiz;
 
 class ModuleServiceProvider extends ServiceProvider
 {
-    
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
     public function boot(Dispatcher $events)
     {
         AdminWidgetLink::register(function () {
@@ -108,7 +112,11 @@ class ModuleServiceProvider extends ServiceProvider
         }
     }
 
-    
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
     public function register()
     {
 

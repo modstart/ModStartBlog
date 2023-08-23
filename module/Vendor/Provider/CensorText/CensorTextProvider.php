@@ -8,7 +8,9 @@ use ModStart\Core\Exception\BizException;
 
 class CensorTextProvider
 {
-    
+    /**
+     * @var AbstractCensorTextProvider[]
+     */
     private static $instances = [
         DefaultCensorTextProvider::class,
     ];
@@ -18,7 +20,9 @@ class CensorTextProvider
         self::$instances[] = $provider;
     }
 
-    
+    /**
+     * @return AbstractCensorTextProvider[]
+     */
     public static function all()
     {
         foreach (self::$instances as $k => $v) {
@@ -41,7 +45,11 @@ class CensorTextProvider
         });
     }
 
-    
+    /**
+     * @param $name
+     * @return AbstractCensorTextProvider
+     * @throws BizException
+     */
     public static function get($name)
     {
         foreach (self::all() as $item) {

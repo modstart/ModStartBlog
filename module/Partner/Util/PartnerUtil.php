@@ -11,7 +11,12 @@ class PartnerUtil
 {
     const CACHE_KEY_PREFIX = 'partner:';
 
-    
+    /**
+     * 根据位置获取
+     *
+     * @param string $position
+     * @return mixed
+     */
     public static function listByPosition($position = 'home')
     {
         $records = ModelUtil::model('partner')
@@ -28,7 +33,13 @@ class PartnerUtil
         return $records;
     }
 
-    
+    /**
+     * 根据位置获取，有缓存
+     *
+     * @param string $position
+     * @param int $minutes
+     * @return mixed
+     */
     public static function listByPositionWithCache($position = 'home', $minutes = 60)
     {
         return Cache::remember(self::CACHE_KEY_PREFIX . $position, $minutes, function () use ($position) {

@@ -23,14 +23,21 @@ class ContentVerifyJob extends BaseJob
         ], $title);
     }
 
-    
+    /**
+     * 创建一个内容审核任务
+     * @param $name string 审核模块名称
+     * @param $param array 审核参数，内置参数 (viewUrl成功后查看链接,processUrl审核处理链接,domainUrl访问域名URL)
+     * @param $title string 审核标题，通知标题自动变为 -> [审核]业务标题(审核标题)
+     * @param $body string 审核内容
+     */
     public static function create($name, $param, $title, $body = null)
     {
         if (!isset($param['domainUrl'])) {
             $param['domainUrl'] = Request::domainUrl();
         }
         if (isset($param['viewUrl'])) {
-                        if (!preg_match('/^https?:\/\//', $param['viewUrl'])) {
+            // prepend http:// https://
+            if (!preg_match('/^https?:\/\//', $param['viewUrl'])) {
                 $param['viewUrl'] = $param['domainUrl'] . $param['viewUrl'];
             }
         }

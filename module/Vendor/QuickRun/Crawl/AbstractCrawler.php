@@ -6,7 +6,9 @@ namespace Module\Vendor\QuickRun\Crawl;
 
 abstract class AbstractCrawler
 {
-    
+    /**
+     * @var BaseQueue
+     */
     protected $queue = null;
     protected $handlers = [];
 
@@ -69,7 +71,8 @@ abstract class AbstractCrawler
             }
         }
         echo join(' - ', $str) . "\n";
-            }
+        // Log::info(join(' - ', $str));
+    }
 
     public function logError($msg, $data = null)
     {
@@ -81,7 +84,8 @@ abstract class AbstractCrawler
             $str[] = json_encode($data, JSON_UNESCAPED_UNICODE);
         }
         echo join(' - ', $str) . "\n";
-            }
+        // Log::error(join(' - ', $str));
+    }
 
     public function run()
     {

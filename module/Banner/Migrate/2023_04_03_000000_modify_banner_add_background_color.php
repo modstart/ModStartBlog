@@ -7,7 +7,11 @@ use Module\Banner\Type\BannerType;
 
 class ModifyBannerAddBackgroundColor extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('banner', function (Blueprint $table) {
@@ -15,7 +19,11 @@ class ModifyBannerAddBackgroundColor extends Migration
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
     }

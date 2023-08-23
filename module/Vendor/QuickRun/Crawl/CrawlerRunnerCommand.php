@@ -11,7 +11,9 @@ use ModStart\Core\Util\FileUtil;
 class CrawlerRunnerCommand extends Command
 {
     protected $signature = 'crawler-runner {path}';
-    
+    /**
+     * @var AbstractCrawler[]
+     */
     private $crawlers = [];
 
     public function handle()

@@ -27,7 +27,7 @@ class BlogMessageController extends Controller
         $builder
             ->init('blog_message')
             ->field(function ($builder) {
-                
+                /** @var HasFields $builder */
                 $builder->id('id', 'ID');
                 $builder->display('created_at', L('Created At'))->listable(true);
                 $builder->type('status', '状态')->type(BlogMessageStatus::class);

@@ -27,11 +27,11 @@ class ConfigController extends Controller
         $builder->select('Blog_BlogSuperSearchProvider', '博客超级搜索驱动')->options(SuperSearchProvider::allDefaultMap());
         $builder->switch('Blog_DarkModeEnable', '启用暗黑模式')
             ->when('=', true, function ($builder) {
-                
+                /** @var HasFields $builder */
                 $builder->radio('Blog_DarkModeType', '暗黑模式')
                     ->optionType(BlogDarkModeType::class)
                     ->when('=', BlogDarkModeType::TIME, function ($builder) {
-                        
+                        /** @var HasFields $builder */
                         $builder->time('Blog_DarkModeStart', '开始');
                         $builder->time('Blog_DarkModeEnd', '结束');
                     })

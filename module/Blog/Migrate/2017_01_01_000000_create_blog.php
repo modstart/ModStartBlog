@@ -5,7 +5,11 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateBlog extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('blog', function (Blueprint $table) {
@@ -31,7 +35,11 @@ class CreateBlog extends Migration
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
 

@@ -5,16 +5,24 @@ namespace Module\Vendor\Provider;
 
 trait ProviderTrait
 {
-    
+    /**
+     * @var array
+     */
     private static $list = [];
 
-    
+    /**
+     * 注册
+     * @param $provider
+     */
     public static function register($provider)
     {
         self::$list[] = $provider;
     }
 
-    
+    /**
+     * 列出全部
+     * @return array
+     */
     public static function listAll()
     {
         static $processed = false;
@@ -44,7 +52,10 @@ trait ProviderTrait
         return self::$list;
     }
 
-    
+    /**
+     * 列出全部Map name->title
+     * @return array
+     */
     public static function allMap()
     {
         return array_build(self::listAll(), function ($k, $v) {
@@ -54,7 +65,10 @@ trait ProviderTrait
         });
     }
 
-    
+    /**
+     * 列出全部Map（包含一个空）name->title
+     * @return array|string[]
+     */
     public static function allDefaultMap()
     {
         return array_merge(
@@ -67,7 +81,10 @@ trait ProviderTrait
         );
     }
 
-    
+    /**
+     * 判断是否为空
+     * @return bool
+     */
     public static function isEmpty()
     {
         return empty(self::$list);

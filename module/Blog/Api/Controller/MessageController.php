@@ -17,10 +17,15 @@ use Module\Member\Util\MemberUtil;
 use Module\Vendor\Provider\Captcha\CaptchaProvider;
 
 
-
+/**
+ * @Api 博客系统
+ */
 class MessageController extends Controller
 {
-    
+    /**
+     * @Api 留言-列表
+     * @ApiBodyParam page int 页码
+     */
     public function paginate()
     {
         $input = InputPackage::buildFromInput();
@@ -45,7 +50,13 @@ class MessageController extends Controller
         ]);
     }
 
-    
+    /**
+     * @Api 留言-新增
+     * @ApiBodyParam username string 用户
+     * @ApiBodyParam content string 内容
+     * @ApiBodyParam email string 邮箱
+     * @ApiBodyParam url string 网址
+     */
     public function add()
     {
         $input = InputPackage::buildFromInput();

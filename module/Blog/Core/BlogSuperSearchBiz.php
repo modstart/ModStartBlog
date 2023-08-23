@@ -51,7 +51,9 @@ class BlogSuperSearchBiz extends AbstractSuperSearchBiz
         return $data;
     }
 
-    
+    /**
+     * @return AbstractSuperSearchProvider
+     */
     public static function provider()
     {
         return SuperSearchProvider::get(modstart_config('Blog_BlogSuperSearchProvider'));

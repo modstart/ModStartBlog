@@ -9,18 +9,28 @@ use ModStart\Layout\Row;
 use ModStart\Widget\Box;
 use Module\Vendor\Provider\ContentVerify\ContentVerifyBiz;
 
-
+/**
+ * Class AdminWidgetDashboard
+ * @package Module\Vendor\Admin\Widget
+ * @deprecated delete 2023-10-13
+ */
 class AdminWidgetDashboard
 {
     private static $icon = [];
     private static $foot = [];
 
-    
+    /**
+     * @param Row $row
+     * @deprecated delete after 2023-09-01
+     */
     public static function registerTodo($closure)
     {
     }
 
-    
+    /**
+     * @param Row $row
+     * @deprecated delete after 2023-09-01
+     */
     public static function callTodo(Row $row)
     {
     }

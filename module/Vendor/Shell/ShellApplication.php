@@ -12,7 +12,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ShellApplication extends Application
 {
-    
+    /**
+     * Create a new console application.
+     *
+     * @param string $name
+     * @param string $version
+     */
     public function __construct($name = 'Console Application', $version = '1.0.0')
     {
         parent::__construct($laravel = new \Illuminate\Foundation\Application(), new Dispatcher($laravel), $version);
@@ -22,7 +27,14 @@ class ShellApplication extends Application
         $this->setCatchExceptions(true);
     }
 
-    
+    /**
+     * Register a Closure based command.
+     *
+     * @param string $signature
+     * @param \Closure $callback
+     * @param string $description
+     * @return Command
+     */
     public function command($signature, \Closure $callback, $description = null)
     {
         return $this->add(
@@ -30,7 +42,13 @@ class ShellApplication extends Application
         );
     }
 
-    
+    /**
+     * Run the current application as a single command application.
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface|null $input
+     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
+     * @return int
+     */
     public function runAsSingle(InputInterface $input = null, OutputInterface $output = null)
     {
         foreach ($this->all() as $command) {

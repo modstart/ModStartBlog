@@ -4,10 +4,16 @@ namespace Module\Vendor\Cache;
 
 use Illuminate\Support\Facades\Cache;
 
-
+/**
+ * Class CacheUtil
+ * @package Module\Vendor\Cache
+ * @deprecated delete at 2023-10-04
+ */
 class CacheUtil
 {
-    
+    /**
+     * @return \Illuminate\Cache\Repository
+     */
     private static function client()
     {
         return Cache::store();

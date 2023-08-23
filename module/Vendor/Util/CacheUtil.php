@@ -4,10 +4,15 @@ namespace Module\Vendor\Util;
 
 use Illuminate\Support\Facades\Cache;
 
-
+/**
+ * Class CacheUtil
+ * @package Module\Vendor\Cache
+ */
 class CacheUtil
 {
-    
+    /**
+     * @return \Illuminate\Cache\Repository
+     */
     private static function client()
     {
         return Cache::store();

@@ -6,7 +6,12 @@ namespace Module\Vendor\Provider\Notifier;
 
 use Module\Vendor\Provider\BizTrait;
 
-
+/**
+ * Class NotifierBiz
+ * @package Module\Vendor\Provider\Notifier
+ *
+ * @method static AbstractNotifierBiz[] listAll()
+ */
 class NotifierBiz
 {
     use BizTrait;

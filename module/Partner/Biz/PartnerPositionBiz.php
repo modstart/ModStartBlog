@@ -15,13 +15,18 @@ class PartnerPositionBiz
         self::register(QuickPartnerPositionBiz::make($name, $title));
     }
 
-    
+    /**
+     * @return AbstractPartnerPositionBiz[]
+     */
     public static function all()
     {
         return self::listAll();
     }
 
-    
+    /**
+     * @param $name
+     * @return AbstractPartnerPositionBiz
+     */
     public static function get($name)
     {
         return self::getByName($name);

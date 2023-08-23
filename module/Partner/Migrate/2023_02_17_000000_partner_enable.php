@@ -6,7 +6,11 @@ use ModStart\Core\Dao\ModelUtil;
 
 class PartnerEnable extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('partner', function (Blueprint $table) {
@@ -15,7 +19,11 @@ class PartnerEnable extends Migration
         ModelUtil::updateAll('partner', ['enable' => true]);
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
 

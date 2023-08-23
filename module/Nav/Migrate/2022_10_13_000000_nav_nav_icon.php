@@ -5,7 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 
 class NavNavIcon extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('nav', function (Blueprint $table) {
@@ -13,7 +17,11 @@ class NavNavIcon extends Migration
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
     }

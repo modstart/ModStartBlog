@@ -7,7 +7,12 @@ namespace Module\Vendor\QuickRun\Verify\Field;
 use ModStart\Core\Util\IdUtil;
 use ModStart\Layout\LayoutHtml;
 
-
+/**
+ * 用户图片字段
+ *
+ * Class MemberImage
+ * @package Module\Member\Widget\Field
+ */
 class LayoutHtmlVerifyFoot extends LayoutHtml
 {
     protected $isLayoutField = true;

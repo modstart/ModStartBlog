@@ -5,7 +5,11 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateBlogComment extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('blog_comment', function (Blueprint $table) {
@@ -25,7 +29,11 @@ class CreateBlogComment extends Migration
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
 

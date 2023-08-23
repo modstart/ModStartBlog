@@ -14,12 +14,18 @@ class AdminWidgetDashboard
     private static $icon = [];
     private static $foot = [];
 
-    
+    /**
+     * @param Row $row
+     * @deprecated delete after 2023-09-01
+     */
     public static function registerTodo($closure)
     {
     }
 
-    
+    /**
+     * @param Row $row
+     * @deprecated delete after 2023-09-01
+     */
     public static function callTodo(Row $row)
     {
     }

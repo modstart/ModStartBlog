@@ -5,7 +5,9 @@ namespace Module\Vendor\Provider;
 
 trait BizTrait
 {
-    
+    /**
+     * @var array
+     */
     private static $list = [];
 
     public static function register($biz)
@@ -42,7 +44,9 @@ trait BizTrait
         return null;
     }
 
-    
+    /**
+     * @return array 返回name到title的映射数组
+     */
     public static function allMap()
     {
         return array_build(self::listAll(), function ($k, $v) {

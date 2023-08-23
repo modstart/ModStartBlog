@@ -5,7 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 
 class VisitStatisticDailyReportCreate extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
 
@@ -24,7 +28,11 @@ class VisitStatisticDailyReportCreate extends Migration
 
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
     }

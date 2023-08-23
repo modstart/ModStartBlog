@@ -9,10 +9,12 @@ class SearchBoxProvider
 {
     use ProviderTrait;
 
-    
+    /**
+     * @return AbstractSearchBoxProvider[]
+     */
     public static function all()
     {
-        
+        /** @var AbstractSearchBoxProvider[] $records */
         $records = self::listAll();
         usort($records, function ($o1, $o2) {
             if ($o1->order() == $o2->order()) {
@@ -23,7 +25,10 @@ class SearchBoxProvider
         return $records;
     }
 
-    
+    /**
+     * @param $name
+     * @return AbstractSearchBoxProvider
+     */
     public static function get($name)
     {
         return self::getByName($name);

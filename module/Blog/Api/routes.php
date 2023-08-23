@@ -1,5 +1,5 @@
 <?php
-
+/* @var \Illuminate\Routing\Router $router */
 $middleware = [];
 if (class_exists(\Module\Member\Middleware\ApiAuthMiddleware::class)) {
     $middleware[] = \Module\Member\Middleware\ApiAuthMiddleware::class;
@@ -10,6 +10,7 @@ $router->group([
 
     $router->match(['post'], 'blog/paginate', 'BlogController@paginate');
     $router->match(['post'], 'blog/get', 'BlogController@get');
+    $router->match(['post'], 'blog/visit_password_verify', 'BlogController@visitPasswordVerify');
     $router->match(['post'], 'blog/comment/add', 'CommentController@add');
     $router->match(['post'], 'blog/message/paginate', 'MessageController@paginate');
     $router->match(['post'], 'blog/message/add', 'MessageController@add');

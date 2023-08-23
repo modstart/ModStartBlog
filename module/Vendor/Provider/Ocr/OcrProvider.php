@@ -10,13 +10,18 @@ class OcrProvider
 {
     use ProviderTrait;
 
-    
+    /**
+     * @return AbstractOcrProvider[]
+     */
     public static function all()
     {
         return self::listAll();
     }
 
-    
+    /**
+     * @param $name
+     * @return AbstractOcrProvider
+     */
     public static function get($name)
     {
         return self::getByName($name);

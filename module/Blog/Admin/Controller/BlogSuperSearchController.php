@@ -17,7 +17,13 @@ class BlogSuperSearchController extends AbstractAdminSuperSearchController
         ]);
     }
 
-    
+    /**
+     * @param $provider
+     * @param $bucket
+     * @param $nextId
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\View\View
+     * @deprecated
+     */
     public function sync($provider, $bucket, $nextId)
     {
         switch ($bucket) {

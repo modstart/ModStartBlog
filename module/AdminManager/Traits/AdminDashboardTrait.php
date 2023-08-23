@@ -9,12 +9,16 @@ use ModStart\Layout\Row;
 use Module\AdminManager\Widget\ServerInfoWidget;
 use Module\Vendor\Admin\Widget\AdminWidgetDashboard;
 
-
+/**
+ * Trait AdminDashboardTrait
+ * @package Module\AdminManager\Traits
+ * @since 1.5.0
+ */
 trait AdminDashboardTrait
 {
     public function dashboard()
     {
-        
+        /** @var AdminPage $page */
         $page = app(AdminPage::class);
         $page->pageTitle(L('Dashboard'));
         $page->row(new SecurityTooltipBox());

@@ -5,7 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 
 class DataAddIndex extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('data', function (Blueprint $table) {
@@ -13,7 +17,11 @@ class DataAddIndex extends Migration
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
 

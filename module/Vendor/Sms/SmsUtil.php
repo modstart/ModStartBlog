@@ -6,7 +6,11 @@ use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\Response;
 use Module\Vendor\Provider\SmsSender\SmsSenderProvider;
 
-
+/**
+ * Class SmsUtil
+ * @package Module\Vendor\Sms
+ * @deprecated delete at 2023-10-04
+ */
 class SmsUtil
 {
     public static function calcNumber($content)
@@ -44,7 +48,10 @@ class SmsUtil
         return $template;
     }
 
-    
+    /**
+     * @return \string[][]
+     * @deprecated delete after 2023-09-23
+     */
     public static function templates()
     {
         $templates = [
@@ -57,7 +64,14 @@ class SmsUtil
         return $templates;
     }
 
-    
+    /**
+     * @param $phone
+     * @param $template
+     * @param array $templateData
+     * @return array
+     * @throws BizException
+     * @deprecated use SmsSendJob delete after 2023-09-23
+     */
     public static function send($phone, $template, $templateData = [])
     {
         $provider = app()->config->get('SmsSenderProvider');

@@ -5,7 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 
 class ModifyBlogCategoryKeywords extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('blog_category', function (Blueprint $table) {
@@ -17,7 +21,11 @@ class ModifyBlogCategoryKeywords extends Migration
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
 

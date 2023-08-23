@@ -5,7 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 
 class BlogCommentFieldsModify extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('blog_comment', function (Blueprint $table) {
@@ -19,7 +23,11 @@ class BlogCommentFieldsModify extends Migration
         ]);
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
 

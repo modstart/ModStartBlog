@@ -4,7 +4,11 @@ namespace App\Http;
 
 class Kernel extends \Illuminate\Foundation\Http\Kernel
 {
-    
+    /**
+     * The application's global HTTP middleware stack.
+     *
+     * @var array
+     */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Cookie\Middleware\EncryptCookies::class,
@@ -12,6 +16,10 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         \Illuminate\Session\Middleware\StartSession::class,
     ];
 
-    
+    /**
+     * The application's route middleware.
+     *
+     * @var array
+     */
     protected $routeMiddleware = [];
 }

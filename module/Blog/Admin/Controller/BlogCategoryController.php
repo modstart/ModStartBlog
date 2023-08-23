@@ -22,7 +22,7 @@ class BlogCategoryController extends Controller
         $builder
             ->init('blog_category')
             ->field(function ($builder) {
-                
+                /** @var HasFields $builder */
                 $builder->id('id', 'ID');
                 $builder->text('title', '名称');
                 $builder->image('cover', '封面')->help('默认模板不显示，可安装更多模板查看效果');

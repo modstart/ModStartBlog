@@ -16,7 +16,8 @@ class ApiUtil
 
         $data = [];
 
-                $data['siteBase'] = Request::domainUrl();
+        // 基础
+        $data['siteBase'] = Request::domainUrl();
         $data['siteLogo'] = AssetsUtil::fixFull($config->get('siteLogo'));
         $data['siteName'] = $config->get('siteName');
         $data['siteSlogan'] = $config->get('siteSlogan');
@@ -29,13 +30,15 @@ class ApiUtil
 
         $data['modules'] = ModuleManager::listAllEnableModuleNames();
 
-                
+        // 支付
+        /** @deprecated delete after 2023-09-27 */
         $data['payAlipayOn'] = $config->getBoolean('payAlipayOn');
         $data['payAlipayWebOn'] = $config->getBoolean('payAlipayWebOn');
         $data['payWechatOn'] = $config->getBoolean('payWechatOn');
         $data['payMemberMoneyOn'] = $config->getBoolean('payMemberMoneyOn');
 
-                $data['dataUpload'] = [];
+        // 上传
+        $data['dataUpload'] = [];
         $data['dataUpload'] = [
             'chunkSize' => EnvUtil::env('uploadMaxSize'),
             'category' => [],

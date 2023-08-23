@@ -10,20 +10,33 @@ use ModStart\Core\Util\RandomUtil;
 use ModStart\Core\Util\StrUtil;
 use ModStart\Core\Util\TimeUtil;
 
-
+/**
+ * Class ScheduleProvider
+ * @package Module\Vendor\Provider\Schedule
+ * @since 1.5.0
+ */
 class ScheduleProvider
 {
-    
+    /**
+     * @var AbstractScheduleProvider[]
+     * @deprecated delete at 2023-10-10
+     */
     private static $instances = [
     ];
 
-    
+    /**
+     * @param $provider
+     * @deprecated delete at 2023-10-10
+     */
     public static function register($provider)
     {
         self::$instances[] = $provider;
     }
 
-    
+    /**
+     * @return AbstractScheduleProvider[]
+     * @deprecated delete at 2023-10-10
+     */
     public static function all()
     {
         foreach (self::$instances as $k => $v) {
@@ -52,7 +65,8 @@ class ScheduleProvider
         }
         $autoCleanHistory = true;
         foreach (ScheduleBiz::all() as $provider) {
-                        
+            // Log::info('ScheduleProvider.schedule - ' . $provider->title() . ' - ' . $provider->cron());
+            /** @var AbstractScheduleBiz $provider */
             $schedule->call(function () use ($provider, &$autoCleanHistory) {
                 $data = [];
                 $data['name'] = get_class($provider);
@@ -71,7 +85,8 @@ class ScheduleProvider
                 }
                 $data['endTime'] = date('Y-m-d H:i:s');
                 ModelUtil::update('schedule_run', $dataId, $data);
-                                if ($autoCleanHistory) {
+                // 只保留最近7天的运行日志
+                if ($autoCleanHistory) {
                     $autoCleanHistory = false;
                     if (RandomUtil::percent(10)) {
                         ModelUtil::model('schedule_run')

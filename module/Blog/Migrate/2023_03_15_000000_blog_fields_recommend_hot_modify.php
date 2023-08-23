@@ -5,7 +5,11 @@ use Illuminate\Database\Migrations\Migration;
 
 class BlogFieldsRecommendHotModify extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('blog', function (Blueprint $table) {
@@ -16,7 +20,11 @@ class BlogFieldsRecommendHotModify extends Migration
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
 

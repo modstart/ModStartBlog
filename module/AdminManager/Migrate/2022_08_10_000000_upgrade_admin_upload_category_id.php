@@ -5,7 +5,11 @@ use ModStart\Core\Dao\ModelUtil;
 
 class UpgradeAdminUploadCategoryId extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         ModelUtil::update('admin_upload', [
@@ -15,7 +19,11 @@ class UpgradeAdminUploadCategoryId extends Migration
         ]);
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
     }

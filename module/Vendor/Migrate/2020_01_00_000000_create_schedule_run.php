@@ -6,7 +6,11 @@ use ModStart\Core\Dao\ModelManageUtil;
 
 class CreateScheduleRun extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('schedule_run', function (Blueprint $table) {
@@ -17,7 +21,7 @@ class CreateScheduleRun extends Migration
             $table->string('name', 200)->nullable()->comment('');
             $table->dateTime('startTime')->nullable()->comment('');
             $table->dateTime('endTime')->nullable()->comment('');
-            
+            /** @see \Module\Vendor\Provider\Schedule\RunStatus */
             $table->tinyInteger('status')->nullable()->comment('');
             $table->string('result', 200)->nullable()->comment('');
 
@@ -25,7 +29,11 @@ class CreateScheduleRun extends Migration
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
 

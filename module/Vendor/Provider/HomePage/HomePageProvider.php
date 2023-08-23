@@ -9,7 +9,9 @@ use ModStart\Core\Util\AgentUtil;
 
 class HomePageProvider
 {
-    
+    /**
+     * @var AbstractHomePageProvider[]
+     */
     private static $instances = [
         DefaultHomePageProvider::class,
         DefaultMobileHomePageProvider::class,
@@ -27,7 +29,9 @@ class HomePageProvider
         );
     }
 
-    
+    /**
+     * @return AbstractHomePageProvider[]
+     */
     public static function all()
     {
         foreach (self::$instances as $k => $v) {
