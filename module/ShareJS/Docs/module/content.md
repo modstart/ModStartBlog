@@ -32,3 +32,6 @@
 ## 更多参考
 
 - [https://github.com/overtrue/share.js](https://github.com/overtrue/share.js)
+
+
+{ADMIN_MENUS}
