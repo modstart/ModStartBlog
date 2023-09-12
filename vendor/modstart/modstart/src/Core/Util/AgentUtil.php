@@ -97,6 +97,12 @@ class AgentUtil
         '/GPTBot/i' => 'Other',
         '/SeznamBot/i' => 'Other',
         '/DingTalkBot/i' => 'Other',
+        '/GoogleOther/i' => 'Other',
+        '/AdsBot\\-Google/i' => 'Other',
+
+        '/crawler/i' => 'Other',
+        '/robot/i' => 'Other',
+        '/spider/i' => 'Other',
 
         '/duckduckgo\\.com/i' => 'Other',
         '/Dataprovider\\.com/i' => 'Other',
@@ -113,6 +119,7 @@ class AgentUtil
         '/node\\-fetch/i' => 'Other',
         '/Go\\-http\\-client/i' => 'Other',
         '/okhttp/i' => 'Other',
+        '/GuzzleHttp/i' => 'Other',
         '/Apache\\-HttpClient/i' => 'Other',
 
         '/serpstatbot/i' => 'Other',
@@ -130,10 +137,7 @@ class AgentUtil
         '/coccocbot\\-web/i' => 'Other',
         '/Wordupindexinfo/i' => 'Other',
         '/researchscan/i' => 'Other',
-
-        '/crawler/i' => 'Other',
-        '/robot/i' => 'Other',
-        '/spider/i' => 'Other',
+        '/woorankreview/i' => 'Other',
     ];
 
     /**
