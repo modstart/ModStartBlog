@@ -9,9 +9,11 @@ use Module\Vendor\Provider\SiteUrl\AbstractSiteUrlBiz;
 
 class BlogSiteUrlBiz extends AbstractSiteUrlBiz
 {
+    const NAME = 'blog';
+
     public function name()
     {
-        return 'blog';
+        return self::NAME;
     }
 
     public function title()

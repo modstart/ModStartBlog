@@ -17,6 +17,7 @@ use ModStart\Grid\GridFilter;
 use ModStart\Repository\RepositoryUtil;
 use ModStart\Support\Concern\HasFields;
 use ModStart\Widget\TextLink;
+use Module\Blog\Core\BlogSiteUrlBiz;
 use Module\Blog\Core\BlogSuperSearchBiz;
 use Module\Blog\Type\BlogVisitMode;
 use Module\Blog\Util\BlogCategoryUtil;
@@ -85,7 +86,7 @@ class BlogController extends Controller
             ->hookChanged(function (Form $form) use (&$updatedCategoryIds) {
                 RepositoryUtil::makeItems($form->item())->map(function ($item) use (&$updatedCategoryIds) {
                     $updatedCategoryIds[] = $item->categoryId;
-                    SiteUrlProvider::update(modstart_web_url('blog/' . $item->id), $item->title, ['biz' => 'blog']);
+                    SiteUrlProvider::updateBiz(BlogSiteUrlBiz::NAME, modstart_web_url('blog/' . $item->id), $item->title);
                     BlogSuperSearchBiz::syncUpsert([$item->toArray()]);
                 });
                 if (!empty($updatedCategoryIds)) {
