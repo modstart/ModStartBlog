@@ -563,6 +563,7 @@ class MBlog
 
     /**
      * @Util 获取所有博客标签信息
+     * @param $limit int 限制数量，0为不限制
      * @return array 数组，标签→数量映射
      * @returnExample
      * {
@@ -570,9 +571,13 @@ class MBlog
      *   "标签2": 2
      * }
      */
-    public static function tags()
+    public static function tags($limit = 0)
     {
-        return BlogTagUtil::all();
+        $records = BlogTagUtil::all();
+        if ($limit > 0) {
+            $records = array_slice($records, 0, $limit);
+        }
+        return $records;
     }
 
     /**

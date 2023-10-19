@@ -618,6 +618,7 @@ class FileUtil
         $securityKey = md5(json_encode(config('env')));
         $tempPath = public_path('temp/' . md5($securityKey . ':' . $path) . '.' . $ext);
         if (file_exists($tempPath)) {
+            @touch($tempPath);
             return $tempPath;
         }
         if (StrUtil::startWith($path, 'http://') || StrUtil::startWith($path, 'https://') || StrUtil::startWith($path, '//')) {

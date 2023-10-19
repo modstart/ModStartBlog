@@ -37,6 +37,7 @@ class ConfigController extends Controller
                     })
                     ->defaultValue(BlogDarkModeType::AUTO);
             });
+        $builder->number('Blog_PanelTagLimit', '侧边栏标签数量')->help('0为不限制')->defaultValue(0);
         $builder->formClass('wide');
         return $builder->perform();
     }
