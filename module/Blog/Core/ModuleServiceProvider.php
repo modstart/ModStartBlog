@@ -3,6 +3,7 @@
 namespace Module\Blog\Core;
 
 use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use ModStart\Admin\Config\AdminMenu;
 use ModStart\Admin\Widget\DashboardItemA;
@@ -11,6 +12,11 @@ use ModStart\Layout\Row;
 use ModStart\Module\ModuleClassLoader;
 use Module\Banner\Biz\BannerPositionBiz;
 use Module\Blog\Util\BlogCategoryUtil;
+use Module\Blog\Util\BlogUtil;
+use Module\MemberFav\Biz\MemberFavBiz;
+use Module\MemberFav\Event\MemberFavChangeEvent;
+use Module\MemberLike\Biz\MemberLikeBiz;
+use Module\MemberLike\Event\MemberLikeChangeEvent;
 use Module\Partner\Biz\PartnerPositionBiz;
 use Module\Reward\Biz\RewardBiz;
 use Module\Vendor\Admin\Widget\AdminWidgetDashboard;
@@ -109,6 +115,22 @@ class ModuleServiceProvider extends ServiceProvider
         SuperSearchBiz::register(BlogSuperSearchBiz::class);
         if (modstart_module_enabled('Reward')) {
             RewardBiz::register(BlogRewardBiz::class);
+        }
+        if (modstart_module_enabled('MemberFav')) {
+            MemberFavBiz::register(BlogMemberFavBiz::class);
+            Event::listen(MemberFavChangeEvent::class, function (MemberFavChangeEvent $event) {
+                if ($event->biz == BlogMemberFavBiz::NAME) {
+                    BlogUtil::updateFavoriteCount($event->bizId);
+                }
+            });
+        }
+        if (modstart_module_enabled('MemberLike')) {
+            MemberLikeBiz::register(BlogMemberLikeBiz::class);
+            Event::listen(MemberLikeChangeEvent::class, function (MemberLikeChangeEvent $event) {
+                if ($event->biz == BlogMemberFavBiz::NAME) {
+                    BlogUtil::updateLikeCount($event->bizId);
+                }
+            });
         }
     }
 

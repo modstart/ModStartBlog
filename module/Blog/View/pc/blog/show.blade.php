@@ -33,6 +33,16 @@
                         <i class="iconfont icon-comment"></i>
                         {{$record['commentCount']?:0}}
                         <span>&nbsp;</span>
+                        @if(modstart_module_enabled('MemberFav'))
+                            <i class="iconfont icon-star-alt"></i>
+                            {{ $record['favCount']?:0 }}
+                            <span>&nbsp;</span>
+                        @endif
+                        @if(modstart_module_enabled('MemberLike'))
+                            <i class="iconfont icon-heart-alt"></i>
+                            {{ $record['likeCount']?:0 }}
+                            <span>&nbsp;</span>
+                        @endif
                     </div>
                     <div>
                         @if(!empty($record['images']))
@@ -46,8 +56,18 @@
                             {!! $record['content'] !!}
                         </div>
                     </div>
+                    @if(modstart_module_enabled('MemberFav')||modstart_module_enabled('MemberLike'))
+                        <div class="tw-text-center margin-bottom">
+                            @if(modstart_module_enabled('MemberFav'))
+                                @include('module::MemberFav.View.inc.favBtn',['biz'=>\Module\Blog\Core\BlogMemberFavBiz::NAME,'bizId'=>$record['id']])
+                            @endif
+                            @if(modstart_module_enabled('MemberLike'))
+                                @include('module::MemberLike.View.inc.likeBtn',['biz'=>\Module\Blog\Core\BlogMemberLikeBiz::NAME,'bizId'=>$record['id']])
+                            @endif
+                        </div>
+                    @endif
                     @if(modstart_module_enabled('ShareJS'))
-                        <div class="tw-text-center">
+                        <div class="tw-text-center margin-bottom">
                             {!! \Module\ShareJS\View\ShareJSView::buttons() !!}
                         </div>
                     @endif
