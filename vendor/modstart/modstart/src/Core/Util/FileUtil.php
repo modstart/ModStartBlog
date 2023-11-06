@@ -398,6 +398,13 @@ class FileUtil
         return ($extension ? $pathInfo['basename'] : $pathInfo['filename']);
     }
 
+    public static function ensureDir($dir)
+    {
+        if (!file_exists($dir)) {
+            @mkdir($dir, 0755, true);
+        }
+    }
+
     public static function ensureFilepathDir($pathname)
     {
         $dir = dirname($pathname);
@@ -615,7 +622,7 @@ class FileUtil
         BizException::throwsIf('Unsupported Path Extension', in_array($ext, [
             'php', 'php3', 'php4', 'php5', 'phps', 'phtml',
         ]));
-        $securityKey = md5(json_encode(config('env')));
+        $securityKey = EnvUtil::securityKey();
         $tempPath = public_path('temp/' . md5($securityKey . ':' . $path) . '.' . $ext);
         if (file_exists($tempPath)) {
             @touch($tempPath);
@@ -625,7 +632,10 @@ class FileUtil
             if (StrUtil::startWith($path, '//')) {
                 $path = 'http://' . $path;
             }
-            @mkdir(public_path('temp'));
+            if (!file_exists(public_path('temp'))) {
+                @mkdir(public_path('temp'));
+            }
+            $path = PathUtil::convertPublicToInternal($path);
             if ($downloadStream) {
                 $f = @fopen($path, 'rb', false, self::fopenGetContext());
                 if ($f) {
@@ -679,7 +689,7 @@ class FileUtil
             }
             BizException::throws('FileUtil generateLocalTempPath error');
         }
-        $securityKey = md5(json_encode(config('env')));
+        $securityKey = EnvUtil::securityKey();
         $p = 'temp/' . md5($securityKey . ':' . $hash) . '.' . $ext;
         return $realpath ? public_path($p) : $p;
     }

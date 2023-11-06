@@ -4,6 +4,8 @@
 namespace ModStart\Field;
 
 
+use ModStart\Core\Exception\BizException;
+
 class Decimal extends AbstractField
 {
     protected $view = 'modstart::core.field.number';
@@ -15,19 +17,43 @@ class Decimal extends AbstractField
             // 自动着色，正数绿色，负数红色
             'autoColor' => false,
             // 是否显示符号
-            'signShow'=>false,
+            'signShow' => false,
+            // 最小值
+            'min' => null,
+            // 最大值
+            'max' => null,
+            // stepping interval
+            'step' => null,
         ]);
     }
 
-    public function autoColor($value)
+    public function min($value)
     {
-        $this->setVariable('autoColor', $value);
+        $this->setVariable('min', $value);
         return $this;
     }
 
-    public function signShow($value)
+    public function max($value)
     {
-        $this->setVariable('signShow', $value);
+        $this->setVariable('max', $value);
+        return $this;
+    }
+
+    public function step($value)
+    {
+        $this->setVariable('step', $value);
+        return $this;
+    }
+
+    public function autoColor($enable)
+    {
+        $this->setVariable('autoColor', $enable);
+        return $this;
+    }
+
+    public function signShow($enable)
+    {
+        $this->setVariable('signShow', $enable);
         return $this;
     }
 
@@ -51,6 +77,24 @@ class Decimal extends AbstractField
     {
         if ('' === $value || null === $value) {
             return null;
+        }
+        if (null !== ($v = $this->getVariable('min'))) {
+            if ($value < $v) {
+                BizException::throws(str_replace([
+                    ':attribute', ':min'
+                ], [
+                    $this->label, $v
+                ], L('validation.min.numeric')));
+            }
+        }
+        if (null !== ($v = $this->getVariable('max'))) {
+            if ($value > $v) {
+                BizException::throws(str_replace([
+                    ':attribute', ':max'
+                ], [
+                    $this->label, $v
+                ], L('validation.max.numeric')));
+            }
         }
         return $value;
     }

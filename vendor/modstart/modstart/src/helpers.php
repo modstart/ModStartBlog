@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\View;
 use ModStart\Admin\Config\AdminConfig;
 use ModStart\Core\Input\Request;
+use ModStart\Core\Util\SerializeUtil;
 use ModStart\ModStart;
 use ModStart\Module\ModuleManager;
 
@@ -286,7 +287,7 @@ function modstart_config($key = null, $default = '', $useCache = true)
         $lastKey = $key;
         $configDefault = $default;
         if (is_array($default)) {
-            $configDefault = json_encode($default, JSON_UNESCAPED_UNICODE);
+            $configDefault = SerializeUtil::jsonEncode($default);
         }
         $v = app('modstartConfig')->get($key, $configDefault, $useCache);
         if (true === $default || false === $default) {
@@ -335,15 +336,25 @@ function modstart_module_enabled($module, $version = null)
     }
 }
 
+function L_locale_title($locale = null)
+{
+    if (null === $locale) {
+        $locale = L_locale();
+    }
+    $langs = config('modstart.i18n.langs', []);
+    return isset($langs[$locale]) ? $langs[$locale] : $locale;
+}
+
 function L_locale($locale = null)
 {
     static $useLocale = null;
+    $changingLocale = null;
     if (null !== $locale) {
         if (in_array($locale, ['en', 'zh'])) {
-            $useLocale = $locale;
+            $changingLocale = $locale;
         }
     }
-    if (null === $useLocale) {
+    if (null !== $changingLocale || null === $useLocale) {
         // routeLocale > sessionLocale > i18nLocale > locale > fallbackLocale
         $sessionLocaleKey = '_locale';
         if (\ModStart\App\Core\CurrentApp::is(\ModStart\App\Core\CurrentApp::ADMIN)) {
@@ -360,20 +371,24 @@ function L_locale($locale = null)
             $i18nLocale = \Module\I18n\Util\LangUtil::getDefault('shortName');
             $langTrans = \Module\I18n\Util\LangTransUtil::map();
         }
-        $useLocale = $routeLocale;
-        if (empty($useLocale)) {
-            $useLocale = $sessionLocale;
+        $currentLocale = $changingLocale;
+        if (empty($currentLocale)) {
+            $currentLocale = $routeLocale;
         }
-        if (empty($useLocale)) {
-            $useLocale = $i18nLocale;
+        if (empty($currentLocale)) {
+            $currentLocale = $sessionLocale;
         }
-        if (empty($useLocale)) {
-            $useLocale = $locale;
+        if (empty($currentLocale)) {
+            $currentLocale = $i18nLocale;
         }
-        if (empty($useLocale)) {
-            $useLocale = $fallbackLocale;
+        if (empty($currentLocale)) {
+            $currentLocale = $locale;
         }
-        \Illuminate\Support\Facades\Session::put($sessionLocaleKey, $useLocale);
+        if (empty($currentLocale)) {
+            $currentLocale = $fallbackLocale;
+        }
+        \Illuminate\Support\Facades\Session::put($sessionLocaleKey, $currentLocale);
+        $useLocale = $currentLocale;
     }
     return $useLocale;
 }

@@ -49,6 +49,13 @@
                                 <el-input v-model="value[vIndex]['{{$f['name']}}']"
                                           placeholder="{{empty($f['placeholder'])?'':$f['placeholder']}}"
                                           size="mini"></el-input>
+                            @elseif($f['type']=='select')
+                                <el-select v-model="value[vIndex]['{{$f['name']}}']"
+                                           placeholder="{{empty($f['placeholder'])?'':$f['placeholder']}}">
+                                    @foreach($f['option'] as $k=>$v)
+                                        <el-option :key="{{json_encode($k)}}" :label="{{json_encode($k)}}" :value="{{json_encode($k)}}"></el-option>
+                                    @endforeach
+                                </el-select>
                             @endif
                         </td>
                     @endforeach
@@ -85,7 +92,7 @@
         var app = new Vue({
             el: '#{{$id}}Input',
             data: {
-                value: {!! $value?json_encode($value):($defaultValue?json_encode($defaultValue):'[]') !!},
+                value: {!! $value?\ModStart\Core\Util\SerializeUtil::jsonEncode($value):($defaultValue?\ModStart\Core\Util\SerializeUtil::jsonEncode($defaultValue):'[]') !!},
                 icons: []
             },
             mounted() {
@@ -102,7 +109,7 @@
             },
             methods: {
                 doValueAdd() {
-                    this.value.push({!! json_encode($valueItem) !!});
+                    this.value.push({!! \ModStart\Core\Util\SerializeUtil::jsonEncode($valueItem) !!});
                 }
             }
         });

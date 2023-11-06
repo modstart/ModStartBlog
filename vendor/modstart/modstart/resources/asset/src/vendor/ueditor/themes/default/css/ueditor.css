@@ -41,8 +41,7 @@
 }
 div.edui-box {
   position: relative;
-  display: -moz-inline-box !important;
-  display: inline-block !important;
+  display: inline-block;
   vertical-align: middle;
 }
 .edui-default .edui-clearfix {
@@ -129,8 +128,8 @@ div.edui-box {
     padding: 1px;
     overflow: hidden; /*全屏下单独一行不占位*/
     zoom: 1;
-    width:auto;
-    height:auto;
+    width: auto;
+    height: auto;
 }
 
 .edui-default .edui-toolbar .edui-button,
@@ -139,6 +138,7 @@ div.edui-box {
 .edui-default .edui-toolbar .edui-combox {
     margin: 1px;
 }
+
 /*UI工具栏、编辑区域、底部*/
 .edui-default .edui-editor {
     border: 1px solid var(--edui-color-border);
@@ -149,18 +149,20 @@ div.edui-box {
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
-.edui-editor div{
-    width:auto;
-    height:auto;
+
+.edui-editor div {
+    width: auto;
+    height: auto;
 }
+
 .edui-default .edui-editor-toolbarbox {
     position: relative;
     zoom: 1;
     /*-webkit-box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);*/
     /*-moz-box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);*/
     /*box-shadow:0 1px 4px rgba(204, 204, 204, 0.6);*/
-    border-top-left-radius:2px;
-    border-top-right-radius:2px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
 }
 
 .edui-default .edui-editor-toolbarboxouter {
@@ -224,8 +226,8 @@ div.edui-box {
     line-height: 20px;
     font-size: 12px;
     font-family: Arial, Helvetica, Tahoma, Verdana, Sans-Serif;
-    padding:0 5px;
-    color:var(--edui-color-muted);
+    padding: 0 5px;
+    color: var(--edui-color-muted);
 }
 
 .edui-default .edui-editor-wordcount {
@@ -233,9 +235,11 @@ div.edui-box {
     margin-right: 5px;
     color: #aaa;
 }
+
 .edui-default .edui-editor-scale {
     width: 12px;
 }
+
 .edui-default .edui-editor-scale .edui-editor-icon {
     float: right;
     width: 100%;
@@ -244,6 +248,7 @@ div.edui-box {
     background: url(../images/scale.png) no-repeat;
     cursor: se-resize;
 }
+
 .edui-default .edui-editor-breadcrumb {
     margin: 2px 0 0 3px;
     color: var(--edui-color-muted);
@@ -261,13 +266,13 @@ div.edui-box {
 }
 
 .edui-default .edui-bubble .edui-popup-content {
-  font-size: 13px;
-  box-shadow: 0 0 10px #0000001f;
-  transition: .25s;
-  color: #666;
-  background-color: #FFF;
-  padding: 10px;
-  border-radius: 5px;
+    font-size: 13px;
+    box-shadow: 0 0 10px #0000001f;
+    transition: .25s;
+    color: #666;
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .edui-default .edui-bubble .edui-shadow {
@@ -341,6 +346,7 @@ div.edui-box {
     line-height: 22px;
     padding-left: 5px;
 }
+
 .edui-default .edui-for-insertcode .edui-listitem-label {
     min-width: 120px;
     _width: 120px;
@@ -349,6 +355,7 @@ div.edui-box {
     line-height: 22px;
     padding-left: 5px;
 }
+
 .edui-default .edui-for-underline .edui-listitem-label {
     min-width: 120px;
     _width: 120px;
@@ -425,11 +432,11 @@ div.edui-box {
     text-align: center;
 }
 
-.edui-default .edui-menuitem .edui-menuitem-body .edui-icon:before{
-    display:none;
+.edui-default .edui-menuitem .edui-menuitem-body .edui-icon:before {
+    display: none;
 }
 
-.edui-default .edui-contextmenu .edui-popup-content .edui-menuitem-body .edui-icon:before{
+.edui-default .edui-contextmenu .edui-popup-content .edui-menuitem-body .edui-icon:before {
     display: inline-block;
 }
 
@@ -440,14 +447,15 @@ div.edui-box {
     padding-left: 10px;
 }
 
-.edui-default .edui-state-checked .edui-menuitem-body .edui-icon{
-    line-height:20px;
-    text-align:center;
+.edui-default .edui-state-checked .edui-menuitem-body .edui-icon {
+    line-height: 20px;
+    text-align: center;
 }
-.edui-default .edui-state-checked .edui-menuitem-body .edui-icon:before{
+
+.edui-default .edui-state-checked .edui-menuitem-body .edui-icon:before {
     content: "\e7fc";
     font-size: 10px;
-    display:inline-block;
+    display: inline-block;
 }
 
 .edui-default .edui-state-disabled .edui-menuitem-label {
@@ -473,7 +481,7 @@ div.edui-box {
     cursor: pointer;
 }
 
-.edui-default .edui-toolbar .edui-combox-body .edui-arrow:before{
+.edui-default .edui-toolbar .edui-combox-body .edui-arrow:before {
     content: "\e9f0";
     font-family: "edui-iconfont";
     font-size: 8px;
@@ -572,425 +580,428 @@ div.edui-box {
     padding: 0;
     border: 1px solid var(--edui-color-border);
 }
+
 .edui-default .edui-toolbar .edui-state-disabled .edui-label {
     color: #ccc;
 }
+
 .edui-default .edui-toolbar .edui-state-disabled .edui-icon {
     opacity: 0.3;
-    filter: alpha(opacity = 30);
+    filter: alpha(opacity=30);
 }
 
-.edui-default .edui-toolbar-button-custom{
-  display: inline-block !important;
-  line-height: 30px;
-  vertical-align: middle;
-  padding: 0 10px;
-  border-radius: 3px;
-  margin: 0 5px;
+.edui-default .edui-toolbar-button-custom {
+    display: inline-block !important;
+    line-height: 30px;
+    vertical-align: middle;
+    padding: 0 10px;
+    border-radius: 3px;
+    margin: 0 5px;
 }
 
-.edui-default .edui-toolbar-button-custom:hover{
-  background: #EEE;
+.edui-default .edui-toolbar-button-custom:hover {
+    background: #EEE;
 }
 
 /* toolbar icons */
 .edui-default .edui-for-undo .edui-icon:before {
-     content: "\e60f";
+    content: "\e60f";
 }
 
-.edui-default  .edui-for-redo .edui-icon:before {
+.edui-default .edui-for-redo .edui-icon:before {
     content: "\e60c";
 }
 
-.edui-default  .edui-for-bold .edui-icon:before {
+.edui-default .edui-for-bold .edui-icon:before {
     content: "\e628";
 }
 
-.edui-default  .edui-for-italic .edui-icon:before {
+.edui-default .edui-for-italic .edui-icon:before {
     content: "\e62a";
 }
 
-.edui-default  .edui-for-fontborder .edui-icon:before {
+.edui-default .edui-for-fontborder .edui-icon:before {
     content: '\e62d';
 }
-.edui-default  .edui-for-underline .edui-icon:before {
+
+.edui-default .edui-for-underline .edui-icon:before {
     content: "\e63e";
 }
 
-.edui-default  .edui-for-strikethrough .edui-icon:before {
+.edui-default .edui-for-strikethrough .edui-icon:before {
     content: "\e64a";
 }
 
-.edui-default  .edui-for-subscript .edui-icon:before {
+.edui-default .edui-for-subscript .edui-icon:before {
     content: "\ece9";
 }
 
-.edui-default  .edui-for-superscript .edui-icon:before {
+.edui-default .edui-for-superscript .edui-icon:before {
     content: "\e83e";
 }
 
-.edui-default  .edui-for-blockquote .edui-icon:before {
+.edui-default .edui-for-blockquote .edui-icon:before {
     content: "\e6d8";
 }
 
-.edui-default  .edui-for-forecolor .edui-icon:before {
+.edui-default .edui-for-forecolor .edui-icon:before {
     content: "\e7f8";
 }
 
-.edui-default  .edui-for-backcolor .edui-icon:before {
+.edui-default .edui-for-backcolor .edui-icon:before {
     content: "\e71a";
 }
 
-.edui-default  .edui-for-inserttable .edui-icon:before {
+.edui-default .edui-for-inserttable .edui-icon:before {
     content: "\e60d";
 }
 
-.edui-default  .edui-for-autotypeset .edui-icon:before {
+.edui-default .edui-for-autotypeset .edui-icon:before {
     content: "\e662";
 }
 
-.edui-default  .edui-for-justifyleft .edui-icon:before {
+.edui-default .edui-for-justifyleft .edui-icon:before {
     content: "\e7f7";
 }
 
-.edui-default  .edui-for-justifycenter .edui-icon:before {
+.edui-default .edui-for-justifycenter .edui-icon:before {
     content: "\e7f6";
 }
 
-.edui-default  .edui-for-justifyright .edui-icon:before {
+.edui-default .edui-for-justifyright .edui-icon:before {
     content: "\e7f5";
 }
 
-.edui-default  .edui-for-justifyjustify .edui-icon:before {
+.edui-default .edui-for-justifyjustify .edui-icon:before {
     content: "\e87c";
 }
 
-.edui-default  .edui-for-insertorderedlist .edui-icon:before {
+.edui-default .edui-for-insertorderedlist .edui-icon:before {
     content: "\e737";
 }
 
-.edui-default  .edui-for-insertunorderedlist .edui-icon:before {
+.edui-default .edui-for-insertunorderedlist .edui-icon:before {
     content: "\e7f4";
 }
 
-.edui-default  .edui-for-lineheight .edui-icon:before {
+.edui-default .edui-for-lineheight .edui-icon:before {
     content: "\e638";
 }
 
-.edui-default  .edui-for-rowspacingbottom .edui-icon:before {
+.edui-default .edui-for-rowspacingbottom .edui-icon:before {
     content: '\eb09';
 }
 
-.edui-default  .edui-for-rowspacingtop .edui-icon:before {
+.edui-default .edui-for-rowspacingtop .edui-icon:before {
     content: '\eb0a';
 }
 
-.edui-default  .edui-for-horizontal .edui-icon:before {
+.edui-default .edui-for-horizontal .edui-icon:before {
     content: "\e617";
 }
 
-.edui-default  .edui-for-link .edui-icon:before {
+.edui-default .edui-for-link .edui-icon:before {
     content: "\e648";
 }
 
-.edui-default  .edui-for-code .edui-icon:before {
+.edui-default .edui-for-code .edui-icon:before {
     background-position: -440px -40px;
 }
 
-.edui-default  .edui-for-insertimage .edui-icon:before {
+.edui-default .edui-for-insertimage .edui-icon:before {
     content: "\e605";
 }
 
-.edui-default  .edui-for-insertframe .edui-icon:before {
+.edui-default .edui-for-insertframe .edui-icon:before {
     content: "\e6c0";
 }
 
-.edui-default  .edui-for-emoticon .edui-icon:before {
+.edui-default .edui-for-emoticon .edui-icon:before {
     content: "\e60e";
 }
 
-.edui-default  .edui-for-spechars .edui-icon:before {
+.edui-default .edui-for-spechars .edui-icon:before {
     content: "\e891";
 }
 
-.edui-default  .edui-for-help .edui-icon:before {
+.edui-default .edui-for-help .edui-icon:before {
     content: "\e752";
 }
 
-.edui-default  .edui-for-print .edui-icon:before {
+.edui-default .edui-for-print .edui-icon:before {
     content: "\e67a";
 }
 
-.edui-default  .edui-for-preview .edui-icon:before {
+.edui-default .edui-for-preview .edui-icon:before {
     content: "\e644";
 }
 
-.edui-default  .edui-for-selectall .edui-icon:before {
+.edui-default .edui-for-selectall .edui-icon:before {
     content: '\e62f';
 }
 
-.edui-default  .edui-for-searchreplace .edui-icon:before {
+.edui-default .edui-for-searchreplace .edui-icon:before {
     content: "\eb6c";
 }
 
-.edui-default  .edui-for-map .edui-icon:before {
+.edui-default .edui-for-map .edui-icon:before {
     content: "\e649";
 }
 
-.edui-default  .edui-for-insertvideo .edui-icon:before {
+.edui-default .edui-for-insertvideo .edui-icon:before {
     content: "\e636";
 }
 
-.edui-default  .edui-for-insertaudio .edui-icon:before {
+.edui-default .edui-for-insertaudio .edui-icon:before {
     content: "\e77b";
 }
 
-.edui-default  .edui-for-time .edui-icon:before {
+.edui-default .edui-for-time .edui-icon:before {
     content: "\e680";
 }
 
-.edui-default  .edui-for-date .edui-icon:before {
+.edui-default .edui-for-date .edui-icon:before {
     content: "\e697";
 }
 
-.edui-default  .edui-for-cut .edui-icon:before {
+.edui-default .edui-for-cut .edui-icon:before {
     background-position: -680px 0;
 }
 
-.edui-default  .edui-for-copy .edui-icon:before {
+.edui-default .edui-for-copy .edui-icon:before {
     background-position: -700px 0;
 }
 
-.edui-default  .edui-for-paste .edui-icon:before {
+.edui-default .edui-for-paste .edui-icon:before {
     background-position: -560px 0;
 }
 
-.edui-default  .edui-for-formatmatch .edui-icon:before {
+.edui-default .edui-for-formatmatch .edui-icon:before {
     content: "\e637";
 }
 
-.edui-default  .edui-for-pasteplain .edui-icon:before {
+.edui-default .edui-for-pasteplain .edui-icon:before {
     content: '\edfb';
 }
 
-.edui-default  .edui-for-directionalityltr .edui-icon:before {
+.edui-default .edui-for-directionalityltr .edui-icon:before {
     content: "\e623";
 }
 
-.edui-default  .edui-for-directionalityrtl .edui-icon:before {
+.edui-default .edui-for-directionalityrtl .edui-icon:before {
     content: "\e7bc";
 }
 
-.edui-default  .edui-for-source .edui-icon:before {
+.edui-default .edui-for-source .edui-icon:before {
     content: "\e608";
 }
 
-.edui-default  .edui-for-removeformat .edui-icon:before {
+.edui-default .edui-for-removeformat .edui-icon:before {
     content: "\e782";
 }
 
-.edui-default  .edui-for-unlink .edui-icon:before {
+.edui-default .edui-for-unlink .edui-icon:before {
     content: "\e92b";
 }
 
-.edui-default  .edui-for-touppercase .edui-icon:before {
+.edui-default .edui-for-touppercase .edui-icon:before {
     content: "\e619";
 }
 
-.edui-default  .edui-for-tolowercase .edui-icon:before {
+.edui-default .edui-for-tolowercase .edui-icon:before {
     content: "\e61a";
 }
 
-.edui-default  .edui-for-insertrow .edui-icon:before {
+.edui-default .edui-for-insertrow .edui-icon:before {
     content: "\e603";
 }
 
-.edui-default  .edui-for-insertrownext .edui-icon:before {
+.edui-default .edui-for-insertrownext .edui-icon:before {
     content: "\e602";
 }
 
-.edui-default  .edui-for-insertcol .edui-icon:before {
+.edui-default .edui-for-insertcol .edui-icon:before {
     content: "\e601";
 }
 
-.edui-default  .edui-for-insertcolnext  .edui-icon:before {
+.edui-default .edui-for-insertcolnext .edui-icon:before {
     content: "\e600";
 }
 
-.edui-default  .edui-for-mergeright .edui-icon:before {
+.edui-default .edui-for-mergeright .edui-icon:before {
     content: "\e615";
 }
 
-.edui-default  .edui-for-mergedown .edui-icon:before {
+.edui-default .edui-for-mergedown .edui-icon:before {
     content: "\e613";
 }
 
-.edui-default  .edui-for-splittorows .edui-icon:before {
+.edui-default .edui-for-splittorows .edui-icon:before {
     content: "\e610";
 }
 
-.edui-default  .edui-for-splittocols .edui-icon:before {
+.edui-default .edui-for-splittocols .edui-icon:before {
     content: "\e611";
 }
 
-.edui-default  .edui-for-insertparagraphbeforetable .edui-icon:before {
+.edui-default .edui-for-insertparagraphbeforetable .edui-icon:before {
     content: '\e901';
 }
 
-.edui-default  .edui-for-deleterow .edui-icon:before {
+.edui-default .edui-for-deleterow .edui-icon:before {
     content: "\e609";
 }
 
-.edui-default  .edui-for-deletecol .edui-icon:before {
+.edui-default .edui-for-deletecol .edui-icon:before {
     content: "\e604";
 }
 
-.edui-default  .edui-for-splittocells .edui-icon:before {
+.edui-default .edui-for-splittocells .edui-icon:before {
     content: "\e612";
 }
 
-.edui-default  .edui-for-mergecells .edui-icon:before {
+.edui-default .edui-for-mergecells .edui-icon:before {
     content: "\e606";
 }
 
-.edui-default  .edui-for-deletetable .edui-icon:before {
+.edui-default .edui-for-deletetable .edui-icon:before {
     content: "\e60a";
 }
 
-.edui-default  .edui-for-cleardoc .edui-icon:before {
+.edui-default .edui-for-cleardoc .edui-icon:before {
     content: "\e61e";
 }
 
-.edui-default  .edui-for-fullscreen .edui-icon:before {
+.edui-default .edui-for-fullscreen .edui-icon:before {
     content: "\e675";
 }
 
-.edui-default  .edui-for-anchor .edui-icon:before {
+.edui-default .edui-for-anchor .edui-icon:before {
     content: "\e61b";
 }
 
-.edui-default  .edui-for-pagebreak .edui-icon:before {
+.edui-default .edui-for-pagebreak .edui-icon:before {
     content: "\e61d";
 }
 
-.edui-default  .edui-for-imagenone .edui-icon:before {
+.edui-default .edui-for-imagenone .edui-icon:before {
     content: "\e61f";
 }
 
-.edui-default  .edui-for-imageleft .edui-icon:before {
+.edui-default .edui-for-imageleft .edui-icon:before {
     content: "\e621";
 }
 
-.edui-default  .edui-for-wordimage .edui-icon:before {
+.edui-default .edui-for-wordimage .edui-icon:before {
     content: "\e618";
 }
 
-.edui-default  .edui-for-imageright .edui-icon:before {
+.edui-default .edui-for-imageright .edui-icon:before {
     content: "\e622";
 }
 
-.edui-default  .edui-for-imagecenter .edui-icon:before {
+.edui-default .edui-for-imagecenter .edui-icon:before {
     content: "\e620";
 }
 
-.edui-default  .edui-for-indent .edui-icon:before {
+.edui-default .edui-for-indent .edui-icon:before {
     content: "\e7f3";
 }
 
-.edui-default  .edui-for-outdent .edui-icon:before {
+.edui-default .edui-for-outdent .edui-icon:before {
     background-position: -540px 0;
 }
 
-.edui-default  .edui-for-table .edui-icon:before {
+.edui-default .edui-for-table .edui-icon:before {
     background-position: -580px -20px;
 }
 
-.edui-default  .edui-for-edittable .edui-icon:before {
+.edui-default .edui-for-edittable .edui-icon:before {
     background-position: -420px -40px;
 }
 
-.edui-default  .edui-for-template .edui-icon:before {
+.edui-default .edui-for-template .edui-icon:before {
     content: "\e6ad";
 }
 
-.edui-default  .edui-for-delete .edui-icon:before {
+.edui-default .edui-for-delete .edui-icon:before {
     background-position: -360px -40px;
 }
 
-.edui-default  .edui-for-attachment .edui-icon:before {
+.edui-default .edui-for-attachment .edui-icon:before {
     content: "\e704";
 }
 
-.edui-default  .edui-for-edittd .edui-icon:before {
+.edui-default .edui-for-edittd .edui-icon:before {
     background-position: -700px -40px;
 }
 
-.edui-default  .edui-for-scrawl .edui-icon:before {
+.edui-default .edui-for-scrawl .edui-icon:before {
     content: "\e70b";
 }
 
-.edui-default  .edui-for-background .edui-icon:before {
+.edui-default .edui-for-background .edui-icon:before {
     content: "\e624";
 }
 
-.edui-default  .edui-for-formula .edui-icon:before {
+.edui-default .edui-for-formula .edui-icon:before {
     content: "\e616";
 }
 
-.edui-default  .edui-for-aligntd  .edui-icon:before {
+.edui-default .edui-for-aligntd .edui-icon:before {
     background-position: -236px -76px;
 }
 
-.edui-default  .edui-for-insertparagraphtrue  .edui-icon:before {
+.edui-default .edui-for-insertparagraphtrue .edui-icon:before {
     background-position: -625px -76px;
 }
 
-.edui-default  .edui-for-insertparagraph  .edui-icon:before {
+.edui-default .edui-for-insertparagraph .edui-icon:before {
     background-position: -602px -76px;
 }
 
-.edui-default  .edui-for-insertcaption  .edui-icon:before {
+.edui-default .edui-for-insertcaption .edui-icon:before {
     background-position: -336px -76px;
 }
 
-.edui-default  .edui-for-deletecaption  .edui-icon:before {
+.edui-default .edui-for-deletecaption .edui-icon:before {
     background-position: -362px -76px;
 }
 
-.edui-default  .edui-for-inserttitle  .edui-icon:before {
+.edui-default .edui-for-inserttitle .edui-icon:before {
     background-position: -286px -76px;
 }
 
-.edui-default  .edui-for-deletetitle  .edui-icon:before {
+.edui-default .edui-for-deletetitle .edui-icon:before {
     background-position: -311px -76px;
 }
 
-.edui-default  .edui-for-aligntable  .edui-icon:before {
+.edui-default .edui-for-aligntable .edui-icon:before {
     background-position: -440px 0;
 }
 
-.edui-default  .edui-for-tablealignment-left  .edui-icon:before {
+.edui-default .edui-for-tablealignment-left .edui-icon:before {
     background-position: -460px 0;
 }
 
-.edui-default  .edui-for-tablealignment-center  .edui-icon:before {
+.edui-default .edui-for-tablealignment-center .edui-icon:before {
     background-position: -420px 0;
 }
 
-.edui-default  .edui-for-tablealignment-right  .edui-icon:before {
+.edui-default .edui-for-tablealignment-right .edui-icon:before {
     background-position: -480px 0;
 }
 
-.edui-default  .edui-for-inserttitlecol  .edui-icon:before {
+.edui-default .edui-for-inserttitlecol .edui-icon:before {
     background-position: -673px -76px;
 }
 
-.edui-default  .edui-for-deletetitlecol  .edui-icon:before {
+.edui-default .edui-for-deletetitlecol .edui-icon:before {
     background-position: -698px -76px;
 }
 
-.edui-default  .edui-for-simpleupload  .edui-icon:before {
-  content: "\edfc";
+.edui-default .edui-for-simpleupload .edui-icon:before {
+    content: "\edfc";
 }
 
 /*splitbutton*/
@@ -1000,17 +1011,20 @@ div.edui-box {
     width: 13px;
     cursor: pointer;
 }
+
 .edui-default .edui-toolbar .edui-splitbutton-body .edui-arrow:before,
 .edui-default .edui-toolbar .edui-menubutton-body .edui-arrow:before {
     content: "\e9f0";
     font-family: "edui-iconfont";
     font-size: 8px;
+    vertical-align: middle;
 }
 
 .edui-default .edui-toolbar .edui-splitbutton .edui-splitbutton-body,
 .edui-default .edui-toolbar .edui-menubutton .edui-menubutton-body {
     padding: 1px;
     border-radius: 3px;
+    display: flex;
 }
 
 .edui-default .edui-toolbar .edui-splitborder {
@@ -1057,7 +1071,7 @@ div.edui-box {
 
 .edui-default .edui-state-disabled .edui-arrow {
     opacity: 0.3;
-    _filter: alpha(opacity = 30);
+    _filter: alpha(opacity=30);
 }
 
 .edui-default .edui-toolbar .edui-splitbutton .edui-state-opened .edui-splitbutton-body,
@@ -1082,19 +1096,19 @@ div.edui-box {
 .edui-default .edui-for-rowspacingbottom .edui-popup-body .edui-icon,
 .edui-default .edui-for-insertunorderedlist .edui-popup-body .edui-icon {
     /*background-position: 0 -40px;*/
-    background-image: none  ;
+    background-image: none;
 }
 
 /* 弹出菜单 */
 .edui-default .edui-popup {
     z-index: 3000;
     background-color: #ffffff;
-    width:auto;
-    height:auto;
+    width: auto;
+    height: auto;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    margin-top:1px;
+    margin-top: 1px;
 }
 
 .edui-default .edui-popup .edui-shadow {
@@ -1106,7 +1120,7 @@ div.edui-box {
 
 .edui-default .edui-popup-content {
     font-size: 13px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: .25s;
     color: #333;
     background-color: #FFF;
@@ -1149,9 +1163,9 @@ div.edui-box {
     border-right: 1px solid gray;
 }
 
-.edui-popup div{
-    width:auto;
-    height:auto;
+.edui-popup div {
+    width: auto;
+    height: auto;
 }
 
 .edui-default .edui-editor-messageholder {
@@ -1166,36 +1180,41 @@ div.edui-box {
     right: 3px;
 }
 
-.edui-default .edui-message{
+.edui-default .edui-message {
     min-height: 10px;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     padding: 0;
     margin-bottom: 3px;
     position: relative;
 }
-.edui-default .edui-message-body{
+
+.edui-default .edui-message-body {
     border-radius: 3px;
     padding: 8px 15px 8px 8px;
     color: #c09853;
     background-color: #fcf8e3;
     border: 1px solid #fbeed5;
 }
-.edui-default .edui-message-type-info{
+
+.edui-default .edui-message-type-info {
     color: #3a87ad;
     background-color: #d9edf7;
     border-color: #bce8f1
 }
-.edui-default .edui-message-type-success{
+
+.edui-default .edui-message-type-success {
     color: #468847;
     background-color: #dff0d8;
     border-color: #d6e9c6
 }
+
 .edui-default .edui-message-type-danger,
-.edui-default .edui-message-type-error{
+.edui-default .edui-message-type-error {
     color: #b94a48;
     background-color: #f2dede;
     border-color: #eed3d7
 }
+
 .edui-default .edui-message .edui-message-closer {
     display: block;
     width: 16px;
@@ -1213,13 +1232,15 @@ div.edui-box {
     font-weight: bold;
     color: #999;
     text-shadow: 0 1px 0 #fff;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
 .edui-default .edui-message .edui-message-content {
     font-size: 10pt;
     word-wrap: break-word;
     word-break: normal;
 }
+
 /* 弹出对话框按钮和对话框大小 */
 .edui-default .edui-dialog {
     z-index: 2000;
@@ -1572,12 +1593,15 @@ div.edui-box {
 .edui-default .edui-for-inserttable .edui-splitborder {
     display: none
 }
-.edui-default .edui-for-inserttable  .edui-splitbutton-body .edui-arrow {
+
+.edui-default .edui-for-inserttable .edui-splitbutton-body .edui-arrow {
     width: 0
 }
-.edui-default .edui-toolbar .edui-for-inserttable  .edui-state-active .edui-splitborder{
+
+.edui-default .edui-toolbar .edui-for-inserttable .edui-state-active .edui-splitborder {
     border-left: 1px solid transparent;
 }
+
 .edui-default .edui-tablepicker .edui-infoarea {
     height: 14px;
     line-height: 14px;
@@ -1622,11 +1646,11 @@ div.edui-box {
     margin-left: 1px;
     width: 128px;
     float: left;
-    border-radius:3px;
+    border-radius: 3px;
     position: relative;
 }
 
-.edui-default .edui-colorpicker-preview input{
+.edui-default .edui-colorpicker-preview input {
     padding: 0;
     left: 0;
     border: 0;
@@ -1662,7 +1686,7 @@ div.edui-box {
     display: block;
     margin: 0;
     cursor: pointer;
-    border-radius:2px;
+    border-radius: 2px;
 }
 
 .edui-default .edui-colorpicker-colorcell:hover {
@@ -1670,28 +1694,34 @@ div.edui-box {
     height: 14px;
     margin: 0;
 }
-.edui-default .edui-colorpicker-advbtn{
+
+.edui-default .edui-colorpicker-advbtn {
     display: block;
     text-align: center;
     cursor: pointer;
-    height:20px;
+    height: 20px;
 }
-.arrow_down{
+
+.arrow_down {
     background: white url('../images/arrow_down.png') no-repeat center;
 }
-.arrow_up{
+
+.arrow_up {
     background: white url('../images/arrow_up.png') no-repeat center;
 }
+
 /*高级的样式*/
-.edui-colorpicker-adv{
+.edui-colorpicker-adv {
     position: relative;
     overflow: hidden;
     height: 180px;
     display: none;
 }
+
 .edui-colorpicker-plant, .edui-colorpicker-hue {
     border: solid 1px #666;
 }
+
 .edui-colorpicker-pad {
     width: 150px;
     height: 150px;
@@ -1702,7 +1732,8 @@ div.edui-box {
     overflow: hidden;
     cursor: crosshair;
 }
-.edui-colorpicker-cover{
+
+.edui-colorpicker-cover {
     position: absolute;
     top: 0;
     left: 0;
@@ -1710,7 +1741,8 @@ div.edui-box {
     height: 150px;
     background: url("../images/tangram-colorpicker.png") -160px -200px;
 }
-.edui-colorpicker-padDot{
+
+.edui-colorpicker-padDot {
     position: absolute;
     top: 0;
     left: 0;
@@ -1721,6 +1753,7 @@ div.edui-box {
     z-index: 1000;
 
 }
+
 .edui-colorpicker-sliderMain {
     position: absolute;
     left: 171px;
@@ -1730,12 +1763,14 @@ div.edui-box {
     background: url(../images/tangram-colorpicker.png) -179px -12px no-repeat;
 
 }
+
 .edui-colorpicker-slider {
     width: 100%;
     height: 100%;
     cursor: pointer;
 }
-.edui-colorpicker-thumb{
+
+.edui-colorpicker-thumb {
     position: absolute;
     top: 0;
     cursor: pointer;
@@ -1792,36 +1827,39 @@ div.edui-box {
     border-collapse: separate;
     border-spacing: 0;
 }
-.edui-default .edui-cellalignpicker-body td{
+
+.edui-default .edui-cellalignpicker-body td {
     padding: 1px;
 }
-.edui-default .edui-cellalignpicker-body .edui-icon{
+
+.edui-default .edui-cellalignpicker-body .edui-icon {
     height: 20px;
     width: 20px;
     padding: 1px;
     background-image: url(../images/table-cell-align.png);
 }
 
-.edui-default .edui-cellalignpicker-body .edui-left{
+.edui-default .edui-cellalignpicker-body .edui-left {
     background-position: 0 0;
 }
 
-.edui-default .edui-cellalignpicker-body .edui-center{
+.edui-default .edui-cellalignpicker-body .edui-center {
     background-position: -25px 0;
 }
-.edui-default .edui-cellalignpicker-body .edui-right{
+
+.edui-default .edui-cellalignpicker-body .edui-right {
     background-position: -51px 0;
 }
 
-.edui-default .edui-cellalignpicker-body td.edui-state-hover .edui-left{
+.edui-default .edui-cellalignpicker-body td.edui-state-hover .edui-left {
     background-position: -73px 0;
 }
 
-.edui-default .edui-cellalignpicker-body td.edui-state-hover .edui-center{
+.edui-default .edui-cellalignpicker-body td.edui-state-hover .edui-center {
     background-position: -98px 0;
 }
 
-.edui-default .edui-cellalignpicker-body td.edui-state-hover .edui-right{
+.edui-default .edui-cellalignpicker-body td.edui-state-hover .edui-right {
     background-position: -124px 0;
 }
 
@@ -1837,6 +1875,7 @@ div.edui-box {
 .edui-default .edui-cellalignpicker-body td.edui-cellalign-selected .edui-right {
     background-position: -271px 0;
 }
+
 /*分隔线*/
 .edui-default .edui-toolbar .edui-separator {
     width: 1px;
@@ -1860,14 +1899,14 @@ div.edui-box {
 .edui-default .edui-for-emotion .edui-icon:before {
     content: "\e60e";
 }
-.edui-default .edui-for-emotion .edui-popup-content iframe
-{
+
+.edui-default .edui-for-emotion .edui-popup-content iframe {
     width: 514px;
     height: 380px;
     overflow: hidden;
 }
-.edui-default .edui-for-emotion .edui-popup-content
-{
+
+.edui-default .edui-for-emotion .edui-popup-content {
     position: relative;
     z-index: 555
 }
@@ -1876,12 +1915,11 @@ div.edui-box {
     display: none
 }
 
-.edui-default .edui-for-emotion .edui-splitbutton-body .edui-arrow
-{
+.edui-default .edui-for-emotion .edui-splitbutton-body .edui-arrow {
     width: 0
 }
-.edui-default .edui-toolbar .edui-for-emotion  .edui-state-active .edui-splitborder
-{
+
+.edui-default .edui-toolbar .edui-for-emotion .edui-state-active .edui-splitborder {
     border-left: 1px solid transparent;
 }
 
@@ -1892,13 +1930,13 @@ div.edui-box {
     float: right;
     /*background: url("../images/icons-all.gif") no-repeat 10px -233px;*/
     font-family: 'edui-iconfont';
-    font-size:12px;
-    line-height:20px;
-    text-align:center;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
 }
 
-.edui-default .edui-hassubmenu .edui-arrow:before{
-  content: "\e665";
+.edui-default .edui-hassubmenu .edui-arrow:before {
+    content: "\e665";
 }
 
 .edui-default .edui-menu-body .edui-menuitem {
@@ -1920,8 +1958,8 @@ div.edui-box {
 .edui-default .edui-menu-body .edui-state-hover {
     padding: 0 !important;
     background-color: var(--edui-color-active-bg);
-    border-radius:3px;
-    border:1px solid var(--edui-color-active-bg);
+    border-radius: 3px;
+    border: 1px solid var(--edui-color-active-bg);
 }
 
 /*弹出菜单*/
@@ -1937,24 +1975,25 @@ div.edui-box {
 }
 
 /*粘贴弹出菜单*/
-.edui-default .edui-wordpastepop .edui-popup-content{
+.edui-default .edui-wordpastepop .edui-popup-content {
     border: none;
     padding: 0;
     width: 54px;
     height: 21px;
 }
-.edui-default  .edui-pasteicon {
+
+.edui-default .edui-pasteicon {
     width: 100%;
     height: 100%;
     background-image: url('../images/wordpaste.png');
     background-position: 0 0;
 }
 
-.edui-default  .edui-pasteicon.edui-state-opened {
+.edui-default .edui-pasteicon.edui-state-opened {
     background-position: 0 -34px;
 }
 
-.edui-default  .edui-pastecontainer {
+.edui-default .edui-pastecontainer {
     position: relative;
     visibility: hidden;
     width: 97px;
@@ -1962,7 +2001,7 @@ div.edui-box {
     border: 1px solid #ccc;
 }
 
-.edui-default  .edui-pastecontainer .edui-title {
+.edui-default .edui-pastecontainer .edui-title {
     font-weight: bold;
     background: #F8F8FF;
     height: 25px;
@@ -1971,14 +2010,14 @@ div.edui-box {
     padding-left: 5px;
 }
 
-.edui-default  .edui-pastecontainer .edui-button {
+.edui-default .edui-pastecontainer .edui-button {
     overflow: hidden;
     margin: 3px 0;
 }
 
-.edui-default  .edui-pastecontainer .edui-button .edui-richtxticon,
-.edui-default  .edui-pastecontainer .edui-button .edui-tagicon,
-.edui-default  .edui-pastecontainer .edui-button .edui-plaintxticon{
+.edui-default .edui-pastecontainer .edui-button .edui-richtxticon,
+.edui-default .edui-pastecontainer .edui-button .edui-tagicon,
+.edui-default .edui-pastecontainer .edui-button .edui-plaintxticon {
     float: left;
     cursor: pointer;
     width: 29px;
@@ -1987,27 +2026,32 @@ div.edui-box {
     background-image: url('../images/wordpaste.png');
     background-repeat: no-repeat;
 }
-.edui-default  .edui-pastecontainer .edui-button .edui-richtxticon {
+
+.edui-default .edui-pastecontainer .edui-button .edui-richtxticon {
     margin-left: 0;
     background-position: -109px 0;
 }
-.edui-default  .edui-pastecontainer .edui-button .edui-tagicon {
+
+.edui-default .edui-pastecontainer .edui-button .edui-tagicon {
     background-position: -148px 1px;
 }
 
-.edui-default  .edui-pastecontainer .edui-button .edui-plaintxticon {
+.edui-default .edui-pastecontainer .edui-button .edui-plaintxticon {
     background-position: -72px 0;
 }
 
-.edui-default  .edui-pastecontainer .edui-button .edui-state-hover .edui-richtxticon {
+.edui-default .edui-pastecontainer .edui-button .edui-state-hover .edui-richtxticon {
     background-position: -109px -34px;
 }
-.edui-default  .edui-pastecontainer .edui-button .edui-state-hover .edui-tagicon{
+
+.edui-default .edui-pastecontainer .edui-button .edui-state-hover .edui-tagicon {
     background-position: -148px -34px;
 }
-.edui-default  .edui-pastecontainer .edui-button  .edui-state-hover .edui-plaintxticon{
+
+.edui-default .edui-pastecontainer .edui-button .edui-state-hover .edui-plaintxticon {
     background-position: -72px -34px;
 }
+
 .edui-quick-operate {
     position: relative;
     margin: -10px;
@@ -2086,6 +2130,7 @@ div.edui-box {
 .edui-quick-operate .icon.icon-list:before {
     content: "\e87c";
 }
+
 .edui-quick-operate .icon.icon-trash:before {
     content: "\e87c";
 }

@@ -5,6 +5,7 @@ namespace ModStart\Field;
 
 
 use ModStart\Core\Exception\BizException;
+use ModStart\Core\Util\SerializeUtil;
 
 /**
  * Json多组键值对字段
@@ -28,6 +29,7 @@ class ComplexFieldsList extends AbstractField
                 // ['name' => 'xxx', 'title' => '数字', 'type' => 'number-text', 'defaultValue' => 0, 'placeholder'=>'', 'tip'=>'', ],
                 // ['name' => 'xxx', 'title' => '图片', 'type' => 'image', 'defaultValue' => 0, 'placeholder'=>'', 'tip'=>'', ],
                 // ['name' => 'xxx', 'title' => '多字符串值', 'type' => 'values', 'defaultValue' => 0, 'placeholder'=>'', 'tip'=>'', ],
+                // ['name' => 'xxx', 'title' => '模块', 'type' => 'select', 'option' => ['a'=>'aa','b'=>'bb'], 'defaultValue' => '', 'placeholder' => '', 'tip' => '',],
             ],
             'valueItem' => new \stdClass(),
             'iconServer' => modstart_admin_url('widget/icon'),
@@ -80,7 +82,7 @@ class ComplexFieldsList extends AbstractField
 
     public function serializeValue($value, $model)
     {
-        return json_encode($value, JSON_UNESCAPED_UNICODE);
+        return SerializeUtil::jsonEncode($value);
     }
 
     public function prepareInput($value, $model)
