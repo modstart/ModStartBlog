@@ -7,14 +7,14 @@ namespace ModStart\Core\Util;
  */
 class PageHtmlUtil
 {
-    private static function itemRender($start, $end, $currentPage, $url)
+    private static function itemRender($start, $end, $currentPage, $url, $template)
     {
         $html = [];
         for ($i = $start; $i <= $end; $i++) {
             if ($i == $currentPage) {
-                $html[] = '<span class="current">' . $i . '</span>';
+                $html[] = sprintf($template['current'], $i);
             } else {
-                $html[] = '<a class="page" href="' . str_replace('{page}', $i, $url) . '">' . $i . '</a>';
+                $html[] = sprintf($template['item'], str_replace('{page}', $i, $url), $i);
             }
         }
         return join('', $html);
@@ -57,9 +57,21 @@ class PageHtmlUtil
      * @param $pageSize int 每页记录数
      * @param $currentPage int 当前页
      * @param $url string 分页链接，页码使用 {page} 占位
+     * @param $template string 模板
      */
-    public static function render($total, $pageSize, $currentPage, $url = '/url/for/path?page={page}')
+    public static function render($total, $pageSize, $currentPage, $url = '/url/for/path?page={page}', $template = null)
     {
+        if (is_null($template)) {
+            $template = [
+                'warp' => '<div class="pages">%s</div>',
+                'more' => '<span class="more">...</span>',
+                'prev' => '<a class="page" href="%s">' . L('NextPage') . '</a>',
+                'next' => '<a class="page" href="%s">' . L('PrevPage') . '</a>',
+                'current' => '<span class="current">%d</span>',
+                'item' => '<a class="page" href="%s">%d</a>',
+            ];
+        }
+
         $totalPage = ceil($total / $pageSize);
 
         if ($currentPage < 1) {
@@ -70,16 +82,13 @@ class PageHtmlUtil
 
         $html = [];
 
-
-        $html[] = '<div class="pages">';
-
         if ($totalPage < 6) {
             if ($totalPage > 0) {
-                $html[] = self::itemRender(1, $totalPage, $currentPage, $url);
+                $html[] = self::itemRender(1, $totalPage, $currentPage, $url, $template);
             }
         } else {
 
-            $html[] = self::itemRender(1, 3, $currentPage, $url);
+            $html[] = self::itemRender(1, 3, $currentPage, $url, $template);
 
             $midStart = $currentPage - 3;
             $midEnd = $currentPage + 3;
@@ -90,28 +99,26 @@ class PageHtmlUtil
                 $midEnd = $totalPage - 3;
             }
             if ($midStart > 3 + 1) {
-                $html[] = '<span class="more">...</span>';
+                $html[] = $template['more'];
             }
 
-            $html[] = self::itemRender($midStart, $midEnd, $currentPage, $url);
+            $html[] = self::itemRender($midStart, $midEnd, $currentPage, $url, $template);
 
             if ($midEnd < $totalPage - 3) {
-                $html[] = '<span class="more">...</span>';
+                $html[] = $template['more'];
             }
 
-            $html[] = self::itemRender($totalPage - 2, $totalPage, $currentPage, $url);
+            $html[] = self::itemRender($totalPage - 2, $totalPage, $currentPage, $url, $template);
         }
 
         if ($currentPage > 1) {
-            $html[] = '<a class="page" href="' . str_replace('{page}', ($currentPage - 1), $url) . '">上一页</a>';
+            $html[] = sprintf($template['prev'], str_replace('{page}', ($currentPage - 1), $url));
         }
 
         if ($currentPage < $totalPage) {
-            $html[] = '<a class="page" href="' . str_replace('{page}', ($currentPage + 1), $url) . '">下一页</a>';
+            $html[] = sprintf($template['next'], str_replace('{page}', ($currentPage + 1), $url));
         }
 
-        $html[] = '</div>';
-
-        return join('', $html);
+        return sprintf($template['warp'], join('', $html));
     }
 }
