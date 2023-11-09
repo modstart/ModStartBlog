@@ -65,8 +65,10 @@ class PageHtmlUtil
             $template = [
                 'warp' => '<div class="pages">%s</div>',
                 'more' => '<span class="more">...</span>',
-                'prev' => '<a class="page" href="%s">' . L('NextPage') . '</a>',
-                'next' => '<a class="page" href="%s">' . L('PrevPage') . '</a>',
+                'prev' => '<a class="page" href="%s">' . L('PrevPage') . '</a>',
+                'prevDisabled' => null,
+                'next' => '<a class="page" href="%s">' . L('NextPage') . '</a>',
+                'nextDisabled' => null,
                 'current' => '<span class="current">%d</span>',
                 'item' => '<a class="page" href="%s">%d</a>',
             ];
@@ -81,6 +83,14 @@ class PageHtmlUtil
         }
 
         $html = [];
+
+        if ($currentPage > 1) {
+            $html[] = sprintf($template['prev'], str_replace('{page}', ($currentPage - 1), $url));
+        } else {
+            if ($template['prevDisabled']) {
+                $html[] = $template['prevDisabled'];
+            }
+        }
 
         if ($totalPage < 6) {
             if ($totalPage > 0) {
@@ -111,12 +121,12 @@ class PageHtmlUtil
             $html[] = self::itemRender($totalPage - 2, $totalPage, $currentPage, $url, $template);
         }
 
-        if ($currentPage > 1) {
-            $html[] = sprintf($template['prev'], str_replace('{page}', ($currentPage - 1), $url));
-        }
-
         if ($currentPage < $totalPage) {
             $html[] = sprintf($template['next'], str_replace('{page}', ($currentPage + 1), $url));
+        } else {
+            if ($template['nextDisabled']) {
+                $html[] = $template['nextDisabled'];
+            }
         }
 
         return sprintf($template['warp'], join('', $html));

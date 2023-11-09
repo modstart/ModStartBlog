@@ -15,14 +15,14 @@
                 </div>
             </div>
             @endif
-            @if(modstart_config('Blog_ContactEmail'))
+            @if(modstart_config('Site_ContactEmail'))
             <div class="ub-pair">
                 <div class="name">
                     <i class="iconfont icon-email"></i>
                     邮箱
                 </div>
                 <div class="value">
-                    <a class="tw-text-gray-600" href="mailto:{{modstart_config('Blog_ContactEmail')}}">{{modstart_config('Blog_ContactEmail')}}</a>
+                    <a class="tw-text-gray-600" href="mailto:{{modstart_config('Site_ContactEmail')}}">{{modstart_config('Site_ContactEmail')}}</a>
                 </div>
             </div>
             @endif

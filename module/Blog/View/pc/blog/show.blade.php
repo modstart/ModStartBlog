@@ -134,13 +134,8 @@
                                 <div class="tw-border-0 tw-border-b tw-border-solid tw-border-gray-100 tw-pb-6 tw-mb-6">
                                     <div class="tw-flex">
                                         <div class="tw-w-10">
-                                            @if(!empty($comment['_memberUser']))
-                                                <div class="ub-cover-1-1 tw-rounded-full"
-                                                     style="background-image:url({{$comment['_memberUser']['avatar']}})"></div>
-                                            @else
-                                                <div class="ub-cover-1-1 tw-rounded-full"
-                                                     style="background-image:url( @asset('asset/image/avatar.svg') )"></div>
-                                            @endif
+                                            <div class="ub-cover-1-1 tw-rounded-full"
+                                                 style="background-image:url({{$comment['_avatar']}})"></div>
                                         </div>
                                         <div class="tw-flex-grow tw-ml-4">
                                             <div class="tw-leading-6 tw-text-lg">

@@ -15,7 +15,9 @@
         <div>
             <div class="lg:tw-truncate">
                 @if($record['isTop'])
-                    <span class="tw tw-align-top tw-inline-block tw-leading-6 tw-px-3 tw-rounded tw-text-lg tw-bg-blue-100 tw-text-blue-500">置顶</span>
+                    <span class="tw tw-align-top tw-inline-block tw-leading-6 tw-px-3 tw-rounded tw-text-lg tw-bg-blue-100 tw-text-blue-500">
+                        置顶
+                    </span>
                 @endif
                 @if($record['isHot'])
                     <span class="tw tw-align-top tw-inline-block tw-leading-6 tw-px-3 tw-rounded tw-text-lg tw-bg-red-100 tw-text-red-500">

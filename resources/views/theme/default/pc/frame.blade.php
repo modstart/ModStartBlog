@@ -1,15 +1,12 @@
 @extends('modstart::layout.frame')
 
-@section('pageFavIco'){{\ModStart\Core\Assets\AssetsUtil::fix(modstart_config('siteFavIco'))}}@endsection
+@section('pageFavIco'){{modstart_config_asset_url('siteFavIco')}}@endsection
 @section('pageTitle')@yield('pageTitleMain','') | {{modstart_config('siteName')}}@endsection
 @section('pageKeywords'){{modstart_config('siteKeywords')}}@endsection
 @section('pageDescription'){{modstart_config('siteDescription')}}@endsection
 
 @section('headAppend')
     @parent
-    @if('default'==\Illuminate\Support\Facades\Session::get('msSiteTemplateUsing','default'))
-        <link rel="stylesheet" href="{{\ModStart\Core\Assets\AssetsUtil::fix('theme/default/css/style.css')}}"/>
-    @endif
     @if($c=modstart_config('sitePrimaryColor'))
         <style type="text/css">
             :root{

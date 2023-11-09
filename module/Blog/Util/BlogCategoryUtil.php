@@ -5,6 +5,7 @@ namespace Module\Blog\Util;
 
 
 use Illuminate\Support\Facades\Cache;
+use ModStart\Core\Assets\AssetsUtil;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Util\TreeUtil;
 
@@ -18,7 +19,12 @@ class BlogCategoryUtil
     public static function all()
     {
         return Cache::rememberForever('BlogCategories', function () {
-            return ModelUtil::all('blog_category', [], ['*'], ['sort', 'desc']);
+            $records = ModelUtil::all('blog_category', [], ['*'], ['sort', 'desc']);
+            AssetsUtil::recordsFixFullOrDefault($records, 'cover', 'asset/image/none.png');
+            foreach ($records as $k => $v) {
+                $records[$k]['_url'] = UrlUtil::category($v);
+            }
+            return $records;
         });
     }
 

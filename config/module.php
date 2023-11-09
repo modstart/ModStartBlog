@@ -34,7 +34,10 @@ return [
         'VisitStatistic' => [
             'enable' => true,
         ],
-        // 'AdminApi' => [
+        // 'TemplateConverter' => [
+        //     'enable' => true,
+        // ],
+        // 'BlogThemeLightA' => [
         //     'enable' => true,
         // ],
         // 'BlogAdminApi' => [

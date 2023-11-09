@@ -1,20 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-use ModStart\Core\Assets\AssetsUtil;
-use ModStart\Core\Dao\ModelUtil;
-use ModStart\Core\Util\HtmlUtil;
-use ModStart\Core\Util\TagUtil;
 use Module\Blog\Model\Blog;
-use Module\Blog\Type\BlogVisitMode;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\BlogTagUtil;
 
 /**
  * @Util 博客操作
+ * 1 统一用单数
  */
 class MBlog
 {
+    /**
+     * @Util 获取分类树
+     * @return array
+     */
     public static function categoryTree()
     {
         return BlogCategoryUtil::categoryTree();
@@ -71,6 +71,7 @@ class MBlog
         return $paginateData['records'];
     }
 
+
     /**
      * @Util 获取置顶博客
      * @param $limit int 限制条数
@@ -115,6 +116,19 @@ class MBlog
      *   },
      *   // ...
      * ]
+     */
+    public static function topBlog($limit)
+    {
+        $paginateData = self::paginateBlog(0, 1, $limit, [
+            'isTop' => true,
+        ]);
+        return $paginateData['records'];
+    }
+
+    /**
+     * @param $limit
+     * @return mixed
+     * @deprecated delete at 2024-05-09
      */
     public static function topestBlog($limit)
     {
@@ -228,6 +242,16 @@ class MBlog
             'isRecommend' => true,
         ]);
         return $paginateData['records'];
+    }
+
+    /**
+     * @Util 最新评论
+     * @param $limit int 限制条数
+     * @return array
+     */
+    public static function latestComment($limit)
+    {
+        return \Module\Blog\Util\BlogCommentUtil::latest($limit);
     }
 
 
@@ -398,65 +422,12 @@ class MBlog
      */
     public static function paginateBlog($categoryId, $page = 1, $pageSize = 10, $option = [])
     {
-        if ($categoryId > 0) {
-            $option['whereIn'][] = ['categoryId', BlogCategoryUtil::childrenIds($categoryId)];
-        }
-        $option['where']['isPublished'] = true;
-        if (!isset($option['order'])) {
-            $option['order'] = [
-                ['isTop', 'desc'],
-                ['postTime', 'desc'],
-            ];
-        }
-        if (!isset($option['whereOperate'])) {
-            $option['whereOperate'] = [];
-        }
-        $option['whereOperate'] = array_merge([
-            ['postTime', '<', date('Y-m-d H:i:s')],
-        ], $option['whereOperate']);
-
-        $paginateData = ModelUtil::paginate('blog', $page, $pageSize, $option);
-        $records = self::buildRecords($paginateData['records']);
-        return [
-            'records' => $records,
-            'total' => $paginateData['total'],
-        ];
+        return \Module\Blog\Util\BlogUtil::paginateBlogsByCategoryId($categoryId, $page, $pageSize, $option);
     }
 
     public static function buildRecords($records)
     {
-        ModelUtil::decodeRecordsJson($records, 'images');
-        TagUtil::recordsString2Array($records, 'tag');
-        foreach ($records as $i => $v) {
-            $records[$i]['_category'] = BlogCategoryUtil::get($v['categoryId']);
-            $records[$i]['images'] = AssetsUtil::fixFull($v['images']);
-            $records[$i]['_images'] = [];
-            $records[$i]['_images'] = array_merge($records[$i]['_images'], $records[$i]['images']);
-            $records[$i]['_cover'] = null;
-            if (isset($records[$i]['images'][0])) {
-                $records[$i]['_cover'] = $records[$i]['images'][0];
-            }
-            if (isset($v['content'])) {
-                $ret = HtmlUtil::extractTextAndImages($v['content']);
-                if (!empty($ret['images'])) {
-                    $ret['images'] = AssetsUtil::fixFull($ret['images']);
-                    $records[$i]['_images'] = array_merge($records[$i]['_images'], $ret['images']);
-                }
-                if (empty($records[$i]['_cover']) && isset($ret['images'][0])) {
-                    $records[$i]['_cover'] = $ret['images'][0];
-                }
-            }
-            switch ($v['visitMode']) {
-                case BlogVisitMode::PASSWORD:
-                    $records[$i]['content'] = null;
-                    break;
-                case BlogVisitMode::OPEN:
-                default:
-                    // do nothing
-                    break;
-            }
-        }
-        return $records;
+        return \Module\Blog\Util\BlogUtil::buildRecords($records);
     }
 
     /**

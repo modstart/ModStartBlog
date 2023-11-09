@@ -18,6 +18,7 @@ use Module\Blog\Type\BlogCommentStatus;
 use Module\Blog\Type\BlogVisitMode;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\UrlUtil;
+use Module\HotSearch\Util\HotSearchUtil;
 use Module\Member\Util\MemberUtil;
 
 /**
@@ -95,6 +96,12 @@ class BlogController extends Controller
             // Log::info('records-' . json_encode($paginateData['records']));
         }
 
+        if ($keywords) {
+            if (modstart_module_enabled('HotSearch')) {
+                HotSearchUtil::hit($keywords);
+            }
+        }
+
 
         $category = null;
         if ($categoryId > 0) {
@@ -132,6 +139,7 @@ class BlogController extends Controller
         $record['images'] = AssetsUtil::fixFull($record['images']);
         $record['tag'] = TagUtil::string2Array($record['tag']);
         $record['_category'] = BlogCategoryUtil::get($record['categoryId']);
+        $record['_date'] = date('Y-m-d', strtotime($record['postTime']));
 
         $record['_visitVerified'] = false;
         switch ($record['visitMode']) {
@@ -161,13 +169,19 @@ class BlogController extends Controller
             $option = [];
             $option['where']['blogId'] = $record['id'];
             $option['where']['status'] = BlogCommentStatus::VERIFY_SUCCESS;
-
             $option['order'] = ['id', 'desc'];
             $commentPaginateData = ModelUtil::paginate('blog_comment', $commentPage, $commentPageSize, $option);
             $comments = $commentPaginateData['records'];
             $commentTotal = $commentPaginateData['total'];
             if (modstart_module_enabled('Member')) {
                 MemberUtil::mergeMemberUserBasics($comments);
+            }
+            foreach ($comments as $i => $comment) {
+                $avatar = 'asset/image/avatar.svg';
+                if (!empty($comment['_memberUser']['avatar'])) {
+                    $avatar = $comment['_memberUser']['avatar'];
+                }
+                $comments[$i]['_avatar'] = AssetsUtil::fixFull($avatar);
             }
         }
 

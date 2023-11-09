@@ -33,18 +33,18 @@
                     </div>
                 @endif
                 @if($category)
-                        <div class="ub-content-box margin-bottom">
-                            <div class="tw-p-3">
-                                <i class="iconfont icon-category"></i>
-                                <a href="{{modstart_web_url('blogs')}}" class="tw-text-lg tw-text-gray-400">
-                                    全部
-                                </a>
-                                <i class="iconfont icon-angle-right ub-text-muted"></i>
-                                <a href="{{modstart_web_url('blogs',['categoryId'=>$category])}}" class="tw-text-lg tw-text-gray-800">
-                                    {{$category['title']}}
-                                </a>
-                            </div>
+                    <div class="ub-content-box margin-bottom">
+                        <div class="tw-p-3">
+                            <i class="iconfont icon-category"></i>
+                            <a href="{{modstart_web_url('blogs')}}" class="tw-text-lg tw-text-gray-400">
+                                全部
+                            </a>
+                            <i class="iconfont icon-angle-right ub-text-muted"></i>
+                            <a href="{{modstart_web_url('blogs',['categoryId'=>$category])}}" class="tw-text-lg tw-text-gray-800">
+                                {{$category['title']}}
+                            </a>
                         </div>
+                    </div>
                 @endif
                 <div class="ub-content-box margin-bottom">
                     <div class="tw-p-3">
