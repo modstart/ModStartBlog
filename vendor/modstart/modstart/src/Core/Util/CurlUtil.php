@@ -340,7 +340,11 @@ class CurlUtil
             curl_setopt($ch, CURLOPT_USERAGENT, $option['userAgent']);
         }
         $temp = curl_exec($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        if (200 != $statusCode) {
+            return null;
+        }
         return $temp;
     }
 
