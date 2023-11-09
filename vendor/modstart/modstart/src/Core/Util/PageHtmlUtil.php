@@ -87,7 +87,7 @@ class PageHtmlUtil
         if ($currentPage > 1) {
             $html[] = sprintf($template['prev'], str_replace('{page}', ($currentPage - 1), $url));
         } else {
-            if ($template['prevDisabled']) {
+            if (!empty($template['prevDisabled'])) {
                 $html[] = $template['prevDisabled'];
             }
         }
@@ -124,7 +124,7 @@ class PageHtmlUtil
         if ($currentPage < $totalPage) {
             $html[] = sprintf($template['next'], str_replace('{page}', ($currentPage + 1), $url));
         } else {
-            if ($template['nextDisabled']) {
+            if (!empty($template['nextDisabled'])) {
                 $html[] = $template['nextDisabled'];
             }
         }
