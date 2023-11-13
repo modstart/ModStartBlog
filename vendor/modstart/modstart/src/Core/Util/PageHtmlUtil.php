@@ -51,6 +51,16 @@ class PageHtmlUtil
         return null;
     }
 
+    private static function replace($tpl, $param = [])
+    {
+        return str_replace(array_keys($param), array_values($param), $tpl);
+    }
+
+    private static function buildPage($url, $page)
+    {
+        return str_replace('{page}', $page, $url);
+    }
+
     /**
      * @Util 渲染分页工具
      * @param $total int 总记录数
@@ -84,8 +94,16 @@ class PageHtmlUtil
 
         $html = [];
 
+        if (!empty($template['first'])) {
+            $html[] = self::replace($template['first'], [
+                '%s' => self::buildPage($url, 1),
+            ]);
+        }
+
         if ($currentPage > 1) {
-            $html[] = sprintf($template['prev'], str_replace('{page}', ($currentPage - 1), $url));
+            $html[] = self::replace($template['prev'], [
+                '%s' => self::buildPage($url, $currentPage - 1),
+            ]);
         } else {
             if (!empty($template['prevDisabled'])) {
                 $html[] = $template['prevDisabled'];
@@ -127,6 +145,12 @@ class PageHtmlUtil
             if (!empty($template['nextDisabled'])) {
                 $html[] = $template['nextDisabled'];
             }
+        }
+
+        if (!empty($template['last'])) {
+            $html[] = self::replace($template['last'], [
+                '%s' => self::buildPage($url, $totalPage),
+            ]);
         }
 
         return sprintf($template['warp'], join('', $html));

@@ -210,6 +210,9 @@ class CurlUtil
         if (!isset($option['userAgent'])) {
             $option['userAgent'] = self::defaultUserAgent();
         }
+        if (isset($option['userAgentAppend'])) {
+            $option['userAgent'] .= ' ' . $option['userAgentAppend'];
+        }
         if (!empty($option['userAgent'])) {
             curl_setopt($ch, CURLOPT_USERAGENT, $option['userAgent']);
         }
@@ -350,7 +353,7 @@ class CurlUtil
 
     public static function defaultUserAgent()
     {
-        $userAgent = 'ModStart/' . modstart_version() . ' PHP/' . PHP_VERSION . ' OS/' . PHP_OS;
+        $userAgent = 'MSCore/' . modstart_version() . ' PHP/' . PHP_VERSION . ' OS/' . PHP_OS;
         $appInfo = [];
         if (class_exists(\App\Constant\AppConstant::class)) {
             if (defined('\\App\\Constant\\AppConstant::APP')) {

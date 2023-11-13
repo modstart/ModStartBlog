@@ -34,12 +34,6 @@ return [
         'VisitStatistic' => [
             'enable' => true,
         ],
-        // 'TemplateConverter' => [
-        //     'enable' => true,
-        // ],
-        // 'BlogThemeLightA' => [
-        //     'enable' => true,
-        // ],
         // 'BlogAdminApi' => [
         //     'enable' => true,
         // ],
