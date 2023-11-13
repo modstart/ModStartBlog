@@ -357,6 +357,7 @@ class Tecmz
             'imageOriginalSize' => $ret['data']['originalSize'],
             'imageCompressSize' => $ret['data']['compressSize'],
             'imageUrl' => $ret['data']['url'],
+            'server' => $server,
         ]);
     }
 

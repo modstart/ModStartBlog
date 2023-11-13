@@ -5,6 +5,7 @@ namespace Module\Blog\Api\Controller;
 
 
 use Illuminate\Routing\Controller;
+use ModStart\Core\Assets\AssetsUtil;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\InputPackage;
@@ -40,6 +41,13 @@ class MessageController extends Controller
         $records = $paginateData['records'];
         if (modstart_module_enabled('Member')) {
             MemberUtil::mergeMemberUserBasics($records);
+        }
+        foreach ($records as $i => $record) {
+            $avatar = 'asset/image/avatar.svg';
+            if (!empty($record['_memberUser']['avatar'])) {
+                $avatar = $record['_memberUser']['avatar'];
+            }
+            $records[$i]['_avatar'] = AssetsUtil::fixFull($avatar);
         }
 
         return Response::generateSuccessData([
