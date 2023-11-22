@@ -52,8 +52,8 @@ class BlogUtil
         $record['_images'] = AssetsUtil::fixFull($images);
         $record['_summary'] = $summary;
         $cover = null;
-        if (empty($cover) && isset($record['images'][0])) {
-            $cover = $record['images'][0];
+        if (empty($cover) && isset($record['_images'][0])) {
+            $cover = $record['_images'][0];
         }
         $record['_cover'] = AssetsUtil::fixFull($cover);
         $record['_date'] = date('Y-m-d', strtotime($record['postTime']));

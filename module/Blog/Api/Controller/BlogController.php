@@ -12,6 +12,7 @@ use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\InputPackage;
 use ModStart\Core\Input\Response;
 use ModStart\Core\Util\ArrayUtil;
+use ModStart\Core\Util\HtmlUtil;
 use ModStart\Core\Util\TagUtil;
 use Module\Blog\Core\BlogSuperSearchBiz;
 use Module\Blog\Type\BlogCommentStatus;
@@ -112,7 +113,7 @@ class BlogController extends Controller
             $pageDescription = $category['description'];
         }
         return Response::generateSuccessData([
-            'pageTitle' => $pageTitle ? $pageTitle . ' | ' . modstart_config('siteName') : modstart_config('siteName'),
+            'pageTitle' => $pageTitle,
             'pageKeywords' => $pageKeywords,
             'pageDescription' => $pageDescription,
             'page' => $page,
@@ -140,6 +141,24 @@ class BlogController extends Controller
         $record['tag'] = TagUtil::string2Array($record['tag']);
         $record['_category'] = BlogCategoryUtil::get($record['categoryId']);
         $record['_date'] = date('Y-m-d', strtotime($record['postTime']));
+        $summary = $record['seoDescription'];
+        $images = $record['images'];
+        if (isset($record['content'])) {
+            $ret = HtmlUtil::extractTextAndImages($record['content']);
+            if (!empty($ret['images'])) {
+                $images = array_merge($images, $ret['images']);
+            }
+            if (empty($summary) && !empty($ret['text'])) {
+                $summary = $ret['text'];
+            }
+        }
+        $record['_images'] = AssetsUtil::fixFull($images);
+        $record['_summary'] = $summary;
+        $cover = null;
+        if (empty($cover) && isset($record['images'][0])) {
+            $cover = $record['images'][0];
+        }
+        $record['_cover'] = AssetsUtil::fixFull($cover);
 
         $record['_visitVerified'] = false;
         switch ($record['visitMode']) {
@@ -205,7 +224,7 @@ class BlogController extends Controller
         ModelUtil::increase('blog', $record['id'], 'clickCount');
 
         return Response::generateSuccessData([
-            'pageTitle' => $record['title'] . ' | ' . modstart_config('siteName'),
+            'pageTitle' => $record['title'],
             'pageKeywords' => $record['seoKeywords'] ? $record['seoKeywords'] : $record['title'],
             'pageDescription' => $record['seoDescription'] ? $record['seoDescription'] : $record['summary'],
             'record' => $record,

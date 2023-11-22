@@ -20,6 +20,7 @@ class BlogController extends ModuleBaseController
         if (!empty($viewData['category']['templateView'])) {
             $templateView = 'blog.' . $viewData['category']['templateView'];
         }
+        $viewData['pageTitle'] = ($viewData['pageTitle'] ? $viewData['pageTitle'] . ' | ' . modstart_config('siteName') : modstart_config('siteName'));
         return $this->view($templateView, $viewData);
     }
 
@@ -35,6 +36,7 @@ class BlogController extends ModuleBaseController
         if (!empty($viewData['record']['templateView'])) {
             $templateView = 'blog.' . $viewData['record']['templateView'];
         }
+        $viewData['pageTitle'] = $viewData['pageTitle'] . ' | ' . modstart_config('siteName');
         return $this->view($templateView, $viewData);
     }
 
