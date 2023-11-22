@@ -139,7 +139,7 @@ class MBlog
     }
 
     /**
-     * @Util 获取置顶博客
+     * @Util 获取热门博客
      * @param $limit int 限制条数
      * @return array 数组
      * @returnExample
@@ -192,7 +192,7 @@ class MBlog
     }
 
     /**
-     * @Util 获取置顶博客
+     * @Util 获取推荐博客
      * @param $limit int 限制条数
      * @return array 数组
      * @returnExample
