@@ -112,7 +112,7 @@ class BlogController extends Controller
             $pageDescription = $category['description'];
         }
         return Response::generateSuccessData([
-            'pageTitle' => $pageTitle,
+            'pageTitle' => $pageTitle ? $pageTitle . ' | ' . modstart_config('siteName') : modstart_config('siteName'),
             'pageKeywords' => $pageKeywords,
             'pageDescription' => $pageDescription,
             'page' => $page,
@@ -205,6 +205,9 @@ class BlogController extends Controller
         ModelUtil::increase('blog', $record['id'], 'clickCount');
 
         return Response::generateSuccessData([
+            'pageTitle' => $record['title'] . ' | ' . modstart_config('siteName'),
+            'pageKeywords' => $record['seoKeywords'] ? $record['seoKeywords'] : $record['title'],
+            'pageDescription' => $record['seoDescription'] ? $record['seoDescription'] : $record['summary'],
             'record' => $record,
             'recordNext' => $recordNext,
             'recordPrev' => $recordPrev,

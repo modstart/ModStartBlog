@@ -11,6 +11,10 @@ class AboutController extends ModuleBaseController
 {
     public function index()
     {
-        return $this->view('blog.about');
+        return $this->view('blog.about', [
+            'pageTitle' => '关于博主',
+            'pageKeywords' => '关于博主',
+            'pageDescription' => '关于博主',
+        ]);
     }
 }
