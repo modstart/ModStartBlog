@@ -211,6 +211,7 @@ class BlogController extends Controller
             ->limit(1)->first();
         if ($recordNext) {
             $recordNext = ArrayUtil::keepKeys($recordNext->toArray(), ['id', 'title']);
+            $recordNext['_url'] = UrlUtil::blog($recordNext);
         }
 
         $recordPrev = ModelUtil::model('blog')
@@ -219,6 +220,7 @@ class BlogController extends Controller
             ->limit(1)->first();
         if ($recordPrev) {
             $recordPrev = ArrayUtil::keepKeys($recordPrev->toArray(), ['id', 'title']);
+            $recordPrev['_url'] = UrlUtil::blog($recordPrev);
         }
 
         ModelUtil::increase('blog', $record['id'], 'clickCount');
