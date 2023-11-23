@@ -34,9 +34,6 @@ return [
         'VisitStatistic' => [
             'enable' => true,
         ],
-        'ContentBlock' => [
-            'enable' => true,
-        ],
         // 'BlogAdminApi' => [
         //     'enable' => true,
         // ],
