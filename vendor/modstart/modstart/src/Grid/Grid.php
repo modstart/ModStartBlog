@@ -72,6 +72,7 @@ use ModStart\Support\Manager\FieldManager;
  * @method Grid|mixed batchOperatePrepend($value = null)
  * @method Grid|mixed gridOperateAppend($value = null)
  * @method Grid|mixed view($value = null)
+ * // 配合 useSimple 使用，设置每行的列数，value 是一个数组，分别表示 md 和 sm 的占比（总和为 12）
  * @method Grid|mixed gridRowCols($value = null)
  * @method Grid|mixed defaultPageSize($value = null)
  * @method Grid|mixed pageSizes($value = null)
@@ -122,6 +123,7 @@ class Grid
         'canSingleSelectItem',
         'canBatchDelete',
         'canBatchSelect',
+        'batchSelectInOrder',
         'canSort',
         'urlGrid',
         'urlAdd',
@@ -172,6 +174,7 @@ class Grid
     private $canSingleSelectItem = false;
     private $canBatchDelete = false;
     private $canBatchSelect = false;
+    private $batchSelectInOrder = false;
     private $canSort = false;
     private $urlGrid;
     private $urlAdd;
@@ -334,8 +337,22 @@ class Grid
         if (null === $value) {
             return $this->canBatchSelect;
         }
-        $this->canBatchSelect = true;
+        $this->canBatchSelect = $value;
         $this->canMultiSelectItem(true);
+        return $this;
+    }
+
+    /**
+     * 多选时，是否按照选择顺序进行批量操作
+     * @param $value bool
+     * @return $this|bool
+     */
+    public function batchSelectInOrder($value = null)
+    {
+        if (null === $value) {
+            return $this->batchSelectInOrder;
+        }
+        $this->batchSelectInOrder = $value;
         return $this;
     }
 

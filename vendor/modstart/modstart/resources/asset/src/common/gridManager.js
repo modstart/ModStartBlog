@@ -1,7 +1,10 @@
 var GridManager = function (opt) {
     var option = $.extend({
+        // 表格模式，default:默认模式，simple:简单模式
+        mode: 'default',
         id: '',
         canBatchSelect: false,
+        batchSelectInOrder: false,
         canSingleSelectItem: false,
         canMultiSelectItem: false,
         title: null,
@@ -35,6 +38,7 @@ var GridManager = function (opt) {
         showDialogSize: ['90%', '90%'],
         importDialogSize: ['90%', '90%'],
         pageJumpEnable: false,
+        gridRowCols: null,
         lang: {
             loading: 'Loading',
             noRecords: 'No Records',
@@ -50,6 +54,7 @@ var GridManager = function (opt) {
 
     var $grid = $('#' + option.id);
 
+    var recordIdsChecked = [];
     var listerData = {
         page: 1,
         pageSize: 1,
@@ -77,122 +82,212 @@ var GridManager = function (opt) {
         for (var i = 0; i < data.length; i++) {
             ids.push(data[i]._id);
         }
+        if (option.batchSelectInOrder) {
+            ids.sort(function (a, b) {
+                return recordIdsChecked.indexOf(a) - recordIdsChecked.indexOf(b);
+            });
+        }
         return ids;
     };
     var getCheckedItems = function () {
-        var data = layui.table.checkStatus(option.id + 'Table').data;
+        var data = [];
+        if (option.mode == 'simple') {
+            $grid.find('[data-index].checked').each(function (i, o) {
+                data.push(listerData.records[parseInt($(o).attr('data-index'))]);
+            });
+        } else {
+            data = layui.table.checkStatus(option.id + 'Table').data
+        }
         var items = [];
         for (var i = 0; i < data.length; i++) {
             items.push(data[i]);
         }
+        if (option.batchSelectInOrder) {
+            items.sort(function (a, b) {
+                return recordIdsChecked.indexOf(a._id) - recordIdsChecked.indexOf(b._id);
+            });
+        }
         return items;
+    };
+    var updateTableCheckedOrder = function () {
+        $grid.find('[data-index]').each(function (i, o) {
+            var $field = $(o).find('[data-field="0"]');
+            if (!$field.length) {
+                return;
+            }
+            $field.find('[data-checked-order]').remove();
+            var order = recordIdsChecked.indexOf(listerData.records[i]._id);
+            if (order >= 0) {
+                $field.append('<div data-checked-order>' + (order + 1) + '</div>');
+            }
+        });
     };
 
     layui.use(['table', 'laypage'], function () {
-
-        var tableOption = {
-            id: option.id + 'Table',
-            elem: '#' + option.id + 'Table',
-            defaultToolbar: option.gridToolbar,
-            page: false,
-            skin: 'line',
-            text: {
-                none: '<div class="ub-text-muted tw-py-4"><i class="iconfont icon-refresh tw-animate-spin tw-inline-block" style="font-size:2rem;"></i><br />'
-                    + option.lang.loading + '</div>'
-            },
-            escape: false,
-            // size: 'lg',
-            loading: true,
-            cellMinWidth: 100,
-            cols: [[]],
-            data: [],
-            autoColumnWidth: true,
-            autoScrollTop: false,
-            autoSort: false,
-            done: function () {
-            }
-        };
-        if (option.canMultiSelectItem && (option.batchOperatePrepend || (option.canDelete && option.canBatchDelete))) {
-            tableOption.toolbar = '#' + option.id + 'TableHeadToolbar';
-        }
-
-        var table = layui.table.render(tableOption);
-
-        layui.table.on('sort(' + option.id + 'Table)', function (obj) {
-            if (null == obj.type) {
-                lister.setParam('order', []);
-            } else {
-                lister.setParam('order', [[obj.field, obj.type]]);
-            }
-            lister.setPage(1);
-            lister.load();
-        })
-
-        var isFirst = true;
         var $lister = $('#' + option.id);
+        var lister;
         var first = true;
-        var lister = new window.api.lister(
-            {
-                search: $lister.find('[data-search]'),
-                table: $lister.find('[data-table]')
-            },
-            {
-                hashUrl: false,
-                server: option.urlGrid,
-                showLoading: false,
-                param: {
-                    pageSize: option.defaultPageSize,
-                },
-                customLoading: function (loading) {
-                    if (option.gridBeforeRequestScript) {
-                        eval(option.gridBeforeRequestScript);
-                    }
-                    if (first) {
-                        first = false;
-                        return;
-                    }
-                    table.loading(loading);
-                },
-                render: function (data) {
-                    listerData = data;
-                    if (option.canSingleSelectItem) {
-                        data.head.splice(0, 0, {type: 'radio'});
-                    } else if (option.canMultiSelectItem) {
-                        data.head.splice(0, 0, {type: 'checkbox'});
-                    }
-                    $grid.find('[data-addition]').html(data.addition || '');
-                    layui.table.reload(option.id + 'Table', {
-                        text: {
-                            none: '<div class="ub-text-muted"><i class="iconfont icon-empty-box" style="font-size:2rem;"></i><br />' + option.lang.noRecords + '</div>'
-                        },
-                        cols: [data.head],
-                        data: data.records,
-                        limit: data.pageSize,
-                    });
-                    var pageLayout = ['limit', 'prev', 'page', 'next', 'count'];
-                    if (option.pageJumpEnable) {
-                        pageLayout.push('skip');
-                    }
-                    layui.laypage.render({
-                        elem: option.id + 'Pager',
-                        curr: data.page,
-                        count: data.total,
-                        limit: data.pageSize,
-                        limits: option.pageSizes,
-                        layout: pageLayout,
-                        jump: function (obj, first) {
-                            if (!first) {
-                                lister.setPage(obj.curr);
-                                lister.setPageSize(obj.limit);
-                                lister.load();
-                            }
-                        }
-                    });
-                    if (data.script) {
-                        eval(data.script);
+
+        var renderPaginate = function () {
+            var pageLayout = ['limit', 'prev', 'page', 'next', 'count'];
+            if (option.pageJumpEnable) {
+                pageLayout.push('skip');
+            }
+            layui.laypage.render({
+                elem: option.id + 'Pager',
+                curr: listerData.page,
+                count: listerData.total,
+                limit: listerData.pageSize,
+                limits: option.pageSizes,
+                layout: pageLayout,
+                jump: function (obj, first) {
+                    if (!first) {
+                        lister.setPage(obj.curr);
+                        lister.setPageSize(obj.limit);
+                        lister.load();
                     }
                 }
             });
+        };
+
+        if (option.mode == 'simple') {
+            var emptyHtml = $('#' + option.id + 'EmptyHtml').html();
+
+            lister = new window.api.lister({
+                lister: $lister,
+                search: $lister.find('[data-search]'),
+                table: $lister.find('[data-table]')
+            }, {
+                hashUrl: false,
+                server: window.location.href,
+                param: {
+                    pageSize: option.defaultPageSize,
+                },
+                render: function (data) {
+                    listerData = data;
+                    recordIdsChecked = [];
+                    renderPaginate();
+                    var html = [];
+                    if (option.gridRowCols) {
+                        html.push('<div class="row">');
+                        for (var i = 0; i < data.records.length; i++) {
+                            html.push('<div class="col-md-' + option.gridRowCols[0] + ' col-' + option.gridRowCols[1] + '" data-index="' + i + '">' + data.records[i].html + '</div>');
+                        }
+                        html.push('</div>');
+                    } else {
+                        for (var i = 0; i < data.records.length; i++) {
+                            html.push('<div data-index="' + i + '">' + data.records[i].html + '</div>');
+                        }
+                    }
+                    $grid.find('[data-table]').html(html.join(''));
+                    if (!data.records.length) {
+                        $grid.find('[data-table]').html(emptyHtml);
+                    }
+                }
+            });
+
+        } else {
+            var tableOption = {
+                id: option.id + 'Table',
+                elem: '#' + option.id + 'Table',
+                defaultToolbar: option.gridToolbar,
+                page: false,
+                skin: 'line',
+                text: {
+                    none: '<div class="ub-text-muted tw-py-4"><i class="iconfont icon-refresh tw-animate-spin tw-inline-block" style="font-size:2rem;"></i><br />'
+                        + option.lang.loading + '</div>'
+                },
+                escape: false,
+                // size: 'lg',
+                loading: true,
+                cellMinWidth: 100,
+                cols: [[]],
+                data: [],
+                autoColumnWidth: true,
+                autoScrollTop: false,
+                autoSort: false,
+                done: function () {
+                }
+            };
+            if (option.canMultiSelectItem && (option.batchOperatePrepend || (option.canDelete && option.canBatchDelete))) {
+                tableOption.toolbar = '#' + option.id + 'TableHeadToolbar';
+            }
+            var table = layui.table.render(tableOption);
+            layui.table.on('sort(' + option.id + 'Table)', function (obj) {
+                if (null == obj.type) {
+                    lister.setParam('order', []);
+                } else {
+                    lister.setParam('order', [[obj.field, obj.type]]);
+                }
+                lister.setPage(1);
+                lister.load();
+            });
+            layui.table.on('checkbox(' + option.id + 'Table)', function (obj) {
+                if (option.batchSelectInOrder) {
+                    var records = layui.table.checkStatus(option.id + 'Table').data;
+                    var recordIds = [];
+                    for (var i = 0; i < records.length; i++) {
+                        recordIds.push(records[i]._id);
+                        if (recordIdsChecked.indexOf(records[i]._id) === -1) {
+                            recordIdsChecked.push(records[i]._id);
+                        }
+                    }
+                    for (var i = 0; i < recordIdsChecked.length; i++) {
+                        if (recordIds.indexOf(recordIdsChecked[i]) === -1) {
+                            recordIdsChecked.splice(i, 1);
+                            i--;
+                        }
+                    }
+                    updateTableCheckedOrder();
+                }
+            });
+            lister = new window.api.lister(
+                {
+                    lister: $lister,
+                    search: $lister.find('[data-search]'),
+                    table: $lister.find('[data-table]')
+                },
+                {
+                    hashUrl: false,
+                    server: option.urlGrid,
+                    showLoading: false,
+                    param: {
+                        pageSize: option.defaultPageSize,
+                    },
+                    customLoading: function (loading) {
+                        if (option.gridBeforeRequestScript) {
+                            eval(option.gridBeforeRequestScript);
+                        }
+                        if (first) {
+                            first = false;
+                            return;
+                        }
+                        table.loading(loading);
+                    },
+                    render: function (data) {
+                        listerData = data;
+                        recordIdsChecked = [];
+                        if (option.canSingleSelectItem) {
+                            data.head.splice(0, 0, {type: 'radio'});
+                        } else if (option.canMultiSelectItem) {
+                            data.head.splice(0, 0, {type: 'checkbox'});
+                        }
+                        $grid.find('[data-addition]').html(data.addition || '');
+                        layui.table.reload(option.id + 'Table', {
+                            text: {
+                                none: '<div class="ub-text-muted"><i class="iconfont icon-empty-box" style="font-size:2rem;"></i><br />' + option.lang.noRecords + '</div>'
+                            },
+                            cols: [data.head],
+                            data: data.records,
+                            limit: data.pageSize,
+                        });
+                        renderPaginate();
+                        if (data.script) {
+                            eval(data.script);
+                        }
+                    }
+                });
+        }
 
         lister.realtime = {
             url: {

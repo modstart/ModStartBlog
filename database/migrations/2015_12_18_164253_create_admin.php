@@ -51,15 +51,7 @@ class CreateAdmin extends Migration
             $table->index('roleId');
         });
 
-//        $passwordSalt = \Illuminate\Support\Str::random(16);
-//
-//        $adminUser = new \Edwin404\Admin\Models\AdminUser();
-//        $adminUser->created_at = \Carbon\Carbon::now();
-//        $adminUser->updated_at = \Carbon\Carbon::now();
-//        $adminUser->username = config('env.ADMIN_INIT_USERNAME', 'admin');
-//        $adminUser->passwordSalt = $passwordSalt;
-//        $adminUser->password = md5(md5(config('env.ADMIN_INIT_USERNAME', '123456')) . md5($passwordSalt));
-//        $adminUser->save();
+
 
     }
 
@@ -70,9 +62,6 @@ class CreateAdmin extends Migration
      */
     public function down()
     {
-        //Schema::drop('AdminRole');
-        //Schema::drop('AdminRoleRule');
-        //Schema::drop('AdminUser');
-        //Schema::drop('AdminUserRole');
+        
     }
 }

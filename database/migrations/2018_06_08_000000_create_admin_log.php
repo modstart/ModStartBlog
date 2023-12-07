@@ -19,7 +19,7 @@ class CreateAdminLog extends Migration
             $table->timestamps();
 
             $table->integer('adminUserId')->nullable()->comment('用户ID');
-            /** @see \Edwin404\Admin\Type\AdminLogType */
+            
             $table->tinyInteger('type')->nullable()->comment('类型');
             $table->string('summary', 400)->nullable()->comment('摘要');
 

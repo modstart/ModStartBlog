@@ -11,8 +11,8 @@ use ModStart\Core\Util\TagUtil;
 use Module\Blog\Core\BlogMemberFavBiz;
 use Module\Blog\Core\BlogMemberLikeBiz;
 use Module\Blog\Type\BlogVisitMode;
-use Module\MemberFav\Model\MemberFav;
-use Module\MemberLike\Model\MemberLike;
+use Module\MemberFav\Util\MemberFavUtil;
+use Module\MemberLike\Util\MemberLikeUtil;
 
 class BlogUtil
 {
@@ -20,7 +20,7 @@ class BlogUtil
     {
         if (modstart_module_enabled('MemberFav')) {
             ModelUtil::update('blog', $id, [
-                'favCount' => MemberFav::countBiz(BlogMemberFavBiz::NAME, $id),
+                'favCount' => MemberFavUtil::countBiz(BlogMemberFavBiz::NAME, $id),
             ]);
         }
     }
@@ -29,7 +29,7 @@ class BlogUtil
     {
         if (modstart_module_enabled('MemberLike')) {
             ModelUtil::update('blog', $id, [
-                'likeCount' => MemberLike::countBiz(BlogMemberLikeBiz::NAME, $id),
+                'likeCount' => MemberLikeUtil::countBiz(BlogMemberLikeBiz::NAME, $id),
             ]);
         }
     }

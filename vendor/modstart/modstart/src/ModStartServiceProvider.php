@@ -61,8 +61,10 @@ class ModStartServiceProvider extends ServiceProvider
 
         $this->registerModuleServiceProviders();
 
-        ModStartAdmin::registerAuthRoutes();
-        ModStartAdmin::registerModuleRoutes();
+        if (!config('modstart.admin.disabled', false)) {
+            ModStartAdmin::registerAuthRoutes();
+            ModStartAdmin::registerModuleRoutes();
+        }
         ModStartApi::registerModuleRoutes();
         ModStartOpenApi::registerModuleRoutes();
         ModStartWeb::registerModuleRoutes();
