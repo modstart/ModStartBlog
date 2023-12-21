@@ -16,7 +16,6 @@ use ModStart\Admin\ModStartAdmin;
 use ModStart\App\Api\ModStartApi;
 use ModStart\App\OpenApi\ModStartOpenApi;
 use ModStart\App\Web\ModStartWeb;
-use ModStart\Core\Facades\ModStart;
 use ModStart\Core\Input\Request;
 use ModStart\Core\Monitor\DatabaseMonitor;
 use ModStart\Core\Monitor\HttpMonitor;
@@ -89,7 +88,7 @@ class ModStartServiceProvider extends ServiceProvider
             $forceScheme = @getenv('FORCE_SCHEMA');
         }
         if ($forceScheme) {
-            if (\ModStart\ModStart::env() == 'laravel5') {
+            if (ModStart::env() == 'laravel5') {
                 URL::forceSchema($forceScheme);
             } else {
                 URL::forceScheme($forceScheme);
@@ -99,7 +98,7 @@ class ModStartServiceProvider extends ServiceProvider
 
         $this->app->booting(function () {
             $loader = AliasLoader::getInstance();
-            $loader->alias('ModStart', ModStart::class);
+            $loader->alias('ModStart', \ModStart\Core\Facades\ModStart::class);
         });
 
         $this->app->singleton('modstartConfig', config('modstart.config.driver'));
@@ -172,9 +171,16 @@ class ModStartServiceProvider extends ServiceProvider
         if (config('env.APP_DEBUG')) {
             $providers = $this->listModuleServiceProviders();
         } else {
-            $providers = Cache::rememberForever('ModStartServiceProviders', function () {
-                return $this->listModuleServiceProviders();
-            });
+            /**
+             * @deprecated delete at 2024-06-08
+             */
+            if (method_exists(ModStart::class, 'cacheKey')) {
+                $providers = Cache::rememberForever(ModStart::cacheKey('ModStartServiceProviders'), function () {
+                    return $this->listModuleServiceProviders();
+                });
+            } else {
+                $providers = $this->listModuleServiceProviders();
+            }
         }
         foreach ($providers as $provider) {
             if (class_exists($provider)) {

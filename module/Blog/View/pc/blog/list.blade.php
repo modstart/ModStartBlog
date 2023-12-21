@@ -8,7 +8,7 @@
 
 {!! \ModStart\ModStart::js('asset/vendor/jqueryMark.js') !!}
 {!! \ModStart\ModStart::style('[data-markjs]{color:red !important;background:transparent;}') !!}
-{!! \ModStart\ModStart::script("$('.pb-keywords-highlight').mark(".json_encode($markKeywords).".join(' '),{separateWordSearch:true});") !!}
+{!! \ModStart\ModStart::script("$('.pb-keywords-highlight').mark(".\ModStart\Core\Util\SerializeUtil::jsonEncode($markKeywords).".join(' '),{separateWordSearch:true});") !!}
 
 @include('module::Blog.View.pc.blog.inc.theme')
 

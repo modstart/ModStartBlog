@@ -169,7 +169,7 @@
     {
       "icon_id": "38457804",
       "name": "select-check",
-      "font_class": "select-check-copy",
+      "font_class": "select-check",
       "unicode": "ec46",
       "unicode_decimal": 60486
     },
@@ -305,6 +305,13 @@
       "font_class": "check",
       "unicode": "ec47",
       "unicode_decimal": 60487
+    },
+    {
+      "icon_id": "38477473",
+      "name": "phone",
+      "font_class": "phone",
+      "unicode": "ec49",
+      "unicode_decimal": 60489
     },
     {
       "icon_id": "4767030",
@@ -700,7 +707,7 @@
     },
     {
       "icon_id": "756116",
-      "name": "phone",
+      "name": "tel",
       "font_class": "tel",
       "unicode": "e62d",
       "unicode_decimal": 58925
