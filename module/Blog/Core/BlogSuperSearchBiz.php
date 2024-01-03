@@ -26,6 +26,11 @@ class BlogSuperSearchBiz extends AbstractSuperSearchBiz
         return '博客';
     }
 
+    public function providerName()
+    {
+        return modstart_config('Blog_BlogSuperSearchProvider');
+    }
+
     public function fields()
     {
         return [

@@ -34,5 +34,4 @@ Route::match(['post'], 'blog/category/delete', 'BlogCategoryController@delete');
 Route::match(['get'], 'blog/category/show', 'BlogCategoryController@show');
 Route::match(['post'], 'blog/category/sort', 'BlogCategoryController@sort');
 
-Route::match(['get', 'post'], 'blog/super_search', 'BlogSuperSearchController@index');
 

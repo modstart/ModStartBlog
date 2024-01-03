@@ -98,10 +98,6 @@ class ModuleServiceProvider extends ServiceProvider
                             'title' => '关于博主',
                             'url' => '\Module\Blog\Admin\Controller\ConfigController@about',
                         ],
-                        [
-                            'title' => '超级搜索',
-                            'url' => '\Module\Blog\Admin\Controller\BlogSuperSearchController@index',
-                        ],
                     ],
                 ],
             ];
