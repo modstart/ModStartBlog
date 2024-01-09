@@ -19,6 +19,17 @@
                         {{$record['title']}}
                     </h1>
                     <div class="tw-text-gray-400 tw-pb-4 tw-mb-4 ub-border-bottom">
+                        @if(\ModStart\Admin\Auth\Admin::isLogin())
+                            <div class="tw-float-right">
+                                <a href="javascript:;"
+                                   data-dialog-width="80%"
+                                   data-dialog-height="90%"
+                                   data-dialog-request="{{modstart_admin_url('blog/blog/edit',['_id'=>$record['id']])}}">
+                                    <i class="iconfont icon-edit"></i>
+                                    编辑
+                                </a>
+                            </div>
+                        @endif
                         @if($record['_category'])
                             <i class="iconfont icon-category"></i>
                             {{$record['_category']['title']}}

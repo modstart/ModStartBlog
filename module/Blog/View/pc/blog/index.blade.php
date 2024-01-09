@@ -4,7 +4,6 @@
 @section('pageKeywords'){{$pageKeywords}}@endsection
 @section('pageDescription'){{$pageDescription}}@endsection
 
-
 {!! \ModStart\ModStart::js('asset/common/scrollAnimate.js') !!}
 
 @include('module::Blog.View.pc.blog.inc.theme')

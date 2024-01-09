@@ -72,6 +72,10 @@ class BlogController extends Controller
             ->gridFilter(function (GridFilter $filter) {
                 $filter->eq('id', L('ID'));
                 $filter->like('title', '标题');
+                $filter->eq('isTop', '置顶')->autoHide(true)->switchRadioYesNo();
+                $filter->eq('isHot', '热门')->autoHide(true)->switchRadioYesNo();
+                $filter->eq('isRecommend', '推荐')->autoHide(true)->switchRadioYesNo();
+                $filter->eq('isPublished', '发布')->autoHide(true)->switchRadioYesNo();
             })
             ->pageJumpEnable(true)
             ->hookSaving(function (Form $form) use (&$updatedCategoryIds) {
