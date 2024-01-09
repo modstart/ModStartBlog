@@ -18,6 +18,11 @@ class ConfigController extends Controller
         $builder->pageTitle('博客设置');
         $builder->disableBoxWrap(true);
         $builder->formClass('wide');
+        $builder->layoutPanel('页面设置', function (Form $builder) {
+            $builder->text('Blog_SeoTitle', '首页SEO标题');
+            $builder->text('Blog_SeoKeywords', '首页SEO关键词');
+            $builder->text('Blog_SeoDescription', '首页SEO描述');
+        });
         $builder->layoutPanel('内容设置', function (Form $builder) {
             $builder->text('Blog_Name', '博客名称');
             $builder->text('Blog_Slogan', '博客标语');
