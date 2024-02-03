@@ -11,6 +11,7 @@ use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\InputPackage;
 use ModStart\Core\Input\Response;
 use ModStart\Core\Util\HtmlUtil;
+use Module\Blog\Model\BlogMessage;
 use Module\Blog\Type\BlogCommentStatus;
 use Module\Blog\Type\BlogMessageStatus;
 use Module\Member\Auth\MemberUser;
@@ -36,7 +37,7 @@ class MessageController extends Controller
         $option = [];
         $option['where']['status'] = BlogMessageStatus::VERIFY_SUCCESS;
         $option['order'] = ['id', 'desc'];
-        $paginateData = ModelUtil::paginate('blog_message', $page, $pageSize, $option);
+        $paginateData = ModelUtil::paginate(BlogMessage::class, $page, $pageSize, $option);
 
         $records = $paginateData['records'];
         if (modstart_module_enabled('Member')) {

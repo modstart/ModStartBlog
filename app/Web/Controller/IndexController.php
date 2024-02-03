@@ -3,9 +3,6 @@
 
 namespace App\Web\Controller;
 
-use Illuminate\Support\Facades\Input;
-use ModStart\Core\Input\InputPackage;
-use ModStart\Core\Input\Response;
 use Module\Vendor\Installer\Util\InstallerUtil;
 use Module\Vendor\Provider\HomePage\HomePageProvider;
 
