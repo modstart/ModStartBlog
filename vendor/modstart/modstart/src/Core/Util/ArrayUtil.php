@@ -207,6 +207,24 @@ class ArrayUtil
         return $records[array_rand($records)];
     }
 
+    public static function randomN($records, $n)
+    {
+        if (empty($records)) {
+            return null;
+        }
+        if (count($records) <= $n) {
+            return $records;
+        }
+        $keys = array_rand($records, $n);
+        if (!is_array($keys)) {
+            $keys = [$keys];
+        }
+        $result = [];
+        foreach ($keys as $key) {
+            $result[] = $records[$key];
+        }
+        return $result;
+    }
 
     /**
      * trim所有数组中的元素
