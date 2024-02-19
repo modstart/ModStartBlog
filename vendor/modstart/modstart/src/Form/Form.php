@@ -601,6 +601,7 @@ class Form implements Renderable
             if (empty($res)) {
                 return Response::jsonSuccess(L('Add Success'));
             }
+            return $res;
         } catch (BizException $e) {
             return $this->convertBizExceptionToResponse($e);
         } catch (ResultException $e) {

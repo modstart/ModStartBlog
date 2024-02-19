@@ -33,6 +33,8 @@
 
                 @include('module::Blog.View.pc.blog.inc.info')
 
+                @include('module::Blog.View.pc.blog.inc.admin')
+
                 @include('module::Blog.View.pc.blog.inc.categories')
 
                 @include('module::Blog.View.pc.blog.inc.tags')

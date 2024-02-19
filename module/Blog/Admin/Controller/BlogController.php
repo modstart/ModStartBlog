@@ -8,7 +8,10 @@ use Illuminate\Routing\Controller;
 use ModStart\Admin\Concern\HasAdminQuickCRUD;
 use ModStart\Admin\Layout\AdminCRUDBuilder;
 use ModStart\Core\Dao\ModelUtil;
+use ModStart\Core\Input\InputPackage;
+use ModStart\Core\Input\Request;
 use ModStart\Core\Input\Response;
+use ModStart\Core\Util\CRUDUtil;
 use ModStart\Field\AbstractField;
 use ModStart\Field\Tags;
 use ModStart\Field\Type\FieldRenderMode;
@@ -68,6 +71,14 @@ class BlogController extends Controller
                     });
                 $builder->display('created_at', L('Created At'))->listable(false);
                 $builder->display('updated_at', L('Updated At'))->listable(false);
+            })
+            ->hookResponse(function (Form $form) {
+                if ($form->isModeAdd()) {
+                    $input = InputPackage::buildFromInput();
+                    if ('front' == $input->getTrimString('from')) {
+                        return Response::generate(0, '发布成功', null, CRUDUtil::jsDialogCloseAndParentRefresh());
+                    }
+                }
             })
             ->gridFilter(function (GridFilter $filter) {
                 $filter->eq('id', L('ID'));
