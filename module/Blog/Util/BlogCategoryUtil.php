@@ -19,7 +19,7 @@ class BlogCategoryUtil
     public static function all()
     {
         return Cache::rememberForever('BlogCategories', function () {
-            $records = ModelUtil::all('blog_category', [], ['*'], ['sort', 'desc']);
+            $records = ModelUtil::all('blog_category', [], ['*'], ['sort', 'asc']);
             AssetsUtil::recordsFixFullOrDefault($records, 'cover', 'asset/image/none.png');
             foreach ($records as $k => $v) {
                 $records[$k]['_url'] = UrlUtil::category($v);
@@ -34,6 +34,12 @@ class BlogCategoryUtil
         return TreeUtil::nodesToTree($nodes);
     }
 
+    public static function categoryChainWithItems($categoryId)
+    {
+        $records = self::all();
+        return TreeUtil::nodesChainWithItems($records, $categoryId);
+    }
+
     public static function get($id)
     {
         foreach (self::all() as $one) {
@@ -42,6 +48,15 @@ class BlogCategoryUtil
             }
         }
         return null;
+    }
+
+    public static function listChildCategories($categoryId)
+    {
+        $records = self::all();
+        $records = array_filter($records, function ($item) use ($categoryId) {
+            return $item['pid'] == $categoryId;
+        });
+        return array_values($records);
     }
 
     public static function childrenIds($categoryId)

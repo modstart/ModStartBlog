@@ -438,4 +438,23 @@ class ArrayUtil
         }
     }
 
+    public static function getByDotKey($array, $key, $defaultValue = null)
+    {
+        if (empty($array)) {
+            return $defaultValue;
+        }
+        if (strpos($key, '.') === false) {
+            return isset($array[$key]) ? $array[$key] : $defaultValue;
+        }
+        $keys = explode('.', $key);
+        $value = $array;
+        foreach ($keys as $k) {
+            if (!isset($value[$k])) {
+                return $defaultValue;
+            }
+            $value = $value[$k];
+        }
+        return $value;
+    }
+
 }

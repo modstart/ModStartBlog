@@ -574,6 +574,32 @@ class MBlog
     }
 
     /**
+     * @Util 获取子分类信息
+     * @param $parentCategoryId int 分类ID
+     * @return array 数组
+     * @returnExample
+     * [
+     *   {
+     *     "id": 1, // 分类ID
+     *     "created_at": "2022-05-27 14:51:09",
+     *     "updated_at": "2022-09-21 14:55:33",
+     *     "pid": 0,
+     *     "sort": 1,
+     *     "title": "分类名称",
+     *     "blogCount": 1,
+     *     "cover": "https://example.com/xxx.jpg",
+     *     "keywords": "分类关键词",
+     *     "description": "分类描述"
+     *   },
+     *   // ...
+     * ]
+     */
+    public static function listChildCategories($parentCategoryId)
+    {
+        return BlogCategoryUtil::listChildCategories($parentCategoryId);
+    }
+
+    /**
      * @Util 获取所有博客标签信息
      * @param $limit int 限制数量，0为不限制
      * @return array 数组，标签→数量映射

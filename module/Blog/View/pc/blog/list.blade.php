@@ -32,20 +32,25 @@
                         </div>
                     </div>
                 @endif
-                @if($category)
-                    <div class="ub-content-box margin-bottom">
-                        <div class="tw-p-3">
-                            <i class="iconfont icon-category"></i>
-                            <a href="{{modstart_web_url('blogs')}}" class="tw-text-lg tw-text-gray-400">
-                                全部
-                            </a>
-                            <i class="iconfont icon-angle-right ub-text-muted"></i>
-                            <a href="{{modstart_web_url('blogs',['categoryId'=>$category])}}" class="tw-text-lg tw-text-gray-800">
-                                {{$category['title']}}
-                            </a>
-                        </div>
+                <div class="ub-content-box margin-bottom">
+                    <div class="tw-px-3 tw-pt-3">
+                        @foreach($categoryChain as $catIndex=>$catItem)
+                            <div class="margin-bottom">
+                                <a href="?{{\ModStart\Core\Input\Request::mergeQueries(['categoryId'=>$catItem['pid']?$catItem['pid']:null])}}"
+                                   class="btn btn-round @if($catItem['id']<=0) btn-primary @endif">
+                                    全部
+                                </a>
+                                @foreach($catItem['_items'] as $item)
+                                    <a href="?{{\ModStart\Core\Input\Request::mergeQueries(['categoryId'=>$item['id']?$item['id']:null])}}"
+                                       class="btn btn-round @if($catItem['id']==$item['id']) btn-primary @endif"
+                                    >
+                                        {{$item['title']}}
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endforeach
                     </div>
-                @endif
+                </div>
                 <div class="ub-content-box margin-bottom">
                     <div class="tw-p-3">
 

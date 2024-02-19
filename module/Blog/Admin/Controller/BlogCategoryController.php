@@ -42,6 +42,6 @@ class BlogCategoryController extends Controller
             })
             ->title('博客分类')
             ->asTree()
-            ->treeMaxLevel(1);
+            ->treeMaxLevel(2);
     }
 }

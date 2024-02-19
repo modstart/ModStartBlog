@@ -8,9 +8,17 @@ class UrlUtil
 {
     public static function category($category)
     {
-        return modstart_web_url('blogs', [
-            'categoryId' => $category['id'],
-        ]);
+        if (is_array($category)) {
+            return modstart_web_url('blogs', [
+                'categoryId' => $category['id'],
+            ]);
+        }
+        if ($category > 0) {
+            return modstart_web_url('blogs', [
+                'categoryId' => $category,
+            ]);
+        }
+        return modstart_web_url('blogs');
     }
 
     public static function blog($blog)

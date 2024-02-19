@@ -103,10 +103,12 @@ class BlogController extends Controller
             }
         }
 
-
         $category = null;
+        $childCategories = [];
+        $categoryChain = BlogCategoryUtil::categoryChainWithItems($categoryId);
         if ($categoryId > 0) {
             $category = \MBlog::getCategory($categoryId);
+            $childCategories = \MBlog::listChildCategories($categoryId);
             BizException::throwsIfEmpty('分类不存在', $category);
             $pageTitle = $category['title'];
             $pageKeywords = $category['keywords'];
@@ -119,6 +121,8 @@ class BlogController extends Controller
             'page' => $page,
             'pageSize' => $pageSize,
             'category' => $category,
+            'childCategories' => $childCategories,
+            'categoryChain' => $categoryChain,
             'keywords' => $keywords,
             'markKeywords' => $markKeywords,
             'records' => $paginateData['records'],

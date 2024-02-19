@@ -9,8 +9,8 @@
                 @foreach(\MBlog::categoryTree() as $t)
                     <div class="col-6">
                         <a href="{{modstart_web_url('blogs',['categoryId'=>$t['id']])}}"
-                           class="hover:tw-shadow tw-block ub-content-block tw-rounded tw-leading-10 tw-mb-3 tw-px-2 tw-truncate @if(!empty($category)&&$category['id']==$t['id']) ub-bg-primary @endif">
-                            <i class="iconfont icon-angle-right ub-text-muted"></i>
+                           class="hover:tw -shadow btn btn-block btn-round tw-mb-3 tw-px-2 tw-truncate @if(!empty($category)&&$category['id']==$t['id']) btn-primary @endif">
+                            <i class="iconfont icon-angle-right"></i>
                             {{$t['title']}}
                             （{{$t['blogCount']?$t['blogCount']:0}}）
                         </a>
