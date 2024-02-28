@@ -47,7 +47,7 @@
             render();
             return false;
         });
-        window.api.uploadButton('#{{$id}}Uploader', {
+        MS.uploadButton('#{{$id}}Uploader', {
             text: '<div style="width:100%;box-sizing:border-box;line-height:1.5rem;height:1.5rem;padding:0;color:#666;background:#FFF;"><span class="iconfont icon-plus" style="display:inline;line-height:1.5rem;height:1.5rem;"></span> 上传</div>',
             server: "{{$server}}",
             extensions: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(join(',',config('data.upload.file.extensions'))) !!},

@@ -178,11 +178,23 @@ const post = (url, param, successCallback, failCallback) => {
         .catch(err => defaultErrorCatcher(err, failCB))
 }
 
+const eventSource = (url, onMessage) => {
+    var es = new EventSource(url, {withCredentials: true});
+    es.onerror = function (event) {
+        console.log('eventSource.error', event)
+        es.close();
+    }
+    es.onmessage = function (event) {
+        onMessage(event, es);
+    }
+}
+
 const Api = {
     isInited,
     isRemoteInited,
     init,
     post,
+    eventSource,
     // postJson,
     // setApiBaseUrl,
     // getApiTokenKey,

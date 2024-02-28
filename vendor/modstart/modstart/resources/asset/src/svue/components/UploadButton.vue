@@ -135,7 +135,7 @@ export default {
                 text = '<span class="tw-px-4 tw-rounded tw-border tw-border-solid tw-border-gray-200 tw-rounded-lg tw-py-10" style="display:block;"><i class="iconfont icon-upload" style="font-size:2rem;"></i><br /> ' + uploadText + '</span>'
             }
             const $this = this
-            UploadButtonUploader('#' + this.id, {
+            let option = {
                 text,
                 server: this.apiUrl,
                 extensions: this.dataUploadConfig.category[this.category].extensions.join(','),
@@ -162,7 +162,15 @@ export default {
                 finish: function () {
                     $this.$emit('finish')
                 }
-            })
+            };
+            if (this.category === 'image') {
+                option.compress = {
+                    enable: this.dataUploadConfig.category.image.compress,
+                    maxWidthOrHeight: this.dataUploadConfig.category.image.maxWidthOrHeight,
+                    maxSize: this.dataUploadConfig.category.image.maxSize
+                }
+            }
+            UploadButtonUploader('#' + this.id, option)
         }
     }
 }
