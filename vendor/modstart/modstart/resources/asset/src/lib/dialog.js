@@ -17,6 +17,14 @@ function createDialogHtml(dialogIndex, html) {
 let Dialog = {
     device: 'pc',
     dialogIndex: 1,
+    // 计算提示信息显示时间
+    getMsgDuration: function (msg) {
+        let ms = 2000;
+        if (msg && msg.length > 10) {
+            ms = 1000 * parseInt(msg.length / 5);
+        }
+        return ms;
+    },
     // [开始] 这部分的提示需处理
     /**
      * @Util 页面遮罩显示
@@ -82,12 +90,16 @@ let Dialog = {
      * @param cb function 回调函数
      */
     tipSuccess: function (msg, cb) {
-        let ms = 2000;
-        if (msg && msg.length > 10) {
-            ms = 1000 * parseInt(msg.length / 5);
-        }
+        ms = Dialog.getMsgDuration(msg);
         if (window.layer) {
-            layer.msg(msg, {shade: 0.3, time: ms, shadeClose: true, anim: -1}, cb);
+            layer.msg(msg, {
+                shade: 0.01,
+                time: ms,
+                shadeClose: true,
+                offset: '3rem',
+                anim: 'slideDown',
+                icon: 1,
+            }, cb);
         } else {
             let dialogIndex = (Dialog.dialogIndex++)
             let $dialog = $(createDialogHtml(dialogIndex,
@@ -106,12 +118,16 @@ let Dialog = {
      * @param cb function 回调函数
      */
     tipError: function (msg, cb) {
-        let ms = 2000;
-        if (msg.length > 10) {
-            ms = 1000 * parseInt(msg.length / 5);
-        }
+        ms = Dialog.getMsgDuration(msg);
         if (window.layer) {
-            layer.msg(msg, {shade: 0.3, time: ms, shadeClose: true, anim: 6}, cb);
+            layer.msg(msg, {
+                shade: 0.01,
+                time: ms,
+                shadeClose: true,
+                offset: '3rem',
+                anim: 'slideDown',
+                icon: 2,
+            }, cb);
         } else {
             Dialog.tipSuccess(msg, cb)
         }
