@@ -10,7 +10,6 @@ use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\InputPackage;
 use ModStart\Core\Input\Response;
 use ModStart\Core\Util\HtmlUtil;
-use ModStart\Core\Util\StrUtil;
 use Module\Blog\Type\BlogCommentStatus;
 use Module\Member\Auth\MemberUser;
 use Module\Vendor\Provider\Captcha\CaptchaProvider;
@@ -45,7 +44,6 @@ class CommentController extends Controller
             return $ret;
         }
         BizException::throwsIfEmpty('内容为空', $data['content']);
-        BizException::throwsIf('内容太长', StrUtil::mbLengthGt($data['content'], 2000));
         $data['content'] = HtmlUtil::text2html($data['content']);
         if (modstart_module_enabled('Member')) {
             if (MemberUser::isLogin()) {

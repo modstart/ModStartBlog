@@ -11,7 +11,6 @@ use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\InputPackage;
 use ModStart\Core\Input\Response;
 use ModStart\Core\Util\HtmlUtil;
-use ModStart\Core\Util\StrUtil;
 use Module\Blog\Model\BlogMessage;
 use Module\Blog\Type\BlogCommentStatus;
 use Module\Blog\Type\BlogMessageStatus;
@@ -81,7 +80,6 @@ class MessageController extends Controller
         }
         BizException::throwsIfEmpty('内容为空', $data['content']);
         $data['content'] = HtmlUtil::text2html($data['content']);
-        BizException::throwsIf('内容太长', StrUtil::mbLengthGt($data['content'], 2000));
         if (modstart_module_enabled('Member')) {
             if (MemberUser::isLogin()) {
                 $data['username'] = MemberUser::get('username');
@@ -91,7 +89,7 @@ class MessageController extends Controller
             $data['memberUserId'] = 0;
         }
         $data['status'] = BlogCommentStatus::WAIT_VERIFY;
-        ModelUtil::insert(BlogMessage::class, $data);
+        ModelUtil::insert('blog_message', $data);
         return Response::generate(0, '提交成功，后台审核后将会显示', null, '[reload]');
     }
 }
