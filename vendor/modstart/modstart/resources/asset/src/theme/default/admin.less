@@ -6,6 +6,119 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+[data-theme="light"] {
+
+    #adminTabPage {
+        background-image: linear-gradient(0deg, #eee 0, #eee 50%, #fff 50%, #fff 100%);
+        background-size: 90% 2rem;
+        background-repeat: repeat-y;
+        background-position: top;
+        background-color: #FFF;
+    }
+
+    .ub-panel-frame {
+        &.left-toggle .left:not(:hover) .menu .menu-item .title {
+            margin-left: inherit;
+        }
+
+        .left {
+            .logo {
+                text-align: center;
+                color: #000;
+            }
+
+            .menu {
+                .menu-item {
+
+                    & > .title {
+                        transition: color 0s;
+                    }
+
+                    &:not(:has(.children)) {
+                        background-color: var(--panel-menu-background);
+                        border-right: none;
+
+                        & > .title {
+                            &:hover {
+                                color: var(--color-primary);
+                            }
+                        }
+
+                        &.active {
+                            & > .title {
+                                background: var(--color-primary-gradient-bg);
+                                color: #FFF;
+                                border-radius: 0.5rem;
+                                line-height: 2rem;
+                                margin: 0.15rem 0.25rem;
+                                box-shadow: 0 0 0.25rem #CCC;
+                                text-shadow: 0 0 0.1rem #000;
+                            }
+                        }
+                    }
+
+                }
+
+                & > .menu-item.active > .title {
+                    padding-left: 0.5rem;
+                }
+
+                & > .menu-item > .children > .menu-item.active > .title {
+                    padding-left: 1.55rem;
+                }
+
+                & > .menu-item > .children > .menu-item > .children > .menu-item.active > .title {
+                    padding-left: 2.1rem;
+                }
+            }
+        }
+
+        .right {
+            .top {
+                .menu {
+                    a {
+                        border-radius: 0.25rem;
+                        line-height: 1.6rem;
+                        border-top: none;
+                        margin-top: .25rem;
+                        background: #FFF;
+                        border: 1px solid var(--color-body-line);
+                        font-weight: bold;
+                        margin-right: 0.2rem;
+
+                        &:first-child {
+                            margin-right: 0;
+                        }
+
+                        .close {
+                            color: #999;
+                        }
+
+                        &.active {
+                            color: var(--color-primary);
+                            background-color: var(--color-primary-light-bg);
+
+                            &:before {
+                                background-color: var(--color-primary);
+                            }
+
+                            .close {
+                                color: var(--color-primary);
+
+                                &:hover {
+                                    background-color: #CCC;
+                                    border-radius: 50%;
+                                    color: red;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 .ub-admin-login {
     width: 100%;
     min-height: 100vh;

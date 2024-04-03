@@ -47,7 +47,7 @@ class Logger
         return $path;
     }
 
-    private static function write($file, $type, $label, $msg)
+    public static function write($file, $type, $label, $msg)
     {
         if (!is_string($msg)) {
             $msg = SerializeUtil::jsonEncode($msg);
