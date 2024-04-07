@@ -80,6 +80,16 @@ class TimeUtil
         return date('Y-m-d 23:59:59', strtotime('last day of this month'));
     }
 
+    public static function nextMonthStart()
+    {
+        return date('Y-m-d 00:00:00', strtotime('first day of next month'));
+    }
+
+    public static function nextMonthEnd()
+    {
+        return date('Y-m-d 23:59:59', strtotime('last day of next month'));
+    }
+
     public static function thisYearStart()
     {
         return date('Y-m-d 00:00:00', strtotime('first day of January this year'));
