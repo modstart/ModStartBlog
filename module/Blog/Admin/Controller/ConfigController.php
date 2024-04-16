@@ -47,6 +47,7 @@ class ConfigController extends Controller
                 });
             $builder->select('Blog_BlogSuperSearchProvider', '博客超级搜索驱动')->options(SuperSearchProvider::allDefaultMap());
             $builder->switch('Blog_CommentEnable', '启用评论');
+            $builder->switch('Blog_ContentNavEnable', '启用内容导航');
         });
         $builder->layoutPanel('安全设置', function (Form $builder) {
             $builder->select('Blog_BlogCaptchaProvider', '博客评论验证')->options(CaptchaProvider::nameTitleMap());

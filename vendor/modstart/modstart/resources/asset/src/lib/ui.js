@@ -109,7 +109,9 @@ Ui._htmlNav = {
 Ui.htmlNav = function (htmlContainer, navContainer, option) {
 
     option = Object.assign({
+        // 点击菜单滚动页面时偏移量
         scrollToOffset: -80,
+        // 菜单位置顶部偏移量，通常是内容container的top值
         positionOffset: 70,
         width: '12rem',
         open: function () {

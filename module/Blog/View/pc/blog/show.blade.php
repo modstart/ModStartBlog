@@ -8,6 +8,28 @@
 
 @include('module::Blog.View.pc.blog.inc.theme')
 
+@section('headAppend')
+    @parent
+    @if(modstart_config('Blog_ContentNavEnable',false))
+    <style>
+        #pageContentHeading > * {
+            margin-right:0.5rem;
+            margin-top:0.5rem;
+        }
+    </style>
+    <script>
+        $(function(){
+            if($(window).width()>800){
+                var htmlNavOption = {
+                    positionOffset: $('#pageContentContainer').offset().top - 60,
+                };
+                MS.ui.htmlNav('#pageContent', '#pageContentHeading', htmlNavOption);
+            }
+        });
+    </script>
+    @endif
+@endsection
+
 @section('bodyContent')
 
     <div class="ub-container margin-top">
@@ -55,7 +77,7 @@
                             <span>&nbsp;</span>
                         @endif
                     </div>
-                    <div>
+                    <div class="tw-relative" id="pageContentContainer">
                         @if(!empty($record['images']))
                             @foreach($record['images'] as $image)
                                 <div>
@@ -63,9 +85,10 @@
                                 </div>
                             @endforeach
                         @endif
-                        <div class="ub-html lg">
+                        <div id="pageContent" class="ub-html lg">
                             {!! $record['content'] !!}
                         </div>
+                        <div id="pageContentHeading"></div>
                     </div>
                     @if(modstart_module_enabled('MemberFav')||modstart_module_enabled('MemberLike'))
                         <div class="tw-text-center margin-bottom">
