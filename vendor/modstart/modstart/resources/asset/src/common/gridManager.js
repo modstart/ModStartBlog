@@ -194,7 +194,7 @@ var GridManager = function (opt) {
                 page: false,
                 skin: 'line',
                 text: {
-                    none: '<div class="ub-text-muted tw-py-4"><i class="iconfont icon-refresh tw-animate-spin tw-inline-block" style="font-size:2rem;"></i><br />'
+                    none: '<div class="ub-text-muted tw-py-10"><i class="iconfont icon-refresh tw-animate-spin tw-inline-block" style="font-size:2rem;"></i><br />'
                         + option.lang.loading + '</div>'
                 },
                 escape: false,
@@ -275,7 +275,7 @@ var GridManager = function (opt) {
                         $grid.find('[data-addition]').html(data.addition || '');
                         layui.table.reload(option.id + 'Table', {
                             text: {
-                                none: '<div class="ub-text-muted"><i class="iconfont icon-empty-box" style="font-size:2rem;"></i><br />' + option.lang.noRecords + '</div>'
+                                none: '<div class="ub-text-muted tw-py-10"><i class="iconfont icon-empty-box" style="font-size:2rem;"></i><br />' + option.lang.noRecords + '</div>'
                             },
                             cols: [data.head],
                             data: data.records,

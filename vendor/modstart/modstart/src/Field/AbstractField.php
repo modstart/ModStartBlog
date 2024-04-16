@@ -637,23 +637,20 @@ class AbstractField implements Renderable
     {
         try {
             $column = $field->column();
+            $variables = $this->variables();
             if ($this->hookRendering instanceof \Closure) {
                 $ret = call_user_func($this->hookRendering, $this, $item, $index);
                 if (null !== $ret) {
                     if ($ret instanceof AutoRenderedFieldValue) {
-                        return view('modstart::core.field.autoRenderedField-' . $this->renderMode, [
-                            'label' => $this->label,
-                            'tip' => $this->tip,
-                            'help' => $this->help,
-                            'value' => $ret->getValue(),
-                            'rules' => $this->rules,
-                        ])->render();
+                        $autoRenderedVariables = $variables;
+                        $autoRenderedVariables['value'] = $ret->getValue();
+                        return view('modstart::core.field.autoRenderedField-' . $this->renderMode, $autoRenderedVariables)
+                            ->render();
                     }
                     return $ret;
                 }
             }
             ModStart::script($this->script);
-            $variables = $this->variables();
             switch ($this->renderMode) {
                 case FieldRenderMode::FORM:
                     return View::make($this->view(), $variables)->render();

@@ -112,6 +112,19 @@ class ModelUtil
         return $m->toArray();
     }
 
+    public static function insertIgnoreUnique($model, $data)
+    {
+        try {
+            self::insert($model, $data);
+        } catch (\Exception $e) {
+            $msg = $e->getMessage();
+            if (Str::contains($msg, 'Duplicate entry')) {
+                return;
+            }
+            throw $e;
+        }
+    }
+
     private static function insertAllBuild($records, $updateTimestamp = true)
     {
         if ($updateTimestamp) {
