@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Util\ArrayUtil;
 use ModStart\Core\Util\TagUtil;
+use Module\Blog\Model\Blog;
 
 class BlogTagUtil
 {
@@ -19,7 +20,7 @@ class BlogTagUtil
     public static function all()
     {
         return Cache::rememberForever('BlogTags', function () {
-            $blogs = ModelUtil::all('blog', [], ['tag']);
+            $blogs = Blog::published()->get(['tag'])->toArray();
             TagUtil::recordsString2Array($blogs, 'tag');
             $tags = [];
             foreach ($blogs as $blog) {

@@ -96,7 +96,11 @@ trait CanCascadeFields
                         break;
                 }
             } else {
-                $value = strval($value);
+                if (true === $value || false === $value) {
+                    $value = !!$value;
+                } else {
+                    $value = strval($value);
+                }
             }
         }
     }

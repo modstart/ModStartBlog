@@ -46,7 +46,7 @@
                         <span>&nbsp;</span>
                     @endif
                     <i class="iconfont icon-time"></i>
-                    {{\Carbon\Carbon::parse($record['postTime'])->format('Y-m-d H:i')}}
+                    {{\Carbon\Carbon::parse($record['created_at'])->format('Y-m-d H:i')}}
                     <span>&nbsp;</span>
                     <i class="iconfont icon-eye"></i>
                     {{$record['clickCount']?:0}}

@@ -455,9 +455,9 @@ class MBlog
      * @example
      * // $option 说明
      * // 发布时间倒序
-     * $option = [ 'order'=>['postTime', 'desc'] ];
+     * $option = [ 'order'=>['id', 'desc'] ];
      * // 发布时间顺序
-     * $option = [ 'order'=>['postTime', 'asc'] ];
+     * $option = [ 'order'=>['id', 'asc'] ];
      * // 增加检索条件
      * $option = [ 'where'=>['id'=>1] ];
      */
@@ -522,15 +522,14 @@ class MBlog
     {
 
         $records = Blog::query()->where(['isPublished' => true])
-            ->where('postTime', '<', date('Y-m-d H:i:s'))
-            ->orderBy('postTime', 'desc')
-            ->get(['id', 'images', 'tag', 'title', 'categoryId', 'postTime'])
+            ->orderBy('id', 'desc')
+            ->get(['id', 'images', 'tag', 'title', 'categoryId', 'created_at'])
             ->toArray();
         $records = self::buildRecords($records);
 
         $yearRecords = [];
         foreach ($records as $i => $v) {
-            $year = date('Y', strtotime($v['postTime']));
+            $year = date('Y', strtotime($v['created_at']));
             if (!isset($yearRecords[$year])) {
                 $yearRecords[$year] = [
                     'count' => 0,
@@ -653,10 +652,10 @@ class MBlog
     public static function archiveMonthCounts($year)
     {
         $archiveCounts = Blog::query()
-            ->where('postTime', '<', date('Y-m-d H:i:s'))
-            ->where('postTime', '>=', $year . '-01-01 00:00:00')
-            ->where('postTime', '<=', $year . '-12-31 23:59:59')
-            ->select([DB::raw("DATE_FORMAT(`postTime`,'%m') AS `month`"), DB::raw("COUNT(*) AS total")])
+            ->where('created_at', '<', date('Y-m-d H:i:s'))
+            ->where('created_at', '>=', $year . '-01-01 00:00:00')
+            ->where('created_at', '<=', $year . '-12-31 23:59:59')
+            ->select([DB::raw("DATE_FORMAT(`created_at`,'%m') AS `month`"), DB::raw("COUNT(*) AS total")])
             ->groupBy('month')
             ->orderBy('month', 'desc')
             ->get()->toArray();
@@ -680,9 +679,8 @@ class MBlog
      */
     public static function archiveYearCounts()
     {
-        $archiveCounts = Blog::query()
-            ->where('postTime', '<', date('Y-m-d H:i:s'))
-            ->select([DB::raw("DATE_FORMAT(`postTime`,'%Y') AS `year`"), DB::raw("COUNT(*) AS total")])
+        $archiveCounts = Blog::published()
+            ->select([DB::raw("DATE_FORMAT(`created_at`,'%Y') AS `year`"), DB::raw("COUNT(*) AS total")])
             ->groupBy('year')
             ->orderBy('year', 'desc')
             ->get()->toArray();

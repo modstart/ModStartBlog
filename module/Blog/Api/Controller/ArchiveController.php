@@ -34,11 +34,11 @@ class ArchiveController extends Controller
             $timeEnd = date($year . '-' . $month . '-31 23:59:59');
         }
 
-        $result = Blog::where('postTime', '<', date('Y-m-d H:i:s'))
-            ->where('postTime', '>=', date('Y-m-d H:i:s', strtotime($timeStart)))
-            ->where('postTime', '<=', date('Y-m-d H:i:s', strtotime($timeEnd)))
-            ->orderBy('postTime', 'asc')
-            ->paginate($pageSize, ['id', 'title','isTop','isHot','isRecommend'], 'page', $page)->toArray();
+        $result = Blog::where('created_at', '<', date('Y-m-d H:i:s'))
+            ->where('created_at', '>=', date('Y-m-d H:i:s', strtotime($timeStart)))
+            ->where('created_at', '<=', date('Y-m-d H:i:s', strtotime($timeEnd)))
+            ->orderBy('id', 'asc')
+            ->paginate($pageSize, ['id', 'title', 'isTop', 'isHot', 'isRecommend'], 'page', $page)->toArray();
         $paginateData = [
             'records' => $result['data'],
             'total' => $result['total'],

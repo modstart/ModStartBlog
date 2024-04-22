@@ -15,6 +15,7 @@ use ModStart\Core\Util\ArrayUtil;
 use ModStart\Core\Util\HtmlUtil;
 use ModStart\Core\Util\TagUtil;
 use Module\Blog\Core\BlogSuperSearchBiz;
+use Module\Blog\Model\Blog;
 use Module\Blog\Type\BlogCommentStatus;
 use Module\Blog\Type\BlogVisitMode;
 use Module\Blog\Util\BlogCategoryUtil;
@@ -61,11 +62,9 @@ class BlogController extends Controller
         } else {
             $query = [
                 ['isPublished' => ['eq' => 1]],
-                ['postTime' => ['lt' => date('Y-m-d H:i:s')]],
             ];
             $order = [
                 ['isTop', 'desc'],
-                ['postTime', 'desc'],
                 ['id', 'desc'],
             ];
             if ($categoryId) {
@@ -138,13 +137,14 @@ class BlogController extends Controller
     {
         $input = InputPackage::buildFromInput();
         $id = $input->getInteger('id');
-        $record = ModelUtil::get('blog', ['id' => $id]);
+        $record = Blog::published()->where(['id' => $id])->first();
         BizException::throwsIfEmpty('记录不存在', $record);
+        $record = $record->toArray();
         ModelUtil::decodeRecordJson($record, ['images']);
         $record['images'] = AssetsUtil::fixFull($record['images']);
         $record['tag'] = TagUtil::string2Array($record['tag']);
         $record['_category'] = BlogCategoryUtil::get($record['categoryId']);
-        $record['_date'] = date('Y-m-d', strtotime($record['postTime']));
+        $record['_date'] = date('Y-m-d', strtotime($record['created_at']));
         $summary = $record['seoDescription'];
         $images = $record['images'];
         if (isset($record['content'])) {
@@ -209,18 +209,16 @@ class BlogController extends Controller
         }
 
 
-        $recordNext = ModelUtil::model('blog')
-            ->where('postTime', '<', $record['postTime'])
-            ->orderBy('postTime', 'desc')
+        $recordNext = Blog::published()
+            ->orderBy('id', 'desc')
             ->limit(1)->first();
         if ($recordNext) {
             $recordNext = ArrayUtil::keepKeys($recordNext->toArray(), ['id', 'title']);
             $recordNext['_url'] = UrlUtil::blog($recordNext);
         }
 
-        $recordPrev = ModelUtil::model('blog')
-            ->where('postTime', '>', $record['postTime'])
-            ->orderBy('postTime', 'desc')
+        $recordPrev = Blog::published()
+            ->orderBy('id', 'asc')
             ->limit(1)->first();
         if ($recordPrev) {
             $recordPrev = ArrayUtil::keepKeys($recordPrev->toArray(), ['id', 'title']);

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Cache;
 use ModStart\Core\Assets\AssetsUtil;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Util\TreeUtil;
+use Module\Blog\Model\Blog;
+use Module\Blog\Model\BlogCategory;
 
 class BlogCategoryUtil
 {
@@ -86,9 +88,9 @@ class BlogCategoryUtil
                 if (empty($ids)) {
                     $blogCount = 0;
                 } else {
-                    $blogCount = ModelUtil::model('blog')->whereIn('categoryId', $ids)->count();
+                    $blogCount = Blog::published()->whereIn('categoryId', $ids)->count();
                 }
-                ModelUtil::update('blog_category', $item['id'], [
+                ModelUtil::update(BlogCategory::class, $item['id'], [
                     'blogCount' => $blogCount,
                 ]);
             }

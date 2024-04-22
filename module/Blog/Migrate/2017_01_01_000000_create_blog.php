@@ -30,7 +30,7 @@ class CreateBlog extends Migration
             $table->timestamp('postTime')->nullable()->comment('发布时间');
             $table->integer('clickCount')->nullable()->comment('点击数');
 
-            $table->index(['postTime']);
+            $table->index(['created_at']);
 
         });
     }

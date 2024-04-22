@@ -56,7 +56,7 @@ class BlogUtil
             $cover = $record['_images'][0];
         }
         $record['_cover'] = AssetsUtil::fixFull($cover);
-        $record['_date'] = date('Y-m-d', strtotime($record['postTime']));
+        $record['_date'] = date('Y-m-d', strtotime($record['created_at']));
 
         $record['_url'] = UrlUtil::blog($record);
         switch ($record['visitMode']) {
@@ -90,15 +90,12 @@ class BlogUtil
         if (!isset($option['order'])) {
             $option['order'] = [
                 ['isTop', 'desc'],
-                ['postTime', 'desc'],
+                ['id', 'desc'],
             ];
         }
         if (!isset($option['whereOperate'])) {
             $option['whereOperate'] = [];
         }
-        $option['whereOperate'] = array_merge([
-            ['postTime', '<', date('Y-m-d H:i:s')],
-        ], $option['whereOperate']);
 
         $paginateData = ModelUtil::paginate('blog', $page, $pageSize, $option);
         $records = self::buildRecords($paginateData['records']);

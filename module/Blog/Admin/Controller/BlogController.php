@@ -57,11 +57,15 @@ class BlogController extends Controller
                 $builder->images('images', '图片')->listable(false);
                 $builder->text('seoKeywords', 'SEO关键词')->listable(false);
                 $builder->textarea('seoDescription', 'SEO描述')->listable(false);
-                $builder->datetime('postTime', '发布时间')->defaultValue(date('Y-m-d H:i:s'));
                 $builder->switch('isTop', '置顶')->gridEditable(true);
                 $builder->switch('isHot', '热门')->gridEditable(true);
                 $builder->switch('isRecommend', '推荐')->gridEditable(true);
-                $builder->switch('isPublished', '发布')->optionsYesNo()->defaultValue(true);
+                $builder->switch('isPublished', '发布')
+                    ->optionsYesNo()->defaultValue(true)
+                    ->when('=', false, function ($builder) {
+                        /** @var HasFields $builder */
+                        $builder->datetime('postTime', '发布时间')->defaultValue(date('Y-m-d H:i:s'));
+                    });
                 $builder->radio('visitMode', '访问模式')
                     ->optionType(BlogVisitMode::class)
                     ->defaultValue(BlogVisitMode::OPEN)

@@ -22,6 +22,7 @@ use Module\Reward\Biz\RewardBiz;
 use Module\Vendor\Admin\Widget\AdminWidgetDashboard;
 use Module\Vendor\Admin\Widget\AdminWidgetLink;
 use Module\Vendor\Provider\HomePage\HomePageProvider;
+use Module\Vendor\Provider\Schedule\ScheduleBiz;
 use Module\Vendor\Provider\SearchBox\SearchBoxProvider;
 use Module\Vendor\Provider\SiteUrl\SiteUrlBiz;
 use Module\Vendor\Provider\SuperSearch\SuperSearchBiz;
@@ -128,6 +129,7 @@ class ModuleServiceProvider extends ServiceProvider
                 }
             });
         }
+        ScheduleBiz::register(BlogAutoPostScheduleBiz::class);
     }
 
     /**
