@@ -506,10 +506,15 @@ class AbstractField implements Renderable
             if (str_contains($this->column, '.')) {
                 $value = ModelUtil::traverse($item, $this->column);
             } else {
-                $value = isset($item->{$this->column}) ? $item->{$this->column} : null;
+                if (ModelUtil::hasAtttibute($item, $this->column)) {
+                    $value = $item->{$this->column};
+                } else {
+                    $value = null;
+                }
             }
             // echo $this->column . " - " . json_encode($item) . "\n";
         }
+
         if ($this->hookValueUnserialize) {
             $value = call_user_func($this->hookValueUnserialize, $value, $this);
         }
@@ -671,8 +676,10 @@ class AbstractField implements Renderable
                             '_index' => $index,
                         ], $variables))->render();
                     }
-                    if (is_array($item->{$column})) {
-                        return join(', ', $item->{$column});
+                    if (ModelUtil::hasAtttibute($item, $column)) {
+                        if (is_array($item->{$column})) {
+                            return htmlspecialchars(join(', ', $item->{$column}));
+                        }
                     }
                     if (str_contains($column, '.')) {
                         $value = (string)ModelUtil::traverse($item, $column);
@@ -683,10 +690,10 @@ class AbstractField implements Renderable
                     return htmlspecialchars($value);
             }
         } catch (\Throwable $e) {
-            Log::error('FieldRenderModeError - ' . $e->getMessage() . ' - ' . $e->getTraceAsString());
-            return new \Exception('FieldRenderModeError - ' . $e->getMessage());
+            Log::error('FieldRenderError - ' . $e->getMessage() . ' - ' . $e->getTraceAsString());
+            return htmlspecialchars('FieldRenderError - ' . $e->getMessage());
         }
-        throw new \Exception('FieldRenderModeNotExist');
+        throw new \Exception('FieldRenderNotExist');
     }
 
     public function __call($method, $arguments)

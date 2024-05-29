@@ -7,10 +7,7 @@
         {{$label}}
     </div>
     <div class="field">
-        <textarea name="{{$name}}" rows="3"
-                  placeholder="{{$placeholder}}"
-                  @if($styleFormField) style="{!! $styleFormField !!}" @endif
-                   {{$readonly?'readonly':''}}>{{null===$value?$defaultValue:$value}}</textarea>
+        @include('modstart::core.field.code-language')
         @if(!empty($help))
             <div class="help">{!! $help !!}</div>
         @endif

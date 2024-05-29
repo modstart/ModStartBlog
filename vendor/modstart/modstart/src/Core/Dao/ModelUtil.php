@@ -389,7 +389,7 @@ class ModelUtil
 
     public static function exists($model, $where)
     {
-        return !!self::get($model, $where);
+        return self::count($model, $where) > 0;
     }
 
     public static function batch($model, $nextId, $batchSize = 1000, $where = [], $fields = ['*'], $idName = 'id', $idSort = 'asc')
@@ -1537,8 +1537,10 @@ class ModelUtil
 
         if (($model instanceof \stdClass) && isset($model->{$key})) {
             return $model->{$key};
-        } else if (isset($model[$key])) {
+        } else if (is_array($model) && isset($model[$key])) {
             return $model[$key];
+        } else if (($model instanceof Model) && array_key_exists($key, $model->getAttributes())) {
+            return $model->$key;
         }
 
         foreach (explode('.', $key) as $segment) {
@@ -1610,6 +1612,18 @@ class ModelUtil
     public static function quoteLikeKeywords($keywords)
     {
         return str_replace(['\\', '%', '_'], ['\\\\\\', '\\%', '\\_'], $keywords);
+    }
+
+    public static function hasAtttibute($item, $key)
+    {
+        if ($item instanceof Model) {
+            $attributes = $item->getAttributes();
+            return array_key_exists($key, $attributes)
+                || method_exists($item, $key);
+        } else if ($item instanceof \stdClass) {
+            return property_exists($item, $key);
+        }
+        return false;
     }
 
 }

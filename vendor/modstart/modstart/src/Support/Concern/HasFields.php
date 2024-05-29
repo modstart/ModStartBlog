@@ -36,6 +36,7 @@ use ModStart\Field\Type\FieldRenderMode;
  * @method \ModStart\Field\FileTemp             fileTemp($column, $label = '')
  * @method \ModStart\Field\Files                files($column, $label = '')
  * @method \ModStart\Field\Html                 html($column, $label = '')
+ * @method \ModStart\Field\Hidden               hidden($column, $label = '')
  * @method \ModStart\Field\Id                   id($column, $label = '')
  * @method \ModStart\Field\Image                image($column, $label = '')
  * @method \ModStart\Field\Images               images($column, $label = '')
@@ -107,6 +108,26 @@ trait HasFields
     public function fillFields()
     {
         $this->fields()->each(function (AbstractField $field) {
+            $field->fill($this->item);
+        });
+    }
+
+    /**
+     * 填充所有可编辑字段
+     */
+    public function fillEditableFields()
+    {
+        $this->editableFields(true)->each(function (AbstractField $field) {
+            $field->fill($this->item);
+        });
+    }
+
+    /**
+     * 填充所有可增加字段
+     */
+    public function fillAddableFields()
+    {
+        $this->addableFields(true)->each(function (AbstractField $field) {
             $field->fill($this->item);
         });
     }

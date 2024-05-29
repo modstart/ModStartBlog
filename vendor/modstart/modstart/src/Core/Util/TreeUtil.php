@@ -279,7 +279,7 @@ class TreeUtil
     }
 
     /**
-     * 获取所有节点的子节点ID
+     * 获取节点的所有子节点ID
      * @param $nodes array 节点
      * @param $id int ID
      * @param $idName string ID字段名,默认为id
@@ -308,7 +308,7 @@ class TreeUtil
      * @param string $pidName
      * @return array
      */
-    public static function treeChildrenIds($tree, $idName = 'id', $pidName = 'pid')
+    private static function treeChildrenIds($tree, $idName = 'id', $pidName = 'pid')
     {
         $ids = [];
         foreach ($tree as $item) {
@@ -346,6 +346,22 @@ class TreeUtil
             }
         }
         return [];
+    }
+
+    public static function treeFilter($tree, $filter, $pkName = 'id', $pidName = 'pid', $childName = '_child')
+    {
+        $newTree = [];
+        foreach ($tree as $item) {
+            $childrenIds = self::treeNodeChildrenIds($tree, $item['id'], $pkName, $pidName);
+            $childrenIds[] = $item['id'];
+            if (call_user_func_array($filter, [$item, $childrenIds])) {
+                $newTree[] = $item;
+                if (isset($item[$childName])) {
+                    $item[$childName] = self::treeFilter($item[$childName], $filter, $pkName, $pidName, $childName);
+                }
+            }
+        }
+        return $newTree;
     }
 
     /**
@@ -485,7 +501,7 @@ class TreeUtil
         }
         $items->each(function ($item) use ($idName, $pidName, $sortName, $pid, $level, $items, $newItems) {
             if ($item instanceof Model) {
-                if (!isset($item->_level)) {
+                if (!ModelUtil::hasAtttibute($item, '_level')) {
                     if (self::_pidEqual($item->{$pidName}, $pid)) {
                         $item->_level = $level;
                         $newItems->push($item);
