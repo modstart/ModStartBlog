@@ -1,6 +1,6 @@
 @extends($_viewFrame)
 
-@section('pageTitle'){{$pageTitle?$pageTitle.' | '.modstart_config('siteName'):modstart_config('siteName')}}@endsection
+@section('pageTitle'){{$pageTitle}}@endsection
 @section('pageKeywords'){{$pageKeywords}}@endsection
 @section('pageDescription'){{$pageDescription}}@endsection
 
