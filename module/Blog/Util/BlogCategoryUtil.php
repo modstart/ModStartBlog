@@ -15,13 +15,13 @@ class BlogCategoryUtil
 {
     public static function clearCache()
     {
-        Cache::forget('BlogCategories');
+        Cache::forget('Blog:Categories');
     }
 
     public static function all()
     {
-        return Cache::rememberForever('BlogCategories', function () {
-            $records = ModelUtil::all('blog_category', [], ['*'], ['sort', 'asc']);
+        return Cache::rememberForever('Blog:Categories', function () {
+            $records = ModelUtil::all(BlogCategory::class, [], ['*'], ['sort', 'asc']);
             AssetsUtil::recordsFixFullOrDefault($records, 'cover', 'asset/image/none.png');
             foreach ($records as $k => $v) {
                 $records[$k]['_url'] = UrlUtil::category($v);
@@ -34,6 +34,19 @@ class BlogCategoryUtil
     {
         $nodes = self::all();
         return TreeUtil::nodesToTree($nodes);
+    }
+
+    public static function categoryTreeFlat()
+    {
+        $tree = self::categoryTree();
+        $nodes = TreeUtil::treeToListWithLevel($tree);
+        foreach ($nodes as $i => $v) {
+            $chain = TreeUtil::nodesChain($nodes, $v['id']);
+            $nodes[$i]['_fullTitle'] = join('-', array_map(function ($item) {
+                return $item['title'];
+            }, $chain));
+        }
+        return $nodes;
     }
 
     public static function categoryChainWithItems($categoryId)

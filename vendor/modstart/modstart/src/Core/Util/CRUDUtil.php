@@ -106,9 +106,9 @@ class CRUDUtil
         return "[js]parent.__grids.get($index).lister.refresh();__dialogClose();";
     }
 
-    public static function jsDialogClose()
+    public static function jsDialogClose($flag = 'js')
     {
-        return "[js]__dialogClose();";
+        return "[${flag}]__dialogClose();";
     }
 
     public static function jsDialogCloseAndParentRefresh()

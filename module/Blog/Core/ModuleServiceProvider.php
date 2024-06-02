@@ -13,6 +13,7 @@ use ModStart\Module\ModuleClassLoader;
 use Module\Banner\Biz\BannerPositionBiz;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\BlogUtil;
+use Module\Blog\Util\UrlUtil;
 use Module\MemberFav\Biz\MemberFavBiz;
 use Module\MemberFav\Event\MemberFavChangeEvent;
 use Module\MemberLike\Biz\MemberLikeBiz;
@@ -38,16 +39,16 @@ class ModuleServiceProvider extends ServiceProvider
     {
         AdminWidgetLink::register(function () {
             $categories = [];
-            foreach (BlogCategoryUtil::categoryTree() as $item) {
-                $categories[] = ['分类-' . $item['title'], modstart_web_url('blogs', ['categoryId' => $item['id']])];
+            foreach (BlogCategoryUtil::categoryTreeFlat() as $item) {
+                $categories[] = ['分类-' . $item['_fullTitle'], UrlUtil::category($item)];
             }
             return AdminWidgetLink::build('博客', array_merge([
-                ['博客首页', modstart_web_url('blog')],
-                ['博客列表', modstart_web_url('blogs')],
-                ['博客留言', modstart_web_url('blog/message')],
-                ['博客归档', modstart_web_url('blog/archive')],
-                ['博客标签', modstart_web_url('blog/tags')],
-                ['关于博主', modstart_web_url('blog/about')],
+                ['首页', modstart_web_url('blog')],
+                ['列表', modstart_web_url('blogs')],
+                ['留言', modstart_web_url('blog/message')],
+                ['归档', modstart_web_url('blog/archive')],
+                ['标签', modstart_web_url('blog/tags')],
+                ['关于', modstart_web_url('blog/about')],
             ], $categories));
         });
         AdminWidgetDashboard::registerIcon(function (Row $row) {
