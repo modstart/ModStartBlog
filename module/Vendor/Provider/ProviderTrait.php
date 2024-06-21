@@ -109,4 +109,10 @@ trait ProviderTrait
         }
         return null;
     }
+
+    public static function titleByName($name)
+    {
+        $item = self::getByName($name);
+        return $item ? $item->title() : $name;
+    }
 }

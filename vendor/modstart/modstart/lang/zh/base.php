@@ -167,6 +167,7 @@ return [
     'Parent Error' => '上级错误',
     'Delete Error (has children node)' => '删除错误（有子节点）',
     'None' => '空',
+    'Empty' => '无',
     'Plugin' => '插件',
     'App' => '应用',
     'Refresh' => '刷新',
@@ -239,4 +240,5 @@ return [
     'Move Down' => '下移',
     'Move Top' => '置顶',
     'Move Bottom' => '置底',
+    'Reset Default' => '恢复默认',
 ];
