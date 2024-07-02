@@ -54,6 +54,18 @@ trait ProviderTrait
         return self::$list;
     }
 
+    public static function listAllEnabled()
+    {
+        $records = [];
+        foreach (static::listAll() as $provider) {
+            if (!$provider->enable()) {
+                continue;
+            }
+            $records[] = $provider;
+        }
+        return $records;
+    }
+
     /**
      * 列出全部Map name->title
      * @return array
@@ -100,6 +112,12 @@ trait ProviderTrait
             }
         }
         return null;
+    }
+
+    public static function getEnabledByName($name)
+    {
+        $item = self::getByName($name);
+        return $item && $item->enable() ? $item : null;
     }
 
     public static function first()
