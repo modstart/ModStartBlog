@@ -18,6 +18,12 @@
                     {!! \Module\Banner\View\BannerView::basic('Blog',null,'5-2','5-3') !!}
                 </div>
 
+                @if(modstart_module_enabled('Notice'))
+                    <div class="margin-bottom">
+                        {!! \Module\Notice\View\NoticeView::latest() !!}
+                    </div>
+                @endif
+
                 <div class="ub-content-box margin-bottom">
                     <div class="tw-p-3">
                         @include('module::Blog.View.pc.blog.inc.blogItems')

@@ -34,6 +34,9 @@ return [
         'VisitStatistic' => [
             'enable' => true,
         ],
+        // 'Notice' => [
+        //     'enable' => true,
+        // ],
         // 'BlogAdminApi' => [
         //     'enable' => true,
         // ],

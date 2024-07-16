@@ -81,8 +81,15 @@
     <div data-table class="table-container">
         <table class="table-container" id="{{$id}}Table" lay-filter="{{$id}}Table"></table>
     </div>
+    @if(!empty($footOperate))
+        <div data-foot-operate class="margin-top">
+            {!! $footOperate !!}
+        </div>
+    @endif
     @if($enablePagination)
-        <div class="page-container" id="{{$id}}Pager"></div>
+        <div>
+            <div class="page-container" id="{{$id}}Pager"></div>
+        </div>
     @endif
     <script type="text/html" id="{{$id}}TableHeadToolbar">
         <div class="layui-btn-container">
@@ -105,8 +112,11 @@
             canMultiSelectItem: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(boolval($canMultiSelectItem)) !!},
             title: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode($title) !!},
             titleAdd: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(empty($titleAdd)?null:$titleAdd) !!},
+            pageTitleAdd: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(empty($pageTitleAdd)?null:$pageTitleAdd) !!},
             titleEdit: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(empty($titleEdit)?null:$titleEdit) !!},
+            pageTitleEdit: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(empty($pageTitleEdit)?null:$pageTitleEdit) !!},
             titleShow: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(empty($titleShow)?null:$titleShow) !!},
+            pageTitleShow: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(empty($pageTitleShow)?null:$pageTitleShow) !!},
             titleImport: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(empty($titleImport)?null:$titleImport) !!},
             canAdd: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(boolval($canAdd)) !!},
             canEdit: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(boolval($canEdit)) !!},

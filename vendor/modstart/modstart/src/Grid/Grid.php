@@ -38,8 +38,11 @@ use ModStart\Support\Manager\FieldManager;
  * @method Grid|mixed engine($value = null)
  * @method Grid|mixed title($value = null)
  * @method Grid|mixed titleAdd($value = null)
+ * @method Grid|mixed pageTitleAdd($value = null)
  * @method Grid|mixed titleEdit($value = null)
+ * @method Grid|mixed pageTitleEdit($value = null)
  * @method Grid|mixed titleShow($value = null)
+ * @method Grid|mixed pageTitleShow($value = null)
  * @method Grid|mixed titleExport($value = null)
  * @method Grid|mixed titleImport($value = null)
  * @method Grid|mixed canAdd($value = null)
@@ -70,6 +73,7 @@ use ModStart\Support\Manager\FieldManager;
  * @method Grid|mixed treeMaxLevel($value = null)
  * @method Form|mixed treeRootPid($value = null)
  * @method Grid|mixed batchOperatePrepend($value = null)
+ * @method Grid|mixed footOperate($value = null)
  * @method Grid|mixed gridOperateAppend($value = null)
  * @method Grid|mixed view($value = null)
  * @method Grid|mixed viewData($value = null)
@@ -113,8 +117,11 @@ class Grid
         'engine',
         'title',
         'titleAdd',
+        'pageTitleAdd',
         'titleEdit',
+        'pageTitleEdit',
         'titleShow',
+        'pageTitleShow',
         'titleImport',
         'canAdd',
         'canEdit',
@@ -149,6 +156,7 @@ class Grid
         'treeMaxLevel',
         'treeRootPid',
         'batchOperatePrepend',
+        'footOperate',
         'gridOperateAppend',
         'hookPrepareItems',
         'hookSimpleRecordsRendering',
@@ -165,8 +173,11 @@ class Grid
     private $engine = 'basic';
     private $title;
     private $titleAdd;
+    private $pageTitleAdd;
     private $titleEdit;
+    private $pageTitleEdit;
     private $titleShow;
+    private $pageTitleShow;
     private $titleImport;
     private $canAdd = true;
     private $canEdit = true;
@@ -200,9 +211,13 @@ class Grid
     private $defaultOrder = [];
     private $treeMaxLevel = 0;
     private $treeRootPid = 0;
-    /** @var string 批量操作向前字符串 */
+    /** @var string 顶部批量操作字符串 */
     private $batchOperatePrepend = '';
-    /** @var string 表格操作右上角追加字符串 */
+    /**
+     * @var string 底部批量操作字符串
+     */
+    private $footOperate = '';
+    /** @var string 右上角追加字符串 */
     private $gridOperateAppend = '';
     /** @var array simple模式下栅格所占用的栅格大小null:表示不启用，[6,12]:表示md,sm栅格占比 */
     private $gridRowCols = null;

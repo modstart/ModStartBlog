@@ -33,6 +33,7 @@ class DataController extends Controller
                             break;
                         case 'init':
                         case 'upload':
+                        case 'uploadEnd':
                         case 'save':
                         case 'saveRaw':
                         case 'uploadAndSaveBase64':
@@ -65,6 +66,7 @@ class DataController extends Controller
                 ]
             );
         }
+        FileManager::prepareLang();
         return view('modstart::admin.data.fileManager', [
             'category' => $category,
             'pageTitle' => L('Select ' . ucfirst($category)),
