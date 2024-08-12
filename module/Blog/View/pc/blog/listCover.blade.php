@@ -26,7 +26,7 @@
                             共找到
                             <span class="ub-text-primary ub-text-bold">{{$total}}</span>
                             条记录
-                            <a href="?{{\ModStart\Core\Input\Request::mergeQueries(['keywords'=>null])}}" class="ub-text-muted">
+                            <a href="?{{\ModStart\Core\Input\Request::mergeQueries(['keywords'=>null,'page'=>null])}}" class="ub-text-muted">
                                 <i class="iconfont icon-close"></i>
                             </a>
                         </div>
@@ -40,7 +40,7 @@
                                 全部
                             </a>
                             <i class="iconfont icon-angle-right ub-text-default"></i>
-                            <a href="{{modstart_web_url('blogs',['categoryId'=>$category])}}" class="tw-text-lg ub-text-default">
+                            <a href="{{modstart_web_url('blogs',['categoryId'=>$category['id'],'page'=>null])}}" class="tw-text-lg ub-text-default">
                                 {{$category['title']}}
                             </a>
                         </div>
