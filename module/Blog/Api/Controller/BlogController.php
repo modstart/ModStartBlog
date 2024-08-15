@@ -211,7 +211,7 @@ class BlogController extends Controller
 
         $recordNext = Blog::published()
             ->where('id', '>', $record['id'])
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->limit(1)->first();
         if ($recordNext) {
             $recordNext = ArrayUtil::keepKeys($recordNext->toArray(), ['id', 'title']);
@@ -220,7 +220,7 @@ class BlogController extends Controller
 
         $recordPrev = Blog::published()
             ->where('id', '<', $record['id'])
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->limit(1)->first();
         if ($recordPrev) {
             $recordPrev = ArrayUtil::keepKeys($recordPrev->toArray(), ['id', 'title']);
