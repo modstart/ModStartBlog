@@ -210,6 +210,7 @@ class BlogController extends Controller
 
 
         $recordNext = Blog::published()
+            ->where('id', '>', $record['id'])
             ->orderBy('id', 'desc')
             ->limit(1)->first();
         if ($recordNext) {
@@ -218,6 +219,7 @@ class BlogController extends Controller
         }
 
         $recordPrev = Blog::published()
+            ->where('id', '<', $record['id'])
             ->orderBy('id', 'asc')
             ->limit(1)->first();
         if ($recordPrev) {
@@ -225,7 +227,7 @@ class BlogController extends Controller
             $recordPrev['_url'] = UrlUtil::blog($recordPrev);
         }
 
-        ModelUtil::increase('blog', $record['id'], 'clickCount');
+        ModelUtil::increase(Blog::class, $record['id'], 'clickCount');
 
         return Response::generateSuccessData([
             'pageTitle' => $record['title'],
