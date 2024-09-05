@@ -29,7 +29,8 @@
         "PayCenter",
         "HotSearch",
         "ShareJS",
-        "Notice"
+        "Notice",
+        "TagManager"
     ],
     "config": {}
 }

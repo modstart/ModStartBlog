@@ -20,6 +20,7 @@ use Module\MemberLike\Biz\MemberLikeBiz;
 use Module\MemberLike\Event\MemberLikeChangeEvent;
 use Module\Partner\Biz\PartnerPositionBiz;
 use Module\Reward\Biz\RewardBiz;
+use Module\TagManager\Biz\TagManagerBiz;
 use Module\Vendor\Admin\Widget\AdminWidgetDashboard;
 use Module\Vendor\Admin\Widget\AdminWidgetLink;
 use Module\Vendor\Provider\HomePage\HomePageProvider;
@@ -129,6 +130,9 @@ class ModuleServiceProvider extends ServiceProvider
                     BlogUtil::updateLikeCount($event->bizId);
                 }
             });
+        }
+        if (modstart_module_enabled('TagManager')) {
+            TagManagerBiz::register(BlogTagManagerBiz::class);
         }
         ScheduleBiz::register(BlogAutoPostScheduleBiz::class);
     }

@@ -22,6 +22,7 @@ use ModStart\Support\Concern\HasFields;
 use ModStart\Widget\TextLink;
 use Module\Blog\Core\BlogSiteUrlBiz;
 use Module\Blog\Core\BlogSuperSearchBiz;
+use Module\Blog\Core\BlogTagManagerBiz;
 use Module\Blog\Type\BlogVisitMode;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\BlogTagUtil;
@@ -103,10 +104,12 @@ class BlogController extends Controller
                 return Response::generateSuccess();
             })
             ->hookChanged(function (Form $form) use (&$updatedCategoryIds) {
-                RepositoryUtil::makeItems($form->item())->map(function ($item) use (&$updatedCategoryIds) {
+                $tags = [];
+                RepositoryUtil::makeItems($form->item())->map(function ($item) use (&$updatedCategoryIds, &$tags) {
                     $updatedCategoryIds[] = $item->categoryId;
                     SiteUrlProvider::updateBiz(BlogSiteUrlBiz::NAME, modstart_web_url('blog/' . $item->id), $item->title);
                     BlogSuperSearchBiz::syncUpsert([$item->toArray()]);
+                    $tags[] = $item->tag;
                 });
                 if (!empty($updatedCategoryIds)) {
                     $updatedCategoryIds = array_unique($updatedCategoryIds);
