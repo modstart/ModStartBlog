@@ -26,7 +26,7 @@
                             共找到
                             <span class="ub-text-primary ub-text-bold">{{$total}}</span>
                             条记录
-                            <a href="?{{\ModStart\Core\Input\Request::mergeQueries(['keywords'=>null])}}" class="ub-text-muted">
+                            <a href="?{!! \ModStart\Core\Input\Request::mergeQueries(['keywords'=>null]) !!}" class="ub-text-muted">
                                 <i class="iconfont icon-close"></i>
                             </a>
                         </div>
@@ -36,12 +36,12 @@
                     <div class="tw-px-3 tw-pt-3">
                         @foreach($categoryChain as $catIndex=>$catItem)
                             <div class="margin-bottom">
-                                <a href="?{{\ModStart\Core\Input\Request::mergeQueries(['categoryId'=>$catItem['pid']?$catItem['pid']:null,'page'=>null])}}"
+                                <a href="?{!! \ModStart\Core\Input\Request::mergeQueries(['categoryId'=>$catItem['pid']?$catItem['pid']:null,'page'=>null]) !!}"
                                    class="btn btn-round @if($catItem['id']<=0) btn-primary @endif">
                                     全部
                                 </a>
                                 @foreach($catItem['_items'] as $item)
-                                    <a href="?{{\ModStart\Core\Input\Request::mergeQueries(['categoryId'=>$item['id']?$item['id']:null,'page'=>null])}}"
+                                    <a href="?{!! \ModStart\Core\Input\Request::mergeQueries(['categoryId'=>$item['id']?$item['id']:null,'page'=>null]) !!}"
                                        class="btn btn-round @if($catItem['id']==$item['id']) btn-primary @endif"
                                     >
                                         {{$item['title']}}

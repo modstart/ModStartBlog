@@ -26,7 +26,7 @@
                             共找到
                             <span class="ub-text-primary ub-text-bold">{{$total}}</span>
                             条记录
-                            <a href="?{{\ModStart\Core\Input\Request::mergeQueries(['keywords'=>null,'page'=>null])}}" class="ub-text-muted">
+                            <a href="?{!! \ModStart\Core\Input\Request::mergeQueries(['keywords'=>null,'page'=>null]) !!}" class="ub-text-muted">
                                 <i class="iconfont icon-close"></i>
                             </a>
                         </div>

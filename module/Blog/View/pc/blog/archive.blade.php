@@ -15,12 +15,12 @@
             <div class="col-md-8">
                 <div class="ub-content-box margin-bottom">
                     <div class="tw-p-3">
-                        <a href="?{{\ModStart\Core\Input\Request::mergeQueries(['month'=>null])}}"
+                        <a href="?{!! \ModStart\Core\Input\Request::mergeQueries(['month'=>null]) !!}"
                            class="btn btn-round {{!$month?'btn-primary':''}}">
                             {{$year}}年全部({{$yearCount}})
                         </a>
                         @foreach($monthCounts as $mc)
-                            <a href="?{{\ModStart\Core\Input\Request::mergeQueries(['month'=>$mc['month']])}}"
+                            <a href="?{!! \ModStart\Core\Input\Request::mergeQueries(['month'=>$mc['month']]) !!}"
                                class="btn btn-round {{$month==$mc['month']?'btn-primary':''}}">
                                 {{$mc['month']}}月({{$mc['total']}})
                             </a>
