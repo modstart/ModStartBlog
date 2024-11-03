@@ -63,7 +63,7 @@ class ImageDesignUtil
         BizException::throwsIfEmpty('imageConfig 为空', $imageConfig);
         BizException::throwsIfEmpty('宽度为空', $imageConfig['width']);
         BizException::throwsIfEmpty('高度为空', $imageConfig['height']);
-        BizException::throwsIfEmpty('背景图和背景色同时为空', empty($imageConfig['backgroundImage']) && empty($imageConfig['backgroundColor']));
+        BizException::throwsIf('背景图和背景色同时为空', empty($imageConfig['backgroundImage']) && empty($imageConfig['backgroundColor']));
     }
 
     public static function render($imageConfig, $variables = [])

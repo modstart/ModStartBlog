@@ -260,7 +260,7 @@ class BlogController extends Controller
         if (!in_array($record['id'], $visitVerifiedIds)) {
             $visitVerifiedIds[] = $record['id'];
         }
-        Session::set('Blog_VisitVerifiedIds', $visitVerifiedIds);
+        Session::put('Blog_VisitVerifiedIds', $visitVerifiedIds);
         return Response::generate(0, '验证成功', null, UrlUtil::blog($record));
     }
 }
