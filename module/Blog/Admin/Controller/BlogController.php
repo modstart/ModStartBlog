@@ -61,11 +61,13 @@ class BlogController extends Controller
                 $builder->switch('isTop', '置顶')->gridEditable(true);
                 $builder->switch('isHot', '热门')->gridEditable(true);
                 $builder->switch('isRecommend', '推荐')->gridEditable(true);
-                $builder->switch('isPublished', '发布')
-                    ->optionsYesNo()->defaultValue(true)
+                $builder->switch('isPublished', '立即发布')
+                    ->optionsYesNo()
+                    ->defaultValue(true)
                     ->when('=', false, function ($builder) {
                         /** @var HasFields $builder */
-                        $builder->datetime('postTime', '发布时间')->defaultValue(date('Y-m-d H:i:s'));
+                        $builder->datetime('postTime', '定时发布')
+                            ->defaultValue(date('Y-m-d H:i:s'));
                     });
                 $builder->radio('visitMode', '访问模式')
                     ->optionType(BlogVisitMode::class)
@@ -74,7 +76,9 @@ class BlogController extends Controller
                         /** @var HasFields $builder */
                         $builder->text('visitPassword', '访问密码');
                     });
-                $builder->display('created_at', L('Created At'))->listable(false);
+                $builder->datetime('created_at', '发布时间')
+                    ->listable(false)
+                    ->defaultValue(date('Y-m-d H:i:s'));
                 $builder->display('updated_at', L('Updated At'))->listable(false);
             })
             ->hookResponse(function (Form $form) {
