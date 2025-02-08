@@ -8,8 +8,8 @@ use Illuminate\Routing\Controller;
 use ModStart\Admin\Concern\HasAdminQuickCRUD;
 use ModStart\Admin\Layout\AdminCRUDBuilder;
 use ModStart\Core\Dao\ModelUtil;
+use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\InputPackage;
-use ModStart\Core\Input\Request;
 use ModStart\Core\Input\Response;
 use ModStart\Core\Util\CRUDUtil;
 use ModStart\Field\AbstractField;
@@ -19,15 +19,17 @@ use ModStart\Form\Form;
 use ModStart\Grid\GridFilter;
 use ModStart\Repository\RepositoryUtil;
 use ModStart\Support\Concern\HasFields;
+use ModStart\Widget\ButtonDialogRequest;
 use ModStart\Widget\TextLink;
 use Module\Blog\Core\BlogSiteUrlBiz;
 use Module\Blog\Core\BlogSuperSearchBiz;
-use Module\Blog\Core\BlogTagManagerBiz;
+use Module\Blog\Model\Blog;
 use Module\Blog\Type\BlogVisitMode;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\BlogTagUtil;
 use Module\Blog\Util\UrlUtil;
 use Module\Vendor\Provider\SiteUrl\SiteUrlProvider;
+use Module\Vendor\QuickRun\Export\ImportHandle;
 
 class BlogController extends Controller
 {
@@ -97,6 +99,7 @@ class BlogController extends Controller
                 $filter->eq('isRecommend', '推荐')->autoHide(true)->switchRadioYesNo();
                 $filter->eq('isPublished', '发布')->autoHide(true)->switchRadioYesNo();
             })
+            ->gridOperateAppend(ButtonDialogRequest::primary('<i class="iconfont icon-upload"></i> 批量导入', action('\\' . __CLASS__ . '@import')))
             ->pageJumpEnable(true)
             ->hookSaving(function (Form $form) use (&$updatedCategoryIds) {
                 if ($form->itemId()) {
@@ -127,6 +130,41 @@ class BlogController extends Controller
                     BlogSuperSearchBiz::syncDelete($item->id);
                 });
             })
-            ->title('博客管理');
+            ->title('博客文章');
+    }
+
+    public function import(ImportHandle $handle)
+    {
+        $templateData = [];
+        $templateData[] = [
+            '测试文章', '1', '文章摘要', '<p>文章内容，支持富文本HTML</p>'
+        ];
+        return $handle
+            ->withPageTitle('批量导入博客文章')
+            ->withTemplateName('博客文章')
+            ->withTemplateData($templateData)
+            ->withHeadTitles([
+                '标题', '分类ID', '摘要', '内容',
+            ])
+            ->handleImport(function ($data, $param) {
+                $title = empty($data[0]) ? null : $data[0];
+                BizException::throwsIfEmpty('标题为空', $title);
+                $blog = ModelUtil::get(Blog::class, [
+                    'title' => $title,
+                ]);
+                $update = [];
+                $update['categoryId'] = intval(empty($data[1]) ? null : $data[1]);
+                $update['summary'] = empty($data[2]) ? null : $data[2];
+                $update['content'] = empty($data[3]) ? null : $data[3];
+                $update['isPublished'] = true;
+                if ($blog) {
+                    ModelUtil::update(Blog::class, $blog['id'], $update);
+                } else {
+                    $update['title'] = $title;
+                    ModelUtil::insert(Blog::class, $update);
+                }
+                return Response::generateSuccess();
+            })
+            ->performExcel();
     }
 }

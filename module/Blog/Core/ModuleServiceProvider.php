@@ -78,7 +78,7 @@ class ModuleServiceProvider extends ServiceProvider
                     'sort' => 100,
                     'children' => [
                         [
-                            'title' => '博客管理',
+                            'title' => '博客文章',
                             'url' => '\Module\Blog\Admin\Controller\BlogController@index',
                         ],
                         [
