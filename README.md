@@ -31,8 +31,17 @@
   <a href="https://github.com/modstart/ModStartBlog" target="_blank">
     <img alt="Laravel" src="https://img.shields.io/badge/JS-Vue/ElementUI-green">
   </a>
+  <br />
+  <a href="https://github.com/modstart/ModStartBlog" target="_blank">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/modstart/ModStartBlog?style=social">
+  </a>
+  <a href="https://gitee.com/modstart/ModStartBlog" target="_blank">
+    <img alt="Gitee stars" src="https://gitee.com/modstart/ModStartBlog/badge/star.svg">
+  </a>
+  <a href="https://gitcode.com/modstart-lib/ModStartBlog" target="_blank">
+    <img alt="GitCode stars" src="https://gitcode.com/modstart-lib/ModStartBlog/star/badge.svg">
+  </a>
 </p>
-
 
 # 现代化个人博客系统
 
