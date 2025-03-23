@@ -34,6 +34,9 @@ return [
         'VisitStatistic' => [
             'enable' => true,
         ],
+        'AigcBase' => [
+            'enable' => true,
+        ],
         // 'BlogAdminApi' => [
         //     'enable' => true,
         // ],

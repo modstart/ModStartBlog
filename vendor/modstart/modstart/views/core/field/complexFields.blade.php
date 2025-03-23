@@ -45,6 +45,19 @@
                                         <el-button size="mini" @click="doSelectLink('{{$f['name']}}')">选择</el-button>
                                     </div>
                                 </div>
+                            @elseif($f['type']=='select')
+                                <el-select v-model="value['{{$f['name']}}']"
+                                           placeholder="{{empty($f['placeholder'])?'':$f['placeholder']}}">
+                                    @foreach($f['option'] as $k=>$v)
+                                        <el-option :key="{{\ModStart\Core\Util\SerializeUtil::jsonEncode($k)}}" :label="{{\ModStart\Core\Util\SerializeUtil::jsonEncode($k)}}" :value="{{\ModStart\Core\Util\SerializeUtil::jsonEncode($k)}}"></el-option>
+                                    @endforeach
+                                </el-select>
+                            @elseif($f['type']=='radio')
+                                <el-radio-group v-model="value['{{$f['name']}}']">
+                                    @foreach($f['option'] as $k=>$v)
+                                        <el-radio :label="{{\ModStart\Core\Util\SerializeUtil::jsonEncode($k)}}">{{$v}}</el-radio>
+                                    @endforeach
+                                </el-radio-group>
                             @endif
                         </td>
                     </tr>
@@ -63,10 +76,17 @@
 {{ \ModStart\ModStart::js('asset/entry/basic.js') }}
 <script>
     $(function () {
+        <?php
+        $valueOld = ( null===$value?(null===$defaultValue?[]:$defaultValue):$value );
+        $newValue = [];
+        foreach($fields as $f){
+            $newValue[$f['name']] = isset($valueOld[$f['name']])?$valueOld[$f['name']]:null;
+        }
+        ?>
         var app = new Vue({
             el: '#{{$id}}Input',
             data: {
-                value: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode(null===$value?(null===$defaultValue?[]:$defaultValue):$value) !!},
+                value: {!! \ModStart\Core\Util\SerializeUtil::jsonEncode($newValue) !!},
                 icons: []
             },
             mounted(){

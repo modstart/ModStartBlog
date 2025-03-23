@@ -143,7 +143,8 @@ var Editor = {
             'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols',
             // 'wechatcustomemotion',
             '|',
-            'contentimport'
+            'contentimport',
+            'ai',
         ];
 
         if (window.__editorBasicToolBars) {
@@ -167,6 +168,12 @@ var Editor = {
             pasteplain: false,
             autoHeightEnabled: true,
             focus: false,
+            toolbarShows: {
+                ai: false,
+            },
+            shortcutMenuShows: {
+                ai: false,
+            }
         }, EditorUploadConfig, editorOption, getEditorExtraConfig());
 
         var ueditor = UE.getEditor(id, editorOpt);
@@ -190,15 +197,10 @@ var Editor = {
 
         var editorSimpleToolBars = [
             'fontsize', 'forecolor',
-            //'backcolor', '|',
             'insertimage',
             'uploadimage', 'bold', 'italic', 'underline',
-            //'fontborder',
             'strikethrough',
             'insertcode',
-            //'superscript', 'subscript',
-            // 'emotion','wechatcustomemotion',
-            'contentimport'
         ];
         if (window.__editorSimpleToolBars) {
             editorSimpleToolBars = window.__editorSimpleToolBars;
@@ -221,6 +223,12 @@ var Editor = {
             retainOnlyLabelPasted: true,
             autoHeightEnabled: true,
             focus: false,
+            toolbarShows: {
+                ai: false,
+            },
+            shortcutMenuShows: {
+                ai: false,
+            }
         }, EditorUploadConfig, editorOption, getEditorExtraConfig());
 
         var ueditor = UE.getEditor(id, editorOpt);
