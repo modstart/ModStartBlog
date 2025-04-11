@@ -53,7 +53,11 @@ class CommentController extends Controller
         } else {
             $data['memberUserId'] = 0;
         }
-        $data['status'] = BlogCommentStatus::WAIT_VERIFY;
+        if (modstart_config('Blog_CommentVerifyEnable', false)) {
+            $data['status'] = BlogCommentStatus::WAIT_VERIFY;
+        } else {
+            $data['status'] = BlogCommentStatus::VERIFY_SUCCESS;
+        }
         ModelUtil::insert('blog_comment', $data);
         ModelUtil::update('blog', $blogId, [
             'commentCount' => ModelUtil::count('blog_comment', [

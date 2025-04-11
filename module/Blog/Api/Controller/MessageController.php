@@ -88,7 +88,11 @@ class MessageController extends Controller
         } else {
             $data['memberUserId'] = 0;
         }
-        $data['status'] = BlogCommentStatus::WAIT_VERIFY;
+        if (modstart_config('Blog_MessageVerifyEnable', false)) {
+            $data['status'] = BlogCommentStatus::WAIT_VERIFY;
+        } else {
+            $data['status'] = BlogCommentStatus::VERIFY_SUCCESS;
+        }
         ModelUtil::insert('blog_message', $data);
         return Response::generate(0, '提交成功，后台审核后将会显示', null, '[reload]');
     }
