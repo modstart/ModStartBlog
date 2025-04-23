@@ -5,8 +5,10 @@ namespace Module\Blog\Admin\Controller;
 
 
 use Illuminate\Routing\Controller;
+use ModStart\Admin\Auth\AdminPermission;
 use ModStart\Admin\Concern\HasAdminQuickCRUD;
 use ModStart\Admin\Layout\AdminCRUDBuilder;
+use ModStart\Admin\Layout\AdminDialogPage;
 use ModStart\Core\Dao\ModelUtil;
 use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\InputPackage;
@@ -24,6 +26,7 @@ use ModStart\Widget\TextLink;
 use Module\Blog\Core\BlogSiteUrlBiz;
 use Module\Blog\Core\BlogSuperSearchBiz;
 use Module\Blog\Model\Blog;
+use Module\Blog\Model\BlogCategory;
 use Module\Blog\Type\BlogVisitMode;
 use Module\Blog\Util\BlogCategoryUtil;
 use Module\Blog\Util\BlogTagUtil;
@@ -91,6 +94,13 @@ class BlogController extends Controller
                     }
                 }
             })
+            ->canBatchSelect(true)
+            ->canBatchDelete(true)
+            ->batchOperatePrepend(
+                join('', [
+                    '<button class="btn" data-batch-dialog-operate="' . modstart_admin_url('blog/blog/batch_edit') . '"><i class="iconfont icon-edit"></i> 批量编辑</button>',
+                ])
+            )
             ->gridFilter(function (GridFilter $filter) {
                 $filter->eq('id', L('ID'));
                 $filter->like('title', '标题');
@@ -131,6 +141,41 @@ class BlogController extends Controller
                 });
             })
             ->title('博客文章');
+    }
+
+    public function batchEdit(AdminDialogPage $page)
+    {
+        $form = Form::make('');
+        $form->showReset(false)->showSubmit(false)->formClass('wide');
+        $form->switch('changeCategoryEnable', '修改分类')->optionsYesNo()
+            ->when(true, function (Form $form) {
+                $form->select('categoryId', '分类')->optionModelTree(BlogCategory::class);
+            });
+        $form->switch('changeTagEnable', '修改标签')->optionsYesNo()
+            ->when(true, function (Form $form) {
+                $form->tags('tag', '标签')
+                    ->serializeType(Tags::SERIALIZE_TYPE_COLON_SEPARATED)
+                    ->tagModelField(Blog::class, 'tag', Tags::SERIALIZE_TYPE_COLON_SEPARATED);
+            });
+        return $page->body($form)->pageTitle('批量编辑')->handleForm($form, function (Form $form) {
+            AdminPermission::demoCheck();
+            $data = $form->dataForming();
+            $ids = CRUDUtil::ids();
+            BizException::throwsIfEmpty('ID为空', $ids);
+            $update = [];
+            if ($data['changeCategoryEnable']) {
+                $update['categoryId'] = $data['categoryId'];
+            }
+            if ($data['changeTagEnable']) {
+                $update['tag'] = $data['tag'];
+            }
+            ModelUtil::transactionBegin();
+            if (!empty($update)) {
+                ModelUtil::model(Blog::class)->whereIn('id', $ids)->update($update);
+            }
+            ModelUtil::transactionCommit();
+            return Response::redirect(CRUDUtil::jsDialogCloseAndParentGridRefresh());
+        });
     }
 
     public function import(ImportHandle $handle)

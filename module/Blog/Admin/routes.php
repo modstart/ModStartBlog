@@ -19,6 +19,7 @@ Route::match(['get', 'post'], 'blog/blog/edit', 'BlogController@edit');
 Route::match(['post'], 'blog/blog/delete', 'BlogController@delete');
 Route::match(['get'], 'blog/blog/show', 'BlogController@show');
 Route::match(['get', 'post'], 'blog/blog/import', 'BlogController@import');
+Route::match(['get', 'post'], 'blog/blog/batch_edit', 'BlogController@batchEdit');
 
 Route::match(['get', 'post'], 'blog/comment', 'BlogCommentController@index');
 Route::match(['get', 'post'], 'blog/comment/add', 'BlogCommentController@add');
