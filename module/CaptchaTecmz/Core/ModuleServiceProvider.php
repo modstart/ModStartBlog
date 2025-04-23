@@ -1,11 +1,12 @@
 <?php
 
-namespace Module\CensorImageTecmz\Core;
+namespace Module\CaptchaTecmz\Core;
 
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 use ModStart\Admin\Config\AdminMenu;
-use Module\Vendor\Provider\CensorImage\CensorImageProvider;
+use Module\CaptchaTecmz\Provider\TecmzCaptchaProvider;
+use Module\Vendor\Provider\Captcha\CaptchaProvider;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -27,16 +28,16 @@ class ModuleServiceProvider extends ServiceProvider
                             'title' => '接口设置',
                             'children' => [
                                 [
-                                    'title' => '图片智能审核',
-                                    'url' => '\Module\CensorImageTecmz\Admin\Controller\ConfigController@index',
-                                ]
+                                    'title' => '智能验证码',
+                                    'url' => '\Module\CaptchaTecmz\Admin\Controller\ConfigController@setting',
+                                ],
                             ]
                         ]
                     ]
                 ]
             ];
         });
-        CensorImageProvider::register(CensorImageTecmzProvider::class);
+        CaptchaProvider::register(TecmzCaptchaProvider::class);
     }
 
     /**

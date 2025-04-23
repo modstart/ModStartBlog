@@ -1,6 +1,6 @@
 {
     "name": "CensorTextTecmz",
-    "title": "魔众文本智能审核",
+    "title": "文本智能审核",
     "env": [
         "laravel5",
         "laravel9"

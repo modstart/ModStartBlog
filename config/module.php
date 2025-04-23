@@ -43,6 +43,9 @@ return [
         'CensorTextTecmz' => [
             'enable' => true,
         ],
+        'CaptchaTecmz' => [
+            'enable' => true,
+        ],
         'EmailSmtp' => [
             'enable' => true,
         ],

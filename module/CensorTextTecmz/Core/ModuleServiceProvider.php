@@ -27,7 +27,7 @@ class ModuleServiceProvider extends ServiceProvider
                             'title' => '接口设置',
                             'children' => [
                                 [
-                                    'title' => '魔众文本智能审核',
+                                    'title' => '文本智能审核',
                                     'url' => '\Module\CensorTextTecmz\Admin\Controller\ConfigController@index',
                                 ]
                             ]

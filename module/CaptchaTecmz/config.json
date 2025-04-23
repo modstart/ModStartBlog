@@ -1,0 +1,25 @@
+{
+    "name": "CaptchaTecmz",
+    "title": "智能验证码",
+    "require": [
+        "Vendor:>=1.1.0"
+    ],
+    "env": [
+        "laravel5",
+        "laravel9"
+    ],
+    "types": [
+        "PC",
+        "Mobile",
+        "Admin"
+    ],
+    "tags": [
+        "安全"
+    ],
+    "version": "1.4.1",
+    "author": "ModStart",
+    "description": "提供智能验证码验证服务",
+    "providers": [],
+    "config": {},
+    "modstartVersion": ">=4.1.0"
+}
