@@ -15,7 +15,6 @@ use ModStart\Grid\Displayer\ItemOperate;
 use ModStart\Grid\GridFilter;
 use ModStart\Support\Concern\HasFields;
 use ModStart\Widget\TextAjaxRequest;
-use Module\Blog\Type\BlogCommentStatus;
 use Module\Blog\Type\BlogMessageStatus;
 
 class BlogMessageController extends Controller
@@ -39,10 +38,11 @@ class BlogMessageController extends Controller
             })
             ->gridFilter(function (GridFilter $filter) {
                 $filter->eq('id', L('ID'));
+                $filter->eq('status', '状态')->select(BlogMessageStatus::class);
                 $filter->like('username', '用户');
             })
             ->hookItemOperateRendering(function (ItemOperate $itemOperate) {
-                if ($itemOperate->item()->status === BlogCommentStatus::WAIT_VERIFY) {
+                if ($itemOperate->item()->status === BlogMessageStatus::WAIT_VERIFY) {
                     $itemOperate->prepend(TextAjaxRequest::success('审核通过', action('\\' . __CLASS__ . '@verifyPass', ['_id' => $itemOperate->item()->id])));
                     $itemOperate->prepend(TextAjaxRequest::danger('审核拒绝', action('\\' . __CLASS__ . '@verifyReject', ['_id' => $itemOperate->item()->id])));
                 }

@@ -23,7 +23,9 @@ use Module\Reward\Biz\RewardBiz;
 use Module\TagManager\Biz\TagManagerBiz;
 use Module\Vendor\Admin\Widget\AdminWidgetDashboard;
 use Module\Vendor\Admin\Widget\AdminWidgetLink;
+use Module\Vendor\Provider\ContentVerify\ContentVerifyBiz;
 use Module\Vendor\Provider\HomePage\HomePageProvider;
+use Module\Vendor\Provider\Notifier\NotifierBiz;
 use Module\Vendor\Provider\Schedule\ScheduleBiz;
 use Module\Vendor\Provider\SearchBox\SearchBoxProvider;
 use Module\Vendor\Provider\SiteUrl\SiteUrlBiz;
@@ -135,6 +137,10 @@ class ModuleServiceProvider extends ServiceProvider
             TagManagerBiz::register(BlogTagManagerBiz::class);
         }
         ScheduleBiz::register(BlogAutoPostScheduleBiz::class);
+        ContentVerifyBiz::register(BlogMessageContentVerifyBiz::class);
+        ContentVerifyBiz::register(BlogCommentContentVerifyBiz::class);
+        NotifierBiz::registerQuick('Blog_Message', '博客留言审核');
+        NotifierBiz::registerQuick('Blog_Comment', '博客评论审核');
     }
 
     /**

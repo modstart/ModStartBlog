@@ -9,6 +9,8 @@ use ModStart\Form\Form;
 use ModStart\Support\Concern\HasFields;
 use Module\Blog\Type\BlogDarkModeType;
 use Module\Vendor\Provider\Captcha\CaptchaProvider;
+use Module\Vendor\Provider\CensorImage\CensorImageProvider;
+use Module\Vendor\Provider\CensorText\CensorTextProvider;
 use Module\Vendor\Provider\SuperSearch\SuperSearchProvider;
 
 class ConfigController extends Controller
@@ -48,8 +50,12 @@ class ConfigController extends Controller
             $builder->select('Blog_BlogSuperSearchProvider', '博客超级搜索驱动')->options(SuperSearchProvider::allDefaultMap());
             $builder->switch('Blog_CommentEnable', '启用评论');
             $builder->switch('Blog_ContentNavEnable', '启用内容导航');
+
             $builder->switch('Blog_CommentVerifyEnable', '博客评论审核');
-            $builder->switch('Blog_MessageVerifyEnable', '留言审核');
+            $builder->switch('Blog_MessageVerifyEnable', '博客留言审核');
+
+            $builder->select('Blog_Censor_Image', '图片自动审核驱动')->options(CensorImageProvider::nameTitleMap());
+            $builder->select('Blog_Censor_Text', '文本自动审核驱动')->options(CensorTextProvider::nameTitleMap());
         });
         $builder->layoutPanel('安全设置', function (Form $builder) {
             $builder->select('Blog_BlogCaptchaProvider', '博客评论验证')->options(CaptchaProvider::nameTitleMap());

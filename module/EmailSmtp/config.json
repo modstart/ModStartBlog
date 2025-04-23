@@ -1,0 +1,16 @@
+{
+    "name": "EmailSmtp",
+    "title": "SMTP邮箱",
+    "env": [
+        "laravel5",
+        "laravel9"
+    ],
+    "require": [
+        "Vendor:>=1.7.0"
+    ],
+    "version": "1.4.3",
+    "author": "ModStart",
+    "description": "SMTP邮箱发送配置",
+    "config": {},
+    "modstartVersion": ">=4.0.0"
+}

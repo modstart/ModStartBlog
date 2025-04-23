@@ -1,0 +1,25 @@
+{
+    "name": "CensorImageTecmz",
+    "title": "魔众图片智能审核",
+    "env": [
+        "laravel5",
+        "laravel9"
+    ],
+    "types": [
+        "Arch",
+        "Admin"
+    ],
+    "tags": [
+        "人工智能",
+        "API驱动"
+    ],
+    "require": [
+        "Vendor:>=2.4.0"
+    ],
+    "version": "1.1.1",
+    "modstartVersion": ">=4.1.0",
+    "author": "ModStart",
+    "description": "基于API接口提供图片自动审核",
+    "providers": [],
+    "config": {}
+}

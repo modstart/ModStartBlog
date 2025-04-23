@@ -39,6 +39,7 @@ class BlogCommentController extends Controller
             })
             ->gridFilter(function (GridFilter $filter) {
                 $filter->eq('id', L('ID'));
+                $filter->eq('status', '状态')->select(BlogCommentStatus::class);
                 $filter->like('username', '用户');
             })
             ->hookItemOperateRendering(function (ItemOperate $itemOperate) {

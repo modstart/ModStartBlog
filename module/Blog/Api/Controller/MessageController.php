@@ -11,12 +11,14 @@ use ModStart\Core\Exception\BizException;
 use ModStart\Core\Input\InputPackage;
 use ModStart\Core\Input\Response;
 use ModStart\Core\Util\HtmlUtil;
+use Module\Blog\Core\BlogMessageContentVerifyBiz;
 use Module\Blog\Model\BlogMessage;
 use Module\Blog\Type\BlogCommentStatus;
 use Module\Blog\Type\BlogMessageStatus;
 use Module\Member\Auth\MemberUser;
 use Module\Member\Util\MemberUtil;
 use Module\Vendor\Provider\Captcha\CaptchaProvider;
+use Module\Vendor\Provider\ContentVerify\ContentVerifyJob;
 
 
 /**
@@ -93,7 +95,13 @@ class MessageController extends Controller
         } else {
             $data['status'] = BlogCommentStatus::VERIFY_SUCCESS;
         }
-        ModelUtil::insert('blog_message', $data);
+        $data = ModelUtil::insert('blog_message', $data);
+
+        if ($data['status'] == BlogCommentStatus::WAIT_VERIFY) {
+            ContentVerifyJob::create(BlogMessageContentVerifyBiz::NAME, [
+                'id' => $data['id'],
+            ], $data['content']);
+        }
         return Response::generate(0, '提交成功，后台审核后将会显示', null, '[reload]');
     }
 }

@@ -37,6 +37,18 @@ return [
         'AigcBase' => [
             'enable' => true,
         ],
+        'CensorImageTecmz' => [
+            'enable' => true,
+        ],
+        'CensorTextTecmz' => [
+            'enable' => true,
+        ],
+        'EmailSmtp' => [
+            'enable' => true,
+        ],
+        'NotifierEmail' => [
+            'enable' => true,
+        ],
         // 'BlogAdminApi' => [
         //     'enable' => true,
         // ],
