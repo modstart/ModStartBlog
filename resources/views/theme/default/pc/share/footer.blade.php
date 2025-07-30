@@ -10,7 +10,7 @@
             </a>
             @if(modstart_config('siteBeianGonganText'))
                 <a href="{{modstart_config('siteBeianGonganLink')}}" target="_blank">
-                    <img src="@asset('vendor/Site/image/gongan.png')" />
+                     <img alt="{{modstart_config('siteBeianGonganText')}}" src="@asset('vendor/Site/image/gongan.png')" />
                     {{modstart_config('siteBeianGonganText')}}
                 </a>
             @endif

@@ -20,6 +20,14 @@ class SmtpMailSenderProvider extends AbstractMailSenderProvider
     public function __construct()
     {
         $config = modstart_config();
+        $fromName = modstart_config('EmailSmtp_FromName', '');
+        if (empty($fromName)) {
+            $fromName = $config->getWithEnv('siteName') . ' @ ' . $config->getWithEnv('siteDomain');
+        }
+        $fromUser = modstart_config('EmailSmtp_FromEmail', '');
+        if (empty($fromUser)) {
+            $fromUser = $config->getWithEnv('systemEmailSmtpUser');
+        }
         config([
             'mail' => [
                 'driver' => 'smtp',
@@ -27,8 +35,8 @@ class SmtpMailSenderProvider extends AbstractMailSenderProvider
                 'port' => $config->getWithEnv('systemEmailSmtpSsl', false) ? 465 : 25,
                 'encryption' => $config->getWithEnv('systemEmailSmtpSsl', false) ? 'ssl' : 'tls',
                 'from' => [
-                    'address' => $config->getWithEnv('systemEmailSmtpUser'),
-                    'name' => $config->getWithEnv('systemEmailFromName', $config->getWithEnv('siteName') . ' @ ' . $config->getWithEnv('siteDomain'))
+                    'address' => $fromUser,
+                    'name' => $fromName
                 ],
                 'username' => $config->getWithEnv('systemEmailSmtpUser'),
                 'password' => $config->getWithEnv('systemEmailSmtpPassword'),

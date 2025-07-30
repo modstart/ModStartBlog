@@ -1,6 +1,6 @@
 {
     "name": "CensorImageTecmz",
-    "title": "图片智能审核",
+    "title": "魔众图片智能审核",
     "env": [
         "laravel5",
         "laravel9"

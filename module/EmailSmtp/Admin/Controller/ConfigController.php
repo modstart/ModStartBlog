@@ -9,7 +9,6 @@ use ModStart\Core\Input\Response;
 use ModStart\Form\Form;
 use ModStart\Widget\Box;
 use ModStart\Widget\ButtonDialogRequest;
-use ModStart\Widget\TextDialogRequest;
 use Module\EmailSmtp\Provider\SmtpMailSenderProvider;
 
 class   ConfigController extends Controller
@@ -26,6 +25,9 @@ class   ConfigController extends Controller
         $builder->switch('systemEmailSmtpSsl', 'SMTP是否为SSL');
         $builder->text('systemEmailSmtpUser', 'SMTP用户');
         $builder->text('systemEmailSmtpPassword', 'SMTP密码');
+        $builder->text('EmailSmtp_FromName', '邮件来源名称');
+        $builder->text('EmailSmtp_FromEmail', '邮件来源邮箱')
+            ->help('如果不填写则使用SMTP用户作为来源邮箱');
         $builder->formClass('wide');
         $builder->hookFormWrap(function (Form $form) {
             return Box::make($form, 'SMTP邮箱')

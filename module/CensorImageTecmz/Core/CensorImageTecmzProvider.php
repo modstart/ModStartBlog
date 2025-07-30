@@ -17,7 +17,7 @@ class CensorImageTecmzProvider extends AbstractCensorImageProvider
 
     public function title()
     {
-        return '图片智能审核';
+        return '魔众图片智能审核';
     }
 
     public function verify($content, $param = [])

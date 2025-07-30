@@ -17,7 +17,7 @@ class CensorTextTecmzProvider extends AbstractCensorTextProvider
 
     public function title()
     {
-        return '文本审核';
+        return '魔众文本智能审核';
     }
 
     public function verify($content, $param = [])

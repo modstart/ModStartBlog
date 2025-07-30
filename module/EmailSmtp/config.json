@@ -8,9 +8,15 @@
     "require": [
         "Vendor:>=1.7.0"
     ],
-    "version": "1.4.3",
+    "version": "1.5.0",
     "author": "ModStart",
     "description": "SMTP邮箱发送配置",
-    "config": {},
-    "modstartVersion": ">=4.0.0"
+    "config": [],
+    "modstartVersion": ">=4.0.0",
+    "types": [
+        "Admin"
+    ],
+    "tags": [
+        "邮件"
+    ]
 }
