@@ -95,11 +95,18 @@ class PathUtil
         if (empty($urlMap) || !is_array($urlMap)) {
             return $path;
         }
+        $pathOld = $path;
         foreach ($urlMap as $urlPair) {
             if (!isset($urlPair['public']) || !isset($urlPair['internal'])) {
                 continue;
             }
             $path = str_replace($urlPair['public'], $urlPair['internal'], $path);
+        }
+        if ($path != $pathOld) {
+            LogUtil::info('PathUtil.ConvertPublicToInternal', [
+                'from' => $pathOld,
+                'to' => $path,
+            ]);
         }
         return $path;
     }

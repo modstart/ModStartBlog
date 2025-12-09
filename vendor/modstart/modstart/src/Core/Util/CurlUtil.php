@@ -241,11 +241,6 @@ class CurlUtil
                 return strlen($data);
             });
         }
-        LogUtil::error('CurlUtil.request.exception', [
-            'url' => $url,
-            'param' => $param,
-            'option' => $option,
-        ]);
         if (self::$requestEnd === null) {
             register_shutdown_function(function () {
                 if (!self::$requestEnd) {
