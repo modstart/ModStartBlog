@@ -82,6 +82,8 @@ class FileUtil
         'xls' => 'application/vnd.ms-excel',
         'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'xml' => 'application/xml',
+        'yml' => 'application/x-yaml',
+        'yaml' => 'application/x-yaml',
         'xul' => 'application/vnd.mozilla.xul+xml',
         'zip' => 'application/zip',
         '3gp' => 'video/3gpp',
@@ -623,6 +625,10 @@ class FileUtil
         $option = array_merge([
             'retryTimes' => 0,
             'retryInterval' => 5,
+            'httpConvertPublicToInternal' => [
+                'logMatched' => false,
+                'logUnmatched' => false,
+            ],
         ], $option);
         $checkPath = strtolower($path);
         BizException::throwsIf('Invalid Path', StrUtil::startWith($checkPath, 'phar:/'));
@@ -649,7 +655,7 @@ class FileUtil
             if (!file_exists(public_path('temp'))) {
                 @mkdir(public_path('temp'));
             }
-            $path = PathUtil::convertPublicToInternal($path);
+            $path = PathUtil::convertPublicToInternal($path, $option['httpConvertPublicToInternal']);
             if ($downloadStream) {
                 $f = @fopen($path, 'rb', false, self::fopenGetContext());
                 if ($f) {

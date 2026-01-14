@@ -108,6 +108,7 @@ $(window).on('load', function () {
                 var text = $(o).text().trim();
                 $(o).find('span').html(text);
             });
+            $menu.find('.title.open').removeClass('open');
             return;
         }
         $menu.find('.title').addClass('open');
@@ -121,6 +122,22 @@ $(window).on('load', function () {
                 colorText = markText(text, indexs);
                 $(o).attr('data-keywords-filter', 'show');
                 $(o).attr('data-keywords-item', 'show');
+            } else {
+                var $o = $(o);
+                var texts = [];
+                texts.push(text);
+                do {
+                    $o = $o.closest('.children').prev();
+                    if ($o.length) {
+                        texts.push($o.text().trim());
+                    }
+                } while ($o.length);
+                var textFull = texts.reverse().join('-');
+                indexs = PinyinMatch.match(textFull, keywords);
+                if (false !== indexs) {
+                    $(o).attr('data-keywords-filter', 'show');
+                    $(o).attr('data-keywords-item', 'show');
+                }
             }
             $(o).find('span').html(colorText);
         });
@@ -535,12 +552,19 @@ $(window).on('load', function () {
     // 主要界面多个标签界面退出时提醒
     if (!$('html[data-page-is-tab]').length) {
         window.addEventListener('beforeunload', e => {
-            var tabCount = $adminTabMenu.find('[data-tab-menu]').length;
-            if (tabCount <= 0) {
-                return;
+            var needBlock = false;
+            if (window.parent === window) {
+                if ($adminTabMenu.find('[data-tab-menu]').length > 0) {
+                    needBlock = true;
+                }
+                if ($('.layui-layer-iframe').length > 0) {
+                    needBlock = true;
+                }
             }
-            e.preventDefault();
-            e.returnValue = '';
+            if (needBlock) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
         });
     }
 

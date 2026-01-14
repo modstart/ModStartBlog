@@ -84,10 +84,15 @@ class PathUtil
      * 比如将外网地址 http://cdn.example.com/abc.jpg 映射为内网地址 http://cdn.oss-cn-shanghai.aliyuncs.com/abc.jpg
      * 这样程序处理时会自动使用内网地址，而不会造成流量浪费
      * @param $path string
+     * @param $option array
      * @return string
      */
-    public static function convertPublicToInternal($path)
+    public static function convertPublicToInternal($path, $option = [])
     {
+        $option = array_merge([
+            'logMatched' => false,
+            'logUnmatched' => false,
+        ], $option);
         if (empty($path)) {
             return $path;
         }
@@ -102,11 +107,19 @@ class PathUtil
             }
             $path = str_replace($urlPair['public'], $urlPair['internal'], $path);
         }
-        if ($path != $pathOld) {
-            LogUtil::info('PathUtil.ConvertPublicToInternal', [
-                'from' => $pathOld,
-                'to' => $path,
-            ]);
+        if ($path == $pathOld) {
+            if ($option['logUnmatched']) {
+                LogUtil::info('PathUtil.ConvertPublicToInternal.Unmatch', [
+                    'path' => $path,
+                ]);
+            }
+        } else {
+            if ($option['logMatched']) {
+                LogUtil::info('PathUtil.ConvertPublicToInternal', [
+                    'from' => $pathOld,
+                    'to' => $path,
+                ]);
+            }
         }
         return $path;
     }

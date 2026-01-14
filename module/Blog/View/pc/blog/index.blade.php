@@ -39,6 +39,12 @@
 
                 @include('module::Blog.View.pc.blog.inc.info')
 
+                @if(modstart_module_enabled('Countdown'))
+                    <div class="margin-bottom">
+                        {!! \Module\Countdown\View\CountdownView::render() !!}
+                    </div>
+                @endif
+
                 @include('module::Blog.View.pc.blog.inc.admin')
 
                 @include('module::Blog.View.pc.blog.inc.categories')

@@ -17,7 +17,7 @@ class IndexController extends ModuleBaseController
 
         $viewData['pageTitle'] = ArrayUtil::firstValidValue(
             modstart_config('siteName') . ' | ' . modstart_config('siteSlogan'),
-            modstart_config('Blog_SeoTitle')
+            Request::path() ? modstart_config('Blog_SeoTitle') : null
         );
         $viewData['pageKeywords'] = ArrayUtil::firstValidValue(
             modstart_config('siteKeywords'),

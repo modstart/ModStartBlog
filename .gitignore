@@ -10,3 +10,7 @@ Homestead.json
 bootstrap/config.php
 deploy-*.txt
 
+/.modstart-agent
+/openspec
+/AGENTS.md
+/.github/
