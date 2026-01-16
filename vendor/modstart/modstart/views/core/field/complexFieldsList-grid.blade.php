@@ -12,7 +12,13 @@
             @foreach($value as $v)
                 <tr>
                     @foreach($fields as $f)
-                        <td>{{$v[$f['name']]}}</td>
+                        <td>
+                            @if(is_array($v[$f['name']]))
+                                {{join(',',$v[$f['name']])}}
+                            @else
+                                {{$v[$f['name']]}}
+                            @endif
+                        </td>
                     @endforeach
                 </tr>
             @endforeach
