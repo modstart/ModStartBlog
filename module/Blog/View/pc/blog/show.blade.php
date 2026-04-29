@@ -13,8 +13,8 @@
     @if(modstart_config('Blog_ContentNavEnable',false))
     <style>
         #pageContentHeading > * {
-            margin-right:0.5rem;
-            margin-top:0.5rem;
+            margin-right:0.625rem;
+            margin-top:0.625rem;
         }
     </style>
     <script>
@@ -237,7 +237,7 @@
                                     </div>
                                     <div class="tw-mt-4">
                                         <textarea class="form-lg tw-w-full tw-resize-none" name="content"
-                                                  style="height:5rem;" placeholder="输入想说的话"></textarea>
+                                                  style="height:6.25rem;" placeholder="输入想说的话"></textarea>
                                     </div>
                                     <div class="pb-blog-comment-submit-box tw-h-0 tw-overflow-hidden">
                                         <div>

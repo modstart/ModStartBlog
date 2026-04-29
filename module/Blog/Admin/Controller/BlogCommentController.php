@@ -29,7 +29,7 @@ class BlogCommentController extends Controller
             ->field(function ($builder) {
                 /** @var HasFields $builder */
                 $builder->id('id', 'ID');
-                $builder->display('created_at', L('Created At'))->listable(true);
+                $builder->display('created_at', L('CreatedAt'))->listable(true);
                 $builder->display('blogId', '博客');
                 $builder->type('status', '状态')->type(BlogCommentStatus::class);
                 $builder->display('username', '用户');

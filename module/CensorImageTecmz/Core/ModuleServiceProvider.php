@@ -19,7 +19,7 @@ class ModuleServiceProvider extends ServiceProvider
         AdminMenu::register(function () {
             return [
                 [
-                    'title' => L('Site Manage'),
+                    'title' => L('SiteManage'),
                     'icon' => 'cog',
                     'sort' => 400,
                     'children' => [

@@ -32,39 +32,38 @@ class FileManager
     public static function prepareLang()
     {
         ModStart::lang([
-            "Add Category",
-            "Add Success",
+            "AddCategory",
+            "AddSuccess",
             "Category",
             "Confirm",
-            "Confirm Delete ?",
-            "Copy Link",
-            "Custom Link",
+            "ConfirmDelete",
+            "CopyLink",
+            "CustomLink",
             "Delete",
-            "Delete Category",
-            "Delete Success",
+            "DeleteCategory",
+            "DeleteSuccess",
             "Edit",
-            "Edit Category",
-            "Edit File",
-            "Edit Success",
-            "File(s)",
+            "EditCategory",
+            "EditFile",
+            "EditSuccess",
             "Filter",
-            "File Gallery",
+            "FileGallery",
             "Loading",
-            "Local Upload",
+            "LocalUpload",
             "Name",
-            "No Records",
+            "NoRecords",
             "Parent",
-            "Please Input",
-            "Please Select",
-            "Select %d item(s) at most",
-            "Select %d item(s) at least",
+            "PleaseInput",
+            "PleaseSelect",
+            "SelectItemsAtMost",
+            "SelectItemsAtLeast",
             "Url",
-            "Select Local File",
-            "Copy Success",
-            "Copy Fail",
-            "Image Gallery",
-            "File Gallery",
-            "Copy Links",
+            "SelectLocalFile",
+            "UploadError",
+            "CopySuccess",
+            "CopyFail",
+            "ImageGallery",
+            "CopyLinks",
             "CompressingImage",
         ]);
     }
@@ -446,7 +445,7 @@ class FileManager
     {
         $id = $input->getInteger('id');
         $category = ModelUtil::get($uploadCategoryTable, ['id' => $id, 'userId' => $userId,]);
-        BizException::throwsIfEmpty(L('Category not exists'), $category);
+        BizException::throwsIfEmpty(L('CategoryNotExists'), $category);
         $uploadCategories = ModelUtil::all($uploadCategoryTable, ['userId' => $userId,]);
         $childIds = TreeUtil::nodesChildrenIds($uploadCategories, $id);
         $childIds[] = $id;
@@ -464,11 +463,11 @@ class FileManager
         $id = $input->getInteger('id');
         $pid = $input->getInteger('pid');
         $title = $input->getTrimString('title');
-        BizException::throwsIfEmpty(L('Title required'), $title);
+        BizException::throwsIfEmpty(L('TitleRequired'), $title);
         if ($id) {
             $category = ModelUtil::get($uploadCategoryTable, ['id' => $id, 'userId' => $userId,]);
-            BizException::throwsIfEmpty(L('Category not exists'), $category);
-            BizException::throwsIf(L('Category cannot changed'), !TreeUtil::modelNodeChangeAble($uploadCategoryTable, $id, $category['pid'], $pid));
+            BizException::throwsIfEmpty(L('CategoryNotExists'), $category);
+            BizException::throwsIf(L('CategoryCannotChanged'), !TreeUtil::modelNodeChangeAble($uploadCategoryTable, $id, $category['pid'], $pid));
             ModelUtil::update($uploadCategoryTable, ['id' => $id, 'userId' => $userId,], [
                 'pid' => $pid,
                 'sort' => null,
@@ -501,14 +500,14 @@ class FileManager
         $categoryTree = TreeUtil::nodesToTree($categories);
         $categoryTreeParent = [
             [
-                'name' => L(ucfirst($category) . ' Gallery'),
+                'name' => L(ucfirst($category) . 'Gallery'),
                 '_child' => $categoryTree,
                 'id' => 0,
             ],
         ];
         $categoryTreeAll = [
             [
-                'name' => L(ucfirst($category) . ' Gallery'),
+                'name' => L(ucfirst($category) . 'Gallery'),
                 '_child' => $categoryTree,
                 'id' => 0,
             ],

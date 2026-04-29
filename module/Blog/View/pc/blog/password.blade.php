@@ -37,7 +37,7 @@
                     <div>
                         <form action="{{\Module\Blog\Util\UrlUtil::blogVisitPasswordVerify()}}" method="post" data-ajax-form>
                             <input type="hidden" name="id" value="{{$record['id']}}" />
-                            <div class="tw-py-20 tw-mx-auto" style="max-width:10rem;">
+                            <div class="tw-py-20 tw-mx-auto" style="max-width:12.5rem;">
                                 <div class="ub-form vertical">
                                     <div class="line">
                                         <div class="field">

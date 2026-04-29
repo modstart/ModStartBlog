@@ -131,12 +131,12 @@ export default {
                 // console.log('Wait dataUploadConfig')
                 return
             }
-            let uploadText = this.uploadText || this.L('Select Local File')
+            let uploadText = this.uploadText || this.L('SelectLocalFile')
             let text = '<div class="btn btn-block"><i class="iconfont icon-upload"></i> ' + uploadText + '</div>'
             if (this.size === 'lg') {
                 text = '<span class="btn btn-block btn-lg"><i class="iconfont icon-upload"></i> ' + uploadText + '</span>'
             } else if (this.size === 'flat') {
-                text = '<span class="tw-px-4 tw-rounded tw-border tw-border-solid tw-border-gray-200 tw-rounded-lg tw-py-10" style="display:block;"><i class="iconfont icon-upload" style="font-size:2rem;"></i><br /> ' + uploadText + '</span>'
+                text = '<span class="tw-px-4 tw-rounded tw-border tw-border-solid tw-border-gray-200 tw-rounded-lg tw-py-10" style="display:block;"><i class="iconfont icon-upload" style="font-size:2.5rem;"></i><br /> ' + uploadText + '</span>'
             }
             const $this = this
             window.__uploadCustomUpload = window.__uploadCustomUpload || {};

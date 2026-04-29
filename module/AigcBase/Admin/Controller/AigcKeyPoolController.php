@@ -95,7 +95,7 @@ class AigcKeyPoolController extends Controller
                         if ($provider) {
                             $html[] = "<table class='ub-table mini border tw-bg-white'>";
                             foreach ($provider->paramDisplay($item->toArray()) as $v) {
-                                $html[] = "<tr><td>$v[name]</td><td><div style='max-width:8rem;overflow:hidden;text-overflow:ellipsis;'>$v[value]</div></td></tr>";
+                                $html[] = "<tr><td>$v[name]</td><td><div style='max-width:10rem;overflow:hidden;text-overflow:ellipsis;'>$v[value]</div></td></tr>";
                             }
                             $html[] = "</table>";
                         }
@@ -105,8 +105,8 @@ class AigcKeyPoolController extends Controller
                     ->listable(true)->showable(true)->addable(false)->editable(false);
                 $builder->text('remark', '备注');
 
-                $builder->display('created_at', L('Created At'))->listable(false);
-                $builder->display('updated_at', L('Updated At'))->listable(false);
+                $builder->display('created_at', L('CreatedAt'))->listable(false);
+                $builder->display('updated_at', L('UpdatedAt'))->listable(false);
             })
             ->gridFilter(function (GridFilter $filter) {
                 // $filter->eq('userId', '用户ID');
@@ -164,8 +164,8 @@ class AigcKeyPoolController extends Controller
         $builder->useDialog();
         $builder->pageTitle('功能设置');
         $builder->switch('AigcBase_AdminRichEditorEnable', '后台富文本编辑器AI功能')->defaultValue(false);
-        $builder->select('AigcBase_AdminRichEditorDriver', '后台富文本编辑器AI驱动')->options(AigcChatProvider::modelMap());
-        $builder->select('AigcBase_AdminDefaultChatDriver', '后台默认AI对话驱动')->options(AigcChatProvider::modelMap());
+        $builder->select('AigcBase_AdminRichEditorDriver', '后台富文本编辑器AI驱动')->options(AigcKeyPoolUtil::configuredChatModelMap());
+        $builder->select('AigcBase_AdminDefaultChatDriver', '后台默认AI对话驱动')->options(AigcKeyPoolUtil::configuredChatModelMap());
         $builder->formClass('wide-lg');
         $builder->disableBoxWrap(true);
         return $builder->perform();

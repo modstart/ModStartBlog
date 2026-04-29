@@ -84,7 +84,7 @@ class BlogController extends Controller
                 $builder->datetime('created_at', '发布时间')
                     ->listable(false)
                     ->defaultValue(date('Y-m-d H:i:s'));
-                $builder->display('updated_at', L('Updated At'))->listable(false);
+                $builder->display('updated_at', L('UpdatedAt'))->listable(false);
             })
             ->hookResponse(function (Form $form) {
                 if ($form->isModeAdd()) {

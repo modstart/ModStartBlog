@@ -117,7 +117,7 @@
                                         @endif
                                     </div>
                                     <div class="tw-mt-4">
-                                        <textarea class="form-lg tw-w-full tw-resize-none" name="content" style="height:5rem;" placeholder="输入想说的话"></textarea>
+                                        <textarea class="form-lg tw-w-full tw-resize-none" name="content" style="height:6.25rem;" placeholder="输入想说的话"></textarea>
                                     </div>
                                     <div class="pb-blog-comment-submit-box tw-h-0 tw-overflow-hidden">
                                         <div>

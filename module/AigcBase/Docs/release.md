@@ -1,3 +1,12 @@
+## [Unreleased]
+
+- 新增：AigcChatUtil 工具类，支持通过系统配置调用 AI 对话，提供 chat() 和 chatText() 方法
+- 新增：AigcKeyPoolUtil 新增 configuredChatModelMap() 方法，仅返回已配置的 AI 模型选项
+- 优化：后台 AI 驱动下拉选项改为仅显示已配置的模型
+- 优化：chatText() 方法增加 markdown 选项并自动去除 AI 返回内容中的 HTML 标签
+
+---
+
 ## 1.4.5 新增支持 systemPrompt 配置，支持系统级提示词设置
 
 - 新增：支持 systemPrompt 配置，支持系统级提示词设置
