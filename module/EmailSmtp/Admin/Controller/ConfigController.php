@@ -45,11 +45,11 @@ class   ConfigController extends Controller
         $builder->useDialog();
         $builder->pageTitle('邮件发送测试');
         $builder->disableBoxWrap(true);
-        $builder->text('email', '测试接收邮箱')->rules('required');
+        $builder->text('_test_email_', '测试接收邮箱')->rules('required');
         $builder->formClass('wide');
         return $builder->perform(null, function (Form $form) {
             $data = $form->dataForming();
-            $email = $data['email'];
+            $email = $data['_test_email_'];
             $sender = new SmtpMailSenderProvider();
             $content = View::make('module::EmailSmtp.View.mail.test', [])->render();
             $ret = $sender->send(

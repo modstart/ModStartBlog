@@ -22,6 +22,7 @@ use ModStart\Core\Monitor\HttpMonitor;
 use ModStart\Core\Monitor\StatisticMonitor;
 use ModStart\Core\Util\ShellUtil;
 use ModStart\Module\ModuleManager;
+use ModStart\Session\SmartRedisSessionHandler;
 
 /**
  * Class ModStartServiceProvider
@@ -40,6 +41,7 @@ class ModStartServiceProvider extends ServiceProvider
         \ModStart\Command\ModuleRefreshAllCommand::class,
         \ModStart\Command\ModuleLinkAssetCommand::class,
         \ModStart\Command\SeedTestCommand::class,
+        \ModStart\Command\SeedCleanCommand::class,
     ];
 
     protected $routeMiddleware = [
@@ -53,6 +55,11 @@ class ModStartServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        // 注册智能 Redis Session 驱动（smart_redis）
+        // 功能：登录用户 Session 长期有效（默认 30 天），游客 Session 短时有效（默认 1 小时）
+        // 用法：在 .env 中设置 SESSION_DRIVER=smart_redis 后生效
+        SmartRedisSessionHandler::register();
+
         $this->loadViewsFrom(__DIR__ . '/../views', 'modstart');
         $this->loadViewsFrom(base_path('module'), 'module');
         $this->loadTranslationsFrom(__DIR__ . '/../lang/', 'modstart');

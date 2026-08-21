@@ -28,7 +28,22 @@ class MessageController extends Controller
 {
     /**
      * @Api 留言-列表
+     * @ApiDesc 分页查询已审核通过的留言列表
+     * @ApiMethod post
      * @ApiBodyParam page int 页码
+     * @ApiResponseData {
+     *   "records": [
+     *     {
+     *       "id": 1,
+     *       "username": "用户",
+     *       "content": "内容",
+     *       "_avatar": "头像"
+     *     }
+     *   ],
+     *   "total": 1,
+     *   "page": 1,
+     *   "pageSize": 10
+     * }
      */
     public function paginate()
     {
@@ -63,10 +78,18 @@ class MessageController extends Controller
 
     /**
      * @Api 留言-新增
+     * @ApiDesc 提交网站留言，开启审核时留言需后台审核后显示
+     * @ApiMethod post
      * @ApiBodyParam username string 用户
-     * @ApiBodyParam content string 内容
+     * @ApiBodyParam content string required 内容
      * @ApiBodyParam email string 邮箱
      * @ApiBodyParam url string 网址
+     * @ApiResponseData {
+     *   "code": 0,
+     *   "msg": "提交成功，后台审核后将会显示",
+     *   "data": null,
+     *   "redirect": "[reload]"
+     * }
      */
     public function add()
     {

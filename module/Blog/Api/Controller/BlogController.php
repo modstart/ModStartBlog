@@ -30,9 +30,31 @@ class BlogController extends Controller
 {
     /**
      * @Api 博客-列表
+     * @ApiDesc 分页查询博客文章列表，支持按分类和关键词搜索
+     * @ApiMethod post
      * @ApiBodyParam page int 页码
+     * @ApiBodyParam pageSize int 每页数量
      * @ApiBodyParam categoryId int 分类ID
-     * @ApiBodyParam keyword string 关键字
+     * @ApiBodyParam keywords string 关键词
+     * @ApiResponseData {
+     *   "pageTitle": "页面标题",
+     *   "pageKeywords": "页面关键词",
+     *   "pageDescription": "页面描述",
+     *   "page": 1,
+     *   "pageSize": 10,
+     *   "category": null,
+     *   "childCategories": [],
+     *   "categoryChain": [],
+     *   "keywords": "",
+     *   "markKeywords": [],
+     *   "records": [
+     *     {
+     *       "id": 1,
+     *       "title": "标题"
+     *     }
+     *   ],
+     *   "total": 1
+     * }
      */
     public function paginate()
     {
@@ -131,7 +153,30 @@ class BlogController extends Controller
 
     /**
      * @Api 博客-详情
-     * @ApiBodyParam id int 博客ID
+     * @ApiDesc 根据ID获取博客文章详情，包括评论列表及上一篇下一篇
+     * @ApiMethod post
+     * @ApiBodyParam id int required 博客ID
+     * @ApiBodyParam commentPage int 评论页码
+     * @ApiResponseData {
+     *   "pageTitle": "文章标题",
+     *   "pageKeywords": "SEO关键词",
+     *   "pageDescription": "SEO描述",
+     *   "record": {
+     *     "id": 1,
+     *     "title": "标题",
+     *     "content": "内容",
+     *     "_images": [],
+     *     "_cover": "封面",
+     *     "_visitVerified": true,
+     *     "_category": null
+     *   },
+     *   "recordNext": null,
+     *   "recordPrev": null,
+     *   "commentPage": 1,
+     *   "commentPageSize": 10,
+     *   "commentTotal": 0,
+     *   "comments": []
+     * }
      */
     public function get()
     {
@@ -243,6 +288,19 @@ class BlogController extends Controller
         ]);
     }
 
+    /**
+     * @Api 博客访问密码验证
+     * @ApiDesc 验证密码访问模式的博客访问密码，验证成功后返回文章链接
+     * @ApiMethod post
+     * @ApiBodyParam id int required 博客ID
+     * @ApiBodyParam password string required 访问密码
+     * @ApiResponseData {
+     *   "code": 0,
+     *   "msg": "验证成功",
+     *   "data": null,
+     *   "redirect": "文章链接"
+     * }
+     */
     public function visitPasswordVerify()
     {
         $input = InputPackage::buildFromInput();

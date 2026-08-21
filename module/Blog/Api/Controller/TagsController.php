@@ -15,6 +15,8 @@ class TagsController extends Controller
 {
     /**
      * @Api 获取博客标签
+     * @ApiDesc 获取博客所有标签及对应文章数量
+     * @ApiMethod post
      * @ApiResponseData {
      *  "tags":[
      *    {

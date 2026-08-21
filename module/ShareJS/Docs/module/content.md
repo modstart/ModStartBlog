@@ -34,4 +34,11 @@
 - [https://github.com/overtrue/share.js](https://github.com/overtrue/share.js)
 
 
+
+## 使用场景
+
+- 文章/产品页面一键分享
+- 社交媒体内容传播
+- 品牌内容曝光推广
+
 {ADMIN_MENUS}

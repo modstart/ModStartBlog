@@ -16,8 +16,8 @@
     "require": [
         "Vendor:>=2.4.0"
     ],
-    "version": "1.1.1",
-    "modstartVersion": ">=4.1.0",
+    "version": "1.1.2",
+    "modstartVersion": ">=5.0.0",
     "author": "ModStart",
     "description": "基于API接口提供图片自动审核",
     "providers": [],

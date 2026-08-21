@@ -8,24 +8,15 @@ use ModStart\Test\TestContext;
 
 class SeedTestCommand extends Command
 {
+    use SeedTestTrait;
+
     protected $signature = 'modstart:seed-test';
     protected $description = '执行系统自动化测试（Seed 填充 + API 测试 + Biz 测试）';
 
     public function handle()
     {
-        // 安全校验：仅允许在指定测试数据库配置下执行，防止误操作生产环境
-        $requiredEnv = [
-            'DB_HOST'     => 'docker-master',
-            'DB_USERNAME' => 'root',
-            'DB_PASSWORD' => '123456',
-        ];
-        foreach ($requiredEnv as $key => $expected) {
-            $actual = env($key);
-            if ($actual !== $expected) {
-                $this->error('  安全校验失败：' . $key . ' 期望值为 "' . $expected . '"，实际值为 "' . $actual . '"');
-                $this->error('  请确认当前环境为测试环境后再执行此命令。');
-                return 1;
-            }
+        if (!$this->checkTestEnvironment()) {
+            return 1;
         }
 
         TestContext::reset();
@@ -36,34 +27,29 @@ class SeedTestCommand extends Command
 
         // Step 1: 删除所有数据库表
         $this->comment('[ Step 1 ] 删除所有数据库表');
-        try {
-            \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=0');
-            $tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES');
-            foreach ($tables as $table) {
-                $tableName = array_values((array)$table)[0];
-                \Illuminate\Support\Facades\Schema::dropIfExists($tableName);
-                $this->line('  > 删除表: ' . $tableName);
-            }
-            \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1');
-            $this->info('  所有表已删除');
-        } catch (\Exception $e) {
-            $this->error('  删除表失败: ' . $e->getMessage());
+        if (!$this->dropAllTables()) {
+            return 1;
+        }
+
+        // Step 1.5: 校验修改过的迁移文件类名（类名错误会在 migrate 时崩溃，需前置校验）
+        $this->comment('[ Step 1.5 ] 校验迁移文件类名');
+        if (!$this->checkMigrationClassNames()) {
             return 1;
         }
 
         // Step 2: 运行数据库迁移
         $this->comment('[ Step 2 ] 运行 migrate');
-        if ($this->runArtisanProcess('migrate --force') !== 0) {
-            $this->error('  migrate 失败，终止执行');
+        if (!$this->runMigrate()) {
             return 1;
         }
 
         // Step 3: 安装所有模块（部分模块可能有非致命错误，不中断）
         $this->comment('[ Step 3 ] 运行 modstart:module-install-all');
-        $exitCode = $this->runArtisanProcess('modstart:module-install-all');
-        if ($exitCode !== 0) {
-            $this->warn('  module-install-all 返回非零退出码（' . $exitCode . '），存在部分模块错误，继续执行');
-        }
+        $this->installAllModules();
+
+        // Step 4: 初始化默认超级管理员（admin / 123456）
+        $this->comment('[ Step 4 ] 初始化默认超级管理员');
+        $this->initDefaultAdmin();
 
         // 获取所有已启用的模块名列表
         $enabledModules = array_keys(ModuleManager::listAllEnabledModules());
@@ -162,27 +148,96 @@ class SeedTestCommand extends Command
     }
 
     /**
-     * 在独立子进程中运行 artisan 命令，实时输出结果
+     * 校验 git 修改过的迁移文件类名是否与文件名推导一致
      *
-     * @param string $artisanArgs  artisan 命令及参数，如 "migrate --force"
-     * @return int 退出码
+     * Laravel 的 Migrator::resolve() 根据迁移文件名推导类名：
+     *   $file = implode('_', array_slice(explode('_', $file), 4));
+     *   $class = Str::studly($file);
+     * 若类名与推导结果不一致，migrate 时会报 "Class not found"。
+     * 只校验未提交（git 修改/新增）的迁移文件，避免影响历史已发布文件。
+     *
+     * @return bool 校验通过返回 true
      */
-    private function runArtisanProcess($artisanArgs)
+    private function checkMigrationClassNames()
     {
-        $php = PHP_BINARY;
-        $artisan = base_path('artisan');
-        $cmd = escapeshellarg($php) . ' ' . escapeshellarg($artisan) . ' ' . $artisanArgs . ' 2>&1';
-        $handle = popen($cmd, 'r');
-        if ($handle === false) {
-            $this->error('  无法启动子进程');
-            return 1;
+        $files = $this->getChangedMigrationFiles();
+        if (empty($files)) {
+            $this->info('  没有修改过的迁移文件，或 git 不可用，跳过类名校验');
+            return true;
         }
-        while (!feof($handle)) {
-            $line = fgets($handle);
-            if ($line !== false && trim($line) !== '') {
-                $this->line('  ' . rtrim($line));
+        $fail = false;
+        foreach ($files as $file) {
+            // 模拟 Laravel Migrator::resolve() 的类名推导
+            $filename = basename($file, '.php');
+            $parts = explode('_', $filename);
+            $namePart = implode('_', array_slice($parts, 4));
+            $expectedClass = \Illuminate\Support\Str::studly($namePart);
+
+            $content = @file_get_contents($file);
+            if ($content === false) {
+                $this->error('  无法读取迁移文件: ' . $file);
+                $fail = true;
+                continue;
+            }
+            if (!preg_match('/class\s+(\w+)\s+extends\s+Migration/', $content, $m)) {
+                $this->error('  ' . $filename . ' 未找到 "class Xxx extends Migration" 声明');
+                $fail = true;
+                continue;
+            }
+            $actualClass = $m[1];
+            if ($actualClass !== $expectedClass) {
+                $this->error('  ' . $filename . ' 类名为 ' . $actualClass . '，但 Laravel 按文件名推导应为 ' . $expectedClass . '（迁移类名必须与文件名保持一致）');
+                $fail = true;
             }
         }
-        return pclose($handle);
+        if ($fail) {
+            return false;
+        }
+        $this->info('  迁移文件类名校验通过（共 ' . count($files) . ' 个修改的迁移文件）');
+        return true;
     }
+
+    /**
+     * 获取 git 修改/新增的迁移文件列表
+     *
+     * 覆盖系统迁移目录（database/migrations/）与所有模块迁移目录（module 下各模块的 Migrate/ 目录）
+     *
+     * @return array 迁移文件绝对路径列表；git 不可用或非 git 仓库时返回空数组（跳过校验）
+     */
+    private function getChangedMigrationFiles()
+    {
+        $gitRoot = base_path();
+        $files = [];
+        // 不带路径过滤获取全部变更，避免 git pathspec glob 不可靠的问题
+        $cmd = 'git -C ' . escapeshellarg($gitRoot) . ' status --porcelain --untracked-files=all';
+        $output = [];
+        exec($cmd, $output, $exitCode);
+        if ($exitCode !== 0) {
+            // git 不可用或非 git 仓库时无法判断哪些文件是本次修改的，跳过校验
+            return $files;
+        }
+        foreach ($output as $line) {
+            $relPath = trim(substr($line, 3)); // porcelain 格式: "XY path"，去掉前3个字符(状态2位+空格)
+            if ($relPath === '') {
+                continue;
+            }
+            // 处理 rename 情况： "old -> new"
+            if (strpos($relPath, ' -> ') !== false) {
+                $relPath = trim(substr($relPath, strpos($relPath, ' -> ') + 4));
+            }
+            // 仅保留迁移目录下的 PHP 文件：系统迁移 或 模块迁移
+            if (!preg_match('/(^|\/)database\/migrations\/.+\.php$/', $relPath)
+                && !preg_match('/(^|\/)Migrate\/.+\.php$/', $relPath)) {
+                continue;
+            }
+            $absPath = $gitRoot . '/' . $relPath;
+            if (is_file($absPath)) {
+                $files[] = $absPath;
+            }
+        }
+        $files = array_unique($files);
+        sort($files);
+        return $files;
+    }
+
 }

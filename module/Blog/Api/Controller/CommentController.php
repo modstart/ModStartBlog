@@ -25,11 +25,19 @@ class CommentController extends Controller
 {
     /**
      * @Api 博客评论-添加
-     * @ApiBodyParam blogId int 博客ID
+     * @ApiDesc 发表博客评论，开启审核时评论需后台审核后显示
+     * @ApiMethod post
+     * @ApiBodyParam blogId int required 博客ID
      * @ApiBodyParam username string 用户名
-     * @ApiBodyParam content string 内容
+     * @ApiBodyParam content string required 内容
      * @ApiBodyParam email string 邮箱
      * @ApiBodyParam url string 网址
+     * @ApiResponseData {
+     *   "code": 0,
+     *   "msg": "提交成功，后台审核后将会显示",
+     *   "data": null,
+     *   "redirect": "[reload]"
+     * }
      */
     public function add()
     {

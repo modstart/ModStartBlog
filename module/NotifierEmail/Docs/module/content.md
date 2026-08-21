@@ -15,4 +15,11 @@ NotifierBiz::registerQuick('CmsBook_NewBook', '新的客户咨询');
 ```
 
 
+
+## 使用场景
+
+- 邮件消息通知发送
+- 系统通知邮件推送
+- 周期报表邮件发送
+
 {ADMIN_MENUS}

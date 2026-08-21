@@ -19,4 +19,15 @@
 
 
 
+
+## 模块入口
+
+- `/blog` 博客首页
+- `/blog/about` 关于博主
+- `/blog/message` 留言本
+- `/blog/tags` 标签云
+- `/blog/archive` 文章归档
+- `/blogs` 博客列表
+- `/blog/{id}` 文章详情
+
 {ADMIN_MENUS}

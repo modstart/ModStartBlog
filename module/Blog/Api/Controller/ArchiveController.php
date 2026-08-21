@@ -16,6 +16,33 @@ use Module\Blog\Model\Blog;
  */
 class ArchiveController extends Controller
 {
+    /**
+     * @Api 博客归档列表
+     * @ApiDesc 按年或月分页查询博客归档文章列表
+     * @ApiMethod post
+     * @ApiBodyParam page int 页码
+     * @ApiBodyParam year int 年份
+     * @ApiBodyParam month int 月份
+     * @ApiResponseData {
+     *   "page": 1,
+     *   "pageSize": 50,
+     *   "records": [
+     *     {
+     *       "id": 1,
+     *       "title": "标题"
+     *     }
+     *   ],
+     *   "total": 1,
+     *   "year": 2026,
+     *   "month": 0,
+     *   "monthCounts": [],
+     *   "yearCount": 0,
+     *   "yearCounts": [],
+     *   "pageTitle": "2026年博客归档",
+     *   "pageKeywords": "2026年博客归档,博客归档",
+     *   "pageDescription": "2026年博客归档，共1篇文章"
+     * }
+     */
     public function get()
     {
         $input = InputPackage::buildFromInput();
